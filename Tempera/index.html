@@ -3177,29 +3177,64 @@
        FRIDGE PAGE — UI REFINEMENTS
     ================================================================ */
 
-    /* 1. Top Bar: true center via equal-width side elements */
-    .page-header-nav {
+    /* 1. Phone header: always on top of all page overlays */
+    .phone-header {
+      z-index: 1350 !important;
+    }
+
+    /* Bottom nav: hidden during splash/login, visible only after app is ready */
+    .phone-footer {
+      z-index: 1350 !important;
+      display: none !important;
+    }
+    .phone-screen.app-ready .phone-footer {
+      display: block !important;
+    }
+
+    /* Fridge page: no own header nav — account for persistent top bar */
+    #fridgePage .page-view-content {
+      padding-top: 108px; /* status-bar 44px + top-bar 64px */
+      padding-bottom: 100px;
+    }
+    @media (max-width: 1024px) {
+      #fridgePage .page-view-content {
+        padding-top: 60px !important;
+      }
+    }
+
+    /* Settings FAB inside hero (floats top-right corner) */
+    .fridge-hero-settings-btn {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      z-index: 2;
+      width: 36px;
+      height: 36px;
+      border-radius: var(--r-full);
+      background: rgba(255, 255, 255, 0.55);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      border: 1px solid var(--c-outline-variant);
       display: flex;
       align-items: center;
-      justify-content: space-between;
-    }
-    .page-header-nav .back-btn-accent {
-      min-width: 40px;
-      width: 40px;
-      padding: 8px !important;
       justify-content: center;
-      gap: 0 !important;
-      background: transparent !important;
-      border-radius: var(--r-full) !important;
+      color: var(--c-primary);
+      font-size: 18px;
+      cursor: pointer;
+      transition: all 200ms ease;
+      box-shadow: var(--elev-1);
     }
-    .page-header-nav .back-btn-accent:hover {
-      background: rgba(140, 58, 30, 0.08) !important;
+    .fridge-hero-settings-btn:hover {
+      background: rgba(255, 255, 255, 0.85);
+      box-shadow: var(--elev-2);
     }
-    body.theme-dark .page-header-nav .back-btn-accent:hover {
-      background: rgba(255, 219, 200, 0.1) !important;
+    body.theme-dark .fridge-hero-settings-btn {
+      background: rgba(46, 43, 39, 0.55);
+      color: var(--c-primary-container);
+      border-color: rgba(255, 255, 255, 0.1);
     }
-    .page-header-nav .back-btn-accent i {
-      font-size: 22px !important;
+    body.theme-dark .fridge-hero-settings-btn:hover {
+      background: rgba(46, 43, 39, 0.85);
     }
 
     /* 2. Ingredient card: remove double-padding in search group */
@@ -3772,16 +3807,13 @@
 
         <!-- DEDICATED FULL SCREEN PAGES (Overlays that slide in) -->
         <div id="fridgePage" class="app-page-view">
-          <div class="page-header-nav">
-            <button class="icon-btn back-btn-accent" onclick="closeFridgePage()"><i class="ti ti-chevron-left"></i></button>
-            <span class="page-nav-title font-roca-bold">Minha Geladeira</span>
-            <button class="icon-btn" onclick="openSettingsModal()" aria-label="Configurações IA"><i class="ti ti-settings" style="color: var(--c-primary); font-size: 20px;"></i></button>
-          </div>
+
           
           <div class="page-view-content">
             
             <!-- Novo Hero Section App-like pensado (Sem Imagem) -->
             <div class="fridge-app-hero">
+              <button class="fridge-hero-settings-btn" onclick="openSettingsModal()" aria-label="Configurações IA"><i class="ti ti-settings"></i></button>
               <div class="fridge-hero-glow"></div>
               <div class="fridge-hero-body">
                 <div class="fridge-hero-left">
@@ -4065,12 +4097,6 @@
               </button>
             </div>
 
-            <!-- Botão Elegante de Voltar à Página Inicial -->
-            <div class="fridge-page-actions" style="margin-top: -10px; margin-bottom: 24px;">
-              <button class="btn btn-outlined font-roca-medium" style="width: 100%; border-color: var(--c-primary); color: var(--c-primary); display: flex; align-items: center; justify-content: center; gap: 8px; font-weight: 700; padding: 12px var(--sp-4); border-radius: var(--r-full);" onclick="closeFridgePage()">
-                <i class="ti ti-home"></i> Voltar à Página Inicial
-              </button>
-            </div>
             
           </div>
         </div>
@@ -5418,6 +5444,7 @@ Retorne EXCLUSIVAMENTE um objeto JSON estruturado no seguinte formato. Não colo
         const screen = document.querySelector('.phone-screen');
         if (screen) {
           screen.classList.remove('login-active');
+          screen.classList.add('app-ready');
         }
 
         // showToast('Login efetuado! Bem-vindo ao Tempera 🍳', 'ti-sparkles');
@@ -5449,6 +5476,7 @@ Retorne EXCLUSIVAMENTE um objeto JSON estruturado no seguinte formato. Não colo
         const screen = document.querySelector('.phone-screen');
         if (screen) {
           screen.classList.remove('login-active');
+          screen.classList.add('app-ready');
         }
 
         // showToast(`Entrou via ${platform}! Boas receitas! ✨`, 'ti-sparkles');
@@ -5497,7 +5525,7 @@ Retorne EXCLUSIVAMENTE um objeto JSON estruturado no seguinte formato. Não colo
         header.classList.remove('login-active', 'glassy-active');
       }
       if (screen) {
-        screen.classList.remove('login-active');
+        screen.classList.remove('login-active', 'app-ready');
       }
 
       if (video) {

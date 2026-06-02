@@ -3174,87 +3174,61 @@
     }
 
     /* ================================================================
-       FRIDGE PAGE — UI REFINEMENTS
+       FRIDGE PAGE — UI REFINEMENTS v3
     ================================================================ */
 
-    /* 1. Phone header: always on top of all page overlays */
-    .phone-header {
-      z-index: 1350 !important;
-    }
+    /* Phone header always on top */
+    .phone-header { z-index: 1350 !important; }
 
-    /* Bottom nav: hidden during splash/login, visible only after app is ready */
-    .phone-footer {
-      z-index: 1350 !important;
-      display: none !important;
-    }
-    .phone-screen.app-ready .phone-footer {
-      display: block !important;
-    }
+    /* Bottom nav: hidden during splash/login */
+    .phone-footer { z-index: 1350 !important; display: none !important; }
+    .phone-screen.app-ready .phone-footer { display: block !important; }
 
-    /* Fridge page: no own header nav — account for persistent top bar */
+    /* Drawer & settings modal must float above bottom nav */
+    .drawer-overlay    { z-index: 1360 !important; }
+    .ingredients-drawer { z-index: 1362 !important; }
+    .settings-modal    { z-index: 1365 !important; }
+
+    /* ---- FRIDGE MODE: top bar swaps to back + avatar ---- */
+    /* Default: fridge-specific elements hidden */
+    .top-bar-fridge-back, .top-bar-fridge-avatar { display: none !important; }
+
+    /* When fridge is open: swap content in the same phone-header */
+    .phone-header.fridge-open .top-bar-left,
+    .phone-header.fridge-open .top-bar-actions { display: none !important; }
+    .phone-header.fridge-open .top-bar-fridge-back,
+    .phone-header.fridge-open .top-bar-fridge-avatar { display: flex !important; }
+
+    /* Back button style inside top-bar */
+    .top-bar-fridge-back {
+      width: 40px; height: 40px;
+      border-radius: var(--r-full);
+      background: transparent;
+      border: none;
+      align-items: center; justify-content: center;
+      color: var(--c-primary);
+      font-size: 22px;
+      cursor: pointer;
+      transition: background 200ms ease;
+    }
+    .top-bar-fridge-back:hover { background: rgba(140, 58, 30, 0.08); }
+    body.theme-dark .top-bar-fridge-back { color: var(--c-primary-container); }
+
+    /* Fridge page content: pad for top bar + bottom nav */
     #fridgePage .page-view-content {
-      padding-top: 108px; /* status-bar 44px + top-bar 64px */
+      padding-top: 118px;
       padding-bottom: 100px;
     }
     @media (max-width: 1024px) {
-      #fridgePage .page-view-content {
-        padding-top: 60px !important;
-      }
+      #fridgePage .page-view-content { padding-top: 64px !important; }
     }
 
-    /* Settings FAB inside hero (floats top-right corner) */
-    .fridge-hero-settings-btn {
-      position: absolute;
-      top: 12px;
-      right: 12px;
-      z-index: 2;
-      width: 36px;
-      height: 36px;
-      border-radius: var(--r-full);
-      background: rgba(255, 255, 255, 0.55);
-      backdrop-filter: blur(8px);
-      -webkit-backdrop-filter: blur(8px);
-      border: 1px solid var(--c-outline-variant);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: var(--c-primary);
-      font-size: 18px;
-      cursor: pointer;
-      transition: all 200ms ease;
-      box-shadow: var(--elev-1);
-    }
-    .fridge-hero-settings-btn:hover {
-      background: rgba(255, 255, 255, 0.85);
-      box-shadow: var(--elev-2);
-    }
-    body.theme-dark .fridge-hero-settings-btn {
-      background: rgba(46, 43, 39, 0.55);
-      color: var(--c-primary-container);
-      border-color: rgba(255, 255, 255, 0.1);
-    }
-    body.theme-dark .fridge-hero-settings-btn:hover {
-      background: rgba(46, 43, 39, 0.85);
-    }
+    /* ---- INGREDIENT CARD: fix double-padding ---- */
+    .fridge-section-card .fridge-search-group { padding: 0; }
+    .fridge-section-card .fridge-search-group-container { margin-bottom: var(--sp-4); }
+    .fridge-active-ingredients-container { padding: 0 !important; margin-top: var(--sp-3); }
 
-    /* 2. Ingredient card: remove double-padding in search group */
-    .fridge-section-card .fridge-search-group {
-      padding: 0;
-    }
-    .fridge-section-card .fridge-search-group-container {
-      margin-bottom: var(--sp-4);
-    }
-    .fridge-active-ingredients-container {
-      padding: 0 !important;
-      margin-top: var(--sp-3);
-    }
-    /* Remove extra inner padding on "Ver todos" button wrapper inside card */
-    .fridge-section-card > div[style*="padding: 0 var(--sp-2)"],
-    .fridge-section-card > div[style*="text-align: center"] {
-      padding: 0 !important;
-    }
-
-    /* 3. Carousel: horizontal CSS scroll-snap replacing GSAP absolute layout */
+    /* ---- CAROUSEL: scroll-snap with active-card scaling ---- */
     .fridge-carousel-container-wrapper {
       position: relative !important;
       height: auto !important;
@@ -3262,64 +3236,151 @@
       display: block !important;
       margin: 0 calc(-1 * var(--sp-4));
     }
-
     .fridge-carousel-container {
       display: flex !important;
-      flex-direction: row !important;
       overflow-x: auto !important;
-      overflow-y: visible !important;
       scroll-snap-type: x mandatory !important;
       -webkit-overflow-scrolling: touch !important;
-      gap: 10px !important;
-      padding: 4px var(--sp-4) 14px !important;
+      gap: 8px !important;
+      padding: 10px var(--sp-4) 18px !important;
       height: auto !important;
-      align-items: flex-start !important;
-      justify-content: flex-start !important;
+      align-items: center !important;
       touch-action: pan-x !important;
       scrollbar-width: none !important;
       position: static !important;
-      cursor: default !important;
     }
-    .fridge-carousel-container::-webkit-scrollbar {
-      display: none !important;
-    }
-
+    .fridge-carousel-container::-webkit-scrollbar { display: none !important; }
     .fridge-carousel-card {
       position: relative !important;
       flex-shrink: 0 !important;
-      width: 204px !important;
-      height: 236px !important;
-      left: auto !important;
-      top: auto !important;
-      margin: 0 !important;
-      scroll-snap-align: start !important;
+      width: 210px !important;
+      height: 240px !important;
+      left: auto !important; top: auto !important; margin: 0 !important;
+      scroll-snap-align: center !important;
       display: flex !important;
-      opacity: 1 !important;
-      transform: none !important;
-      z-index: auto !important;
-      cursor: pointer !important;
+      opacity: 0.65 !important;
+      transform: scale(0.88) !important;
+      transition: transform 380ms cubic-bezier(0.2,0,0,1), opacity 380ms ease, box-shadow 380ms ease !important;
       pointer-events: auto !important;
+      z-index: auto !important;
     }
-    .fridge-carousel-card:hover {
-      transform: translateY(-2px) !important;
+    .fridge-carousel-card.active-card {
+      opacity: 1 !important;
+      transform: scale(1) !important;
+      box-shadow: 0 12px 32px -8px rgba(44,21,13,.28) !important;
+      z-index: 2 !important;
     }
+    .fridge-carousel-card:hover { cursor: pointer !important; }
 
-    /* Carousel nav: compact, right-aligned pill buttons */
+    /* Carousel nav: compact right-aligned */
     .fridge-carousel-nav {
       display: flex !important;
       justify-content: flex-end !important;
       gap: var(--sp-2) !important;
       margin-top: var(--sp-2) !important;
-      padding-right: 0 !important;
       margin-bottom: 0 !important;
     }
-
     .carousel-arrow-btn {
-      width: 36px !important;
-      height: 36px !important;
+      width: 36px !important; height: 36px !important;
       font-size: 15px !important;
       border-radius: var(--r-sm) !important;
     }
+
+    /* ---- CHEF IA WIDGET — DARK PREMIUM AI ---- */
+    .chef-ia-widget {
+      margin: 0 var(--sp-4);
+      background: linear-gradient(145deg, #2C1204 0%, #4A1E08 50%, #2C1204 100%);
+      border-radius: var(--r-xl);
+      padding: var(--sp-5);
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 24px 48px -12px rgba(44,21,13,.5), inset 0 1px 0 rgba(255,219,200,.1);
+      border: 1px solid rgba(255,219,200,.1);
+      transition: all 400ms cubic-bezier(0.2,0,0,1);
+    }
+    body.theme-dark .chef-ia-widget {
+      background: linear-gradient(145deg, #180A02 0%, #2E1608 50%, #180A02 100%);
+    }
+    .chef-ia-ambient {
+      position: absolute;
+      top: -40%; right: -20%;
+      width: 220px; height: 220px;
+      background: radial-gradient(circle, rgba(255,150,80,.2) 0%, rgba(255,100,30,.08) 50%, transparent 70%);
+      animation: ia-ambient-drift 7s ease-in-out infinite;
+      pointer-events: none; z-index: 0;
+    }
+    @keyframes ia-ambient-drift {
+      0%,100% { transform: scale(1) translate(0,0); opacity:.8; }
+      40%  { transform: scale(1.25) translate(-12px,18px); opacity:1; }
+      70%  { transform: scale(.9) translate(16px,-12px); opacity:.55; }
+    }
+    .chef-ia-header {
+      display: flex; justify-content: space-between; align-items: center;
+      position: relative; z-index: 1; margin-bottom: var(--sp-3);
+    }
+    .chef-ia-live-badge {
+      display: flex; align-items: center; gap: 8px;
+      font-size: 10px; font-weight: 700;
+      text-transform: uppercase; letter-spacing: .1em;
+      color: rgba(255,219,200,.65);
+    }
+    .chef-ia-pulse-dot {
+      width: 8px; height: 8px;
+      background: #4ADE80; border-radius: 50%; flex-shrink: 0;
+      animation: chef-pulse-dot 2.5s ease infinite;
+    }
+    @keyframes chef-pulse-dot {
+      0%   { box-shadow: 0 0 0 0 rgba(74,222,128,.7); }
+      70%  { box-shadow: 0 0 0 8px rgba(74,222,128,0); }
+      100% { box-shadow: 0 0 0 0 rgba(74,222,128,0); }
+    }
+    .chef-ia-recipe-title {
+      font-size: 21px; color: #FFF8F4; line-height: 1.2;
+      margin-bottom: var(--sp-2);
+      position: relative; z-index: 1;
+    }
+    .chef-ia-recipe-desc {
+      font-size: 13px; color: rgba(255,219,200,.7);
+      line-height: 1.55; position: relative; z-index: 1;
+      margin-bottom: var(--sp-3);
+    }
+    .chef-ia-footer {
+      display: flex; justify-content: space-between; align-items: center;
+      position: relative; z-index: 1;
+      margin-top: var(--sp-3); padding-top: var(--sp-3);
+      border-top: 1px solid rgba(255,219,200,.1);
+    }
+    .chef-ia-meta {
+      font-size: 11px; font-weight: 600;
+      color: rgba(255,219,200,.55);
+      display: flex; align-items: center; gap: 4px;
+    }
+    .chef-ia-cook-btn {
+      display: inline-flex; align-items: center; gap: var(--sp-2);
+      padding: 10px 20px;
+      background: var(--c-primary-container); color: var(--c-on-primary-container);
+      border-radius: var(--r-full);
+      font-family: var(--font); font-size: 13px; font-weight: 700;
+      border: none; cursor: pointer;
+      transition: all 250ms ease;
+      box-shadow: 0 4px 14px rgba(140,58,30,.35);
+    }
+    .chef-ia-cook-btn:hover {
+      background: #FFD0B0; transform: translateY(-1px);
+      box-shadow: 0 6px 20px rgba(140,58,30,.45);
+    }
+    /* Shimmer on dark bg */
+    .chef-ia-widget .ia-shimmer-line {
+      background: linear-gradient(90deg,rgba(255,255,255,.05) 25%,rgba(255,255,255,.12) 50%,rgba(255,255,255,.05) 75%) !important;
+    }
+    /* Detail text on dark bg */
+    .chef-ia-widget .ia-ingredient-item,
+    .chef-ia-widget .ia-step-item { color: rgba(255,219,200,.82); }
+    .chef-ia-widget .ia-step-number {
+      background: rgba(255,219,200,.15); color: var(--c-primary-container);
+    }
+    .chef-ia-widget .ia-details-title { color: rgba(255,219,200,.6); }
+    .chef-ia-widget .fridge-ia-divider { background: rgba(255,255,255,.08); }
   </style>
 </head>
 <body>
@@ -3427,6 +3488,7 @@
           </div>
 
           <header class="top-bar">
+            <!-- Default: logo + actions -->
             <div class="top-bar-left">
               <img src="logo/tempera-horizontal.svg" alt="Tempera" class="top-bar-logo-img">
             </div>
@@ -3437,6 +3499,9 @@
                 <div class="avatar" onclick="setAppTheme('toggle')">TM</div>
               </div>
             </div>
+            <!-- Fridge mode: back + avatar -->
+            <button class="top-bar-fridge-back" onclick="closeFridgePage()"><i class="ti ti-chevron-left"></i></button>
+            <div class="avatar top-bar-fridge-avatar" onclick="setAppTheme('toggle')">TM</div>
           </header>
         </div>
 
@@ -3813,7 +3878,6 @@
             
             <!-- Novo Hero Section App-like pensado (Sem Imagem) -->
             <div class="fridge-app-hero">
-              <button class="fridge-hero-settings-btn" onclick="openSettingsModal()" aria-label="Configurações IA"><i class="ti ti-settings"></i></button>
               <div class="fridge-hero-glow"></div>
               <div class="fridge-hero-body">
                 <div class="fridge-hero-left">
@@ -4049,44 +4113,43 @@
               </div>
             </div> <!-- Closes .fridge-section-card -->
 
-            <!-- Resultado da Sugestão da IA -->
-            <div class="fridge-ia-box-v2" id="ia-suggestion-box-v2">
-              <div class="ia-header-row">
-                <span class="fridge-ia-title-v2 font-montserrat"><i class="ti ti-sparkles pulse-fast"></i> Chef IA Tempera</span>
+            <!-- CHEF IA WIDGET — premium dark AI card -->
+            <div class="chef-ia-widget" id="ia-suggestion-box-v2">
+              <div class="chef-ia-ambient"></div>
+
+              <div class="chef-ia-header">
+                <div class="chef-ia-live-badge font-montserrat">
+                  <span class="chef-ia-pulse-dot"></span>
+                  Chef IA Tempera
+                </div>
                 <span class="badge badge-success font-montserrat" id="ia-recipe-badge-v2">IA Ativa</span>
               </div>
-              
+
               <!-- Shimmer placeholder -->
               <div class="shimmer-placeholder" id="ia-shimmer">
-                <div class="ia-shimmer-line" style="width: 80%;"></div>
-                <div class="ia-shimmer-line" style="width: 95%;"></div>
-                <div class="ia-shimmer-line" style="width: 60%;"></div>
-                <div class="ia-shimmer-line" style="width: 85%;"></div>
+                <div class="ia-shimmer-line" style="width: 70%;"></div>
+                <div class="ia-shimmer-line" style="width: 90%;"></div>
+                <div class="ia-shimmer-line" style="width: 55%;"></div>
               </div>
 
               <!-- Dynamic recipe block -->
               <div id="ia-recipe-content-v2">
-                <h4 class="fridge-ia-recipe-name font-roca-bold" id="ia-recipe-title-v2">Carregando sugestões com base na geladeira...</h4>
-                <p class="fridge-ia-recipe-desc font-roca-italic" id="ia-recipe-desc-v2">Uma opção perfeita combinando seus ingredientes selecionados.</p>
-                
+                <h4 class="chef-ia-recipe-title font-roca-bold" id="ia-recipe-title-v2">Carregando sugestões...</h4>
+                <p class="chef-ia-recipe-desc font-roca-italic" id="ia-recipe-desc-v2">Uma opção perfeita para seus ingredientes.</p>
+
                 <div class="ia-recipe-details" id="ia-recipe-details-v2" style="display: none;">
                   <div class="fridge-ia-divider"></div>
                   <h5 class="ia-details-title font-montserrat">Ingredientes Adicionais</h5>
-                  <ul class="ia-ingredients-list font-montserrat" id="ia-ingredients-ul">
-                    <!-- Preenchido dinamicamente -->
-                  </ul>
+                  <ul class="ia-ingredients-list font-montserrat" id="ia-ingredients-ul"></ul>
                   <div class="fridge-ia-divider"></div>
                   <h5 class="ia-details-title font-montserrat">Modo de Preparo</h5>
-                  <ol class="ia-steps-list font-montserrat" id="ia-steps-ol">
-                    <!-- Preenchido dinamicamente -->
-                  </ol>
+                  <ol class="ia-steps-list font-montserrat" id="ia-steps-ol"></ol>
                 </div>
               </div>
 
-              <div class="fridge-ia-divider"></div>
-              <div class="ia-recipe-footer-v2">
-                <span class="fridge-ia-meta-v2 font-montserrat" id="ia-recipe-meta-v2"><i class="ti ti-circle-check"></i> Você tem 4/4 ingredientes</span>
-                <button class="btn btn-filled btn-sm font-montserrat" id="ia-cook-btn" onclick="showToast('Iniciando modo de preparo inteligente...', 'ti-player-play')"><i class="ti ti-player-play"></i> Cozinhar</button>
+              <div class="chef-ia-footer">
+                <span class="chef-ia-meta font-montserrat" id="ia-recipe-meta-v2"><i class="ti ti-circle-check"></i> Você tem 4/4 ingredientes</span>
+                <button class="chef-ia-cook-btn font-montserrat" id="ia-cook-btn" onclick="showToast('Iniciando modo de preparo inteligente...', 'ti-player-play')"><i class="ti ti-player-play"></i> Cozinhar</button>
               </div>
             </div>
             
@@ -4336,12 +4399,14 @@
       const fridgePage = document.getElementById('fridgePage');
       if (fridgePage) {
         fridgePage.classList.add('show');
-        
-        // Recalcula e renderiza para garantir sincronização impecável
         updateHeroStats();
         renderActiveIngredients();
-        
-        // Sincroniza a bottom-bar active state
+
+        // Swap phone-header to fridge mode (back + avatar)
+        const header = document.getElementById('appPhoneHeader');
+        if (header) header.classList.add('fridge-open');
+
+        // Sync bottom-bar active state
         const navItems = document.querySelectorAll('.bottom-nav-floating .nav-item');
         navItems.forEach(item => {
           const onclickText = item.getAttribute('onclick') || '';
@@ -4355,9 +4420,11 @@
 
     function closeFridgePage() {
       const fridgePage = document.getElementById('fridgePage');
-      if (fridgePage) {
-        fridgePage.classList.remove('show');
-      }
+      if (fridgePage) fridgePage.classList.remove('show');
+
+      // Restore phone-header to default (logo + actions)
+      const header = document.getElementById('appPhoneHeader');
+      if (header) header.classList.remove('fridge-open');
     }
 
     // MODAL DE CONFIGURAÇÕES GEMINI API
@@ -4804,32 +4871,62 @@
     function initArcCarousel() {
       carouselCards = document.querySelectorAll('.fridge-carousel-card');
       carouselTotal = carouselCards.length;
-
       if (carouselTotal === 0) return;
 
-      // Reset inline styles from any previous GSAP runs and ensure all cards visible
+      // Clear any inline styles and bind click handlers
       carouselCards.forEach((card, index) => {
         card.style.cssText = '';
         card.setAttribute('onclick', `loadReadyRecipe(${index + 1})`);
       });
 
+      // Sync currentIndex when user scrolls natively (finger swipe)
+      const container = document.getElementById('fridgeReadyCarousel');
+      if (container) {
+        let scrollTimer;
+        container.addEventListener('scroll', () => {
+          clearTimeout(scrollTimer);
+          scrollTimer = setTimeout(() => {
+            const center = container.scrollLeft + container.clientWidth / 2;
+            let closest = 0, minDist = Infinity;
+            carouselCards.forEach((card, idx) => {
+              const dist = Math.abs((card.offsetLeft + card.offsetWidth / 2) - center);
+              if (dist < minDist) { minDist = dist; closest = idx; }
+            });
+            if (closest !== currentIndex) {
+              currentIndex = closest;
+              carouselCards.forEach((c, i) => c.classList.toggle('active-card', i === currentIndex));
+              const prevBtn = document.getElementById('carousel-prev-btn');
+              const nextBtn = document.getElementById('carousel-next-btn');
+              if (prevBtn) prevBtn.disabled = currentIndex === 0;
+              if (nextBtn) nextBtn.disabled = currentIndex === carouselTotal - 1;
+            }
+          }, 80);
+        });
+      }
+
+      // Activate first card and position
+      if (carouselCards[0]) carouselCards[0].classList.add('active-card');
       updateArcCarousel('center');
     }
 
     function updateArcCarousel(direction = 'next') {
       if (carouselTotal === 0) return;
 
+      // Update active-card class
+      carouselCards.forEach((c, i) => c.classList.toggle('active-card', i === currentIndex));
+
       const prevBtn = document.getElementById('carousel-prev-btn');
       const nextBtn = document.getElementById('carousel-next-btn');
-      if (prevBtn) prevBtn.disabled = (currentIndex === 0);
-      if (nextBtn) nextBtn.disabled = (currentIndex === carouselTotal - 1);
+      if (prevBtn) prevBtn.disabled = currentIndex === 0;
+      if (nextBtn) nextBtn.disabled = currentIndex === carouselTotal - 1;
 
-      // Scroll the container to bring the active card into view
+      // Scroll so active card is centered
       const container = document.getElementById('fridgeReadyCarousel');
       const card = carouselCards[currentIndex];
       if (container && card) {
-        const scrollLeft = card.offsetLeft - container.offsetLeft - 16;
-        container.scrollTo({ left: Math.max(0, scrollLeft), behavior: 'smooth' });
+        const cardCenter = card.offsetLeft + card.offsetWidth / 2;
+        const scrollTarget = cardCenter - container.clientWidth / 2;
+        container.scrollTo({ left: Math.max(0, scrollTarget), behavior: 'smooth' });
       }
     }
 

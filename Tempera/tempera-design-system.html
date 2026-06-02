@@ -1,0 +1,1521 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tempera — Design System v2</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/dist/tabler-icons.min.css">
+
+  <style>
+    /* ================================================================
+       TEMPERA — DESIGN SYSTEM v2
+       Material 3 · Montserrat & Roca · Warm & Cozy
+    ================================================================ */
+
+    /* ---------------------------------------------------------------
+       DESIGN TOKENS
+    --------------------------------------------------------------- */
+    :root {
+      /* Brand */
+      --c-primary:              #8C3A1E;
+      --c-on-primary:           #FFFFFF;
+      --c-primary-container:    #FFDBC8;
+      --c-on-primary-container: #360E00;
+
+      --c-secondary:              #77574A;
+      --c-on-secondary:           #FFFFFF;
+      --c-secondary-container:    #FFDBD1;
+      --c-on-secondary-container: #2C150D;
+
+      --c-tertiary:              #695E2F;
+      --c-on-tertiary:           #FFFFFF;
+      --c-tertiary-container:    #F1E6C8;
+      --c-on-tertiary-container: #241A00;
+
+      /* Surfaces — M3 tonal elevation */
+      --c-surface:          #FFF8F5;
+      --c-surface-dim:      #EDD9CC;
+      --c-surface-bright:   #FFF8F5;
+      /* Tonal containers (elevation levels 1–5) */
+      --c-surface-l1:       #FFF3EC;   /* +5% primary tint  */
+      --c-surface-l2:       #FFEEDE;   /* +8%  */
+      --c-surface-l3:       #FFE6D0;   /* +11% */
+      --c-surface-l4:       #FFE1C8;   /* +12% */
+      --c-surface-l5:       #FFD9BC;   /* +14% */
+      --c-surface-variant:  #F2E4DC;
+      --c-on-surface:       #201A18;
+      --c-on-surface-var:   #52443C;
+      --c-outline:          #C4977F;
+      --c-outline-variant:  #E8D8D0;
+
+      /* Semantic */
+      --c-success:           #3A6B2A;
+      --c-success-container: #D4EDDA;
+      --c-error:             #B3261E;
+      --c-error-container:   #FFDAD6;
+      --c-warning-container: #FDE8C8;
+      --c-on-warning:        #7C4A00;
+
+      /* Card */
+      --card-bg: #FFFCFA;
+      --card-fg: #201A18;
+
+      /* M3 Elevation shadows (warm-tinted) */
+      --elev-0: none;
+      --elev-1: 0 1px 2px rgba(44,21,13,.10);
+      --elev-2: 0 2px 6px rgba(44,21,13,.12), 0 1px 2px rgba(44,21,13,.08);
+      --elev-3: 0 4px 12px rgba(44,21,13,.14), 0 1px 3px rgba(44,21,13,.10);
+      --elev-4: 0 6px 16px rgba(44,21,13,.16), 0 2px 4px rgba(44,21,13,.12);
+      --elev-5: 0 8px 24px rgba(44,21,13,.18), 0 2px 6px rgba(44,21,13,.14);
+      --shadow-card: 0 20px 40px -14px rgba(44,21,13,.22);
+
+      /* Streamlined Corner Radius Scale (M3) */
+      --r-none:  0px;
+      --r-xs:    4px;    /* Extra small (4dp) */
+      --r-sm:    8px;    /* Small (8dp) */
+      --r-md:    12px;   /* Medium (12dp) */
+      --r-lg:    16px;   /* Large (16dp) */
+      --r-lg-plus: 20px; /* Large+ (20dp) */
+      --r-xl:    28px;   /* Extra large (28dp) */
+      --r-full:  9999px; /* Full — buttons, chips, FABs */
+
+      /* M3 Spacing (4dp grid) */
+      --sp-1:  4px;
+      --sp-2:  8px;
+      --sp-3:  12px;
+      --sp-4:  16px;
+      --sp-5:  20px;
+      --sp-6:  24px;
+      --sp-8:  32px;
+      --sp-10: 40px;
+      --sp-12: 48px;
+
+      /* Easing (M3) */
+      --ease-standard:      cubic-bezier(0.2, 0, 0, 1);
+      --ease-emphasized:    cubic-bezier(0.2, 0, 0, 1);
+      --ease-decelerate:    cubic-bezier(0, 0, 0, 1);
+      --ease-accelerate:    cubic-bezier(0.3, 0, 1, 1);
+      --ease-in-expo:       cubic-bezier(0.95, 0.05, 0.795, 0.035);
+      --ease-out-expo:      cubic-bezier(0.19, 1, 0.22, 1);
+
+      /* Typography */
+      --font: 'Montserrat', sans-serif;
+      --font-display: roca, Georgia, serif;
+    }
+
+    /* ---------------------------------------------------------------
+       RESET & COMPONENT DECORATORS
+    --------------------------------------------------------------- */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--font);
+      color: var(--c-on-surface);
+      line-height: 1.6;
+      padding: var(--sp-10) max(var(--sp-6), 5%);
+      transition: background-color 300ms ease, color 300ms ease;
+    }
+    img { display: block; max-width: 100%; object-fit: cover; }
+    ul  { list-style: none; }
+    a   { text-decoration: none; }
+    button { font-family: var(--font); cursor: pointer; border: none; }
+
+    /* Typography helper for custom display font */
+    .font-roca {
+      font-family: var(--font-display);
+      font-style: normal;
+      font-weight: 100;
+    }
+
+    /* Dark Theme Override for Linho Escuro background */
+    body.theme-dark {
+      color: #FAF6F0;
+      --c-on-surface: #FAF6F0;
+      --c-on-surface-var: #E5DDD5;
+      --c-surface: #2E2B27;
+      --c-surface-l1: #383430;
+      --c-surface-l2: #423E3A;
+      --c-surface-l3: #4C4844;
+      --c-outline: #A5806C;
+      --c-outline-variant: rgba(255, 255, 255, 0.1);
+      --card-bg: #2E2B27;
+      --card-fg: #FAF6F0;
+    }
+    body.theme-dark .ds-logo {
+      color: #FFDBC8;
+    }
+    body.theme-dark .ds-meta {
+      color: #E5DDD5;
+    }
+    body.theme-dark .section-label {
+      color: #A5806C;
+    }
+    body.theme-dark .section-label::after {
+      background: rgba(255, 255, 255, 0.15);
+    }
+    body.theme-dark .type-row {
+      border-color: rgba(255, 255, 255, 0.1);
+    }
+    body.theme-dark .type-meta {
+      color: #C4977F;
+    }
+    body.theme-dark .bg-swatch-label {
+      background: rgba(0, 0, 0, 0.65);
+      color: #fff;
+    }
+    body.theme-dark .snackbar {
+      background: #FAF7F2;
+      color: #2D1B0E;
+    }
+    body.theme-dark .snackbar-action {
+      color: var(--c-primary);
+    }
+    body.theme-dark .nav-item {
+      color: #E5DDD5;
+    }
+    body.theme-dark .nav-item.active .nav-icon {
+      color: #360E00;
+    }
+    body.theme-dark .nav-item:hover .nav-icon {
+      color: #FFDBC8;
+    }
+
+    /* ---------------------------------------------------------------
+       PAGE LAYOUT
+    --------------------------------------------------------------- */
+    .ds-section { max-width: 1100px; margin: 0 auto 5rem; }
+    .ds-header  {
+      max-width: 1100px; margin: 0 auto 4rem;
+      display: flex; align-items: baseline; gap: var(--sp-4); flex-wrap: wrap;
+    }
+    .ds-logo {
+      font-size: clamp(38px, 5vw, 54px);
+      color: var(--c-primary); letter-spacing: -0.02em;
+    }
+    .ds-meta { font-size: 13px; font-weight: 500; color: var(--c-secondary); }
+
+    .section-label {
+      font-size: 11px; font-weight: 700; letter-spacing: .12em;
+      text-transform: uppercase; color: var(--c-outline);
+      margin-bottom: var(--sp-5);
+      display: flex; align-items: center; gap: var(--sp-3);
+    }
+    .section-label::after {
+      content: ""; flex: 1; height: 0.5px; background: var(--c-outline-variant);
+    }
+
+    .row  { display: flex; flex-wrap: wrap; gap: var(--sp-3); align-items: center; }
+    .col  { display: flex; flex-direction: column; gap: var(--sp-3); }
+    .grid-2 {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: var(--sp-4);
+    }
+
+    /* ---------------------------------------------------------------
+       00 · BACKGROUND VARIATIONS
+    --------------------------------------------------------------- */
+    .bg-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: var(--sp-4);
+    }
+    .bg-swatch {
+      border-radius: var(--r-xl);
+      height: 130px;
+      border: 1.5px solid var(--c-outline-variant);
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: flex-end;
+      padding: var(--sp-4);
+      cursor: pointer;
+      transition: box-shadow 250ms ease, transform 250ms ease, border-color 250ms ease;
+      position: relative;
+      overflow: hidden;
+    }
+    .bg-swatch:hover {
+      box-shadow: var(--elev-3);
+      transform: translateY(-2px);
+    }
+    .bg-swatch.selected {
+      border: 2.5px solid var(--c-primary);
+      box-shadow: var(--elev-2);
+    }
+    .bg-swatch-label {
+      font-size: 12px; font-weight: 700; letter-spacing: .05em;
+      background: rgba(255,255,255,.9); border-radius: var(--r-full);
+      padding: 5px 14px; color: #201A18; backdrop-filter: blur(8px);
+      box-shadow: var(--elev-1);
+      transition: background 250ms;
+    }
+    /* BG variants */
+    .bg-off-white {
+      background-color: #FAF7F2;
+    }
+    .bg-dark-linen {
+      background-color: #23211F;
+      background-image:
+        linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+      background-size: 16px 16px;
+    }
+    .bg-grid-sutil {
+      background-color: #FAF7F2;
+      background-image:
+        linear-gradient(rgba(140, 58, 30, 0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(140, 58, 30, 0.04) 1px, transparent 1px);
+      background-size: 24px 24px;
+    }
+
+    /* ---------------------------------------------------------------
+       01 · COLOR PALETTE
+    --------------------------------------------------------------- */
+    .palette-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+      gap: 10px;
+    }
+    .swatch {
+      border-radius: var(--r-lg);
+      padding: 14px 14px 12px;
+      min-height: 80px;
+      display: flex; flex-direction: column; justify-content: flex-end;
+    }
+    .swatch-name { font-size: 11px; font-weight: 600; margin-bottom: 2px; }
+    .swatch-hex  { font-size: 10px; opacity: .65; font-family: monospace; }
+
+    /* ---------------------------------------------------------------
+       02 · TYPOGRAPHY — M3 Type Scale
+    --------------------------------------------------------------- */
+    .type-scale { display: flex; flex-direction: column; }
+    .type-row {
+      display: flex; align-items: baseline; gap: 1.5rem;
+      padding: 14px 0; border-bottom: 0.5px solid var(--c-outline-variant);
+      flex-wrap: wrap;
+    }
+    .type-row:last-child { border-bottom: none; }
+    .type-meta {
+      font-size: 10px; color: var(--c-outline);
+      min-width: 140px; flex-shrink: 0; line-height: 1.4;
+    }
+
+    /* ---------------------------------------------------------------
+       03 · BUTTONS — M3 Full shape (border-radius: full = 9999px)
+    --------------------------------------------------------------- */
+    .btn {
+      display: inline-flex; align-items: center; gap: var(--sp-2);
+      padding: 10px 24px;
+      /* M3: buttons always use Full corner radius */
+      border-radius: var(--r-full);
+      font-family: var(--font); font-size: 14px; font-weight: 500;
+      border: none; cursor: pointer;
+      transition: box-shadow 200ms var(--ease-standard), background 200ms;
+      text-decoration: none; line-height: 1;
+      /* M3: elevation level 0 at rest */
+      box-shadow: var(--elev-0);
+    }
+    .btn:hover { box-shadow: var(--elev-1); }
+    .btn:active { transform: scale(.98); }
+    .btn i { font-size: 18px; }
+
+    /* Filled — primary */
+    .btn-filled  { background: var(--c-primary); color: var(--c-on-primary); }
+    .btn-filled:hover  { background: #7A3219; box-shadow: var(--elev-2); }
+
+    /* Tonal — secondary container */
+    .btn-tonal   { background: var(--c-primary-container); color: var(--c-on-primary-container); }
+    .btn-tonal:hover   { background: #F5CFBA; box-shadow: var(--elev-1); }
+
+    /* Outlined */
+    .btn-outlined {
+      background: transparent; color: var(--c-primary);
+      border: 1.5px solid var(--c-outline);
+    }
+    .btn-outlined:hover { background: var(--c-primary-container); }
+
+    /* Elevated — M3 elevation level 1 at rest */
+    .btn-elevated {
+      background: var(--c-surface-l1); color: var(--c-primary);
+      box-shadow: var(--elev-1);
+    }
+    .btn-elevated:hover { box-shadow: var(--elev-2); background: var(--c-surface-l2); }
+
+    /* Text */
+    .btn-text    { background: transparent; color: var(--c-primary); padding-inline: var(--sp-3); }
+    .btn-text:hover { background: rgba(140,58,30,.08); box-shadow: none; }
+
+    /* Danger */
+    .btn-danger  { background: var(--c-error); color: #fff; }
+    .btn-danger:hover { background: #9B201B; box-shadow: var(--elev-2); }
+
+    /* Sizes */
+    .btn-sm { font-size: 12px; padding: 8px 18px; }
+    .btn-sm i { font-size: 14px; }
+    .btn-lg { font-size: 16px; padding: 14px 32px; }
+    .btn-lg i { font-size: 20px; }
+
+    /* ---------------------------------------------------------------
+       04 · CHIPS — M3 shape: Small (8dp) for assist/filter
+    --------------------------------------------------------------- */
+    .chip {
+      display: inline-flex; align-items: center; gap: var(--sp-1);
+      padding: 6px 16px;
+      border-radius: var(--r-sm); /* M3 chips use Small (8dp) */
+      font-family: var(--font); font-size: 13px; font-weight: 500;
+      cursor: pointer; transition: all 150ms; border: 1px solid transparent; line-height: 1;
+    }
+    .chip i { font-size: 14px; }
+    .chip-assist  { background: var(--c-surface-l1); color: var(--c-on-primary-container); border-color: var(--c-outline-variant); }
+    .chip-filter  { background: var(--c-primary-container); color: var(--c-on-primary-container); border-color: #E8C5B0; }
+    .chip-filter.active { background: var(--c-primary); color: var(--c-on-primary); border-color: var(--c-primary); }
+    .chip-neutral { background: var(--c-surface-variant); color: var(--c-on-surface-var); border-color: var(--c-outline-variant); }
+    .chip-success { background: var(--c-success-container); color: var(--c-success); border-color: #A3CFAA; }
+    /* Suggestion chips: full roundness */
+    .chip-suggestion {
+      border-radius: var(--r-full);
+      background: var(--c-surface-l1); color: var(--c-on-surface-var); border-color: var(--c-outline-variant);
+    }
+
+    /* ---------------------------------------------------------------
+       05 · BADGES
+    --------------------------------------------------------------- */
+    .badge {
+      display: inline-flex; align-items: center; gap: var(--sp-1);
+      padding: 3px 10px; border-radius: var(--r-full);
+      font-size: 11px; font-weight: 600; line-height: 1.4;
+    }
+    .badge i { font-size: 11px; }
+    .badge-primary   { background: var(--c-primary-container); color: var(--c-on-primary-container); }
+    .badge-secondary { background: var(--c-secondary-container); color: var(--c-on-secondary-container); }
+    .badge-tertiary  { background: var(--c-tertiary-container); color: var(--c-on-tertiary-container); }
+    .badge-success   { background: var(--c-success-container); color: var(--c-success); }
+    .badge-warning   { background: var(--c-warning-container); color: var(--c-on-warning); }
+    .badge-outline   { background: transparent; border: 1px solid var(--c-outline); color: var(--c-on-surface-var); }
+    .badge-error     { background: var(--c-error-container); color: var(--c-error); }
+
+    /* ---------------------------------------------------------------
+       06 · CORNER RADIUS SCALE (M3)
+    --------------------------------------------------------------- */
+    .radius-grid {
+      display: flex; flex-wrap: wrap; gap: var(--sp-4); align-items: flex-end;
+    }
+    .radius-demo {
+      display: flex; flex-direction: column; align-items: center; gap: var(--sp-2);
+    }
+    .radius-box {
+      width: 64px; height: 64px;
+      background: var(--c-primary-container);
+      border: 1.5px solid var(--c-outline);
+      display: flex; align-items: center; justify-content: center;
+    }
+    .radius-label { font-size: 10px; font-weight: 700; color: var(--c-secondary); text-align: center; }
+    .radius-value { font-size: 10px; color: var(--c-outline); font-family: monospace; }
+
+    /* ---------------------------------------------------------------
+       07 · ELEVATION — M3 tonal surface colors
+    --------------------------------------------------------------- */
+    .elev-row { display: flex; flex-wrap: wrap; gap: var(--sp-4); align-items: flex-end; }
+    .elev-card {
+      border-radius: var(--r-lg);
+      padding: var(--sp-4) var(--sp-5);
+      min-width: 110px;
+      display: flex; flex-direction: column; gap: var(--sp-1);
+    }
+    .elev-name  { font-size: 12px; font-weight: 600; color: var(--c-on-surface); }
+    .elev-dp    { font-size: 10px; color: var(--c-secondary); font-family: monospace; }
+
+    /* ---------------------------------------------------------------
+       08 · INPUTS
+    --------------------------------------------------------------- */
+    .input-group { display: flex; flex-direction: column; gap: var(--sp-1); }
+    .input-label { font-size: 12px; font-weight: 600; color: var(--c-primary); }
+    .input-hint  { font-size: 11px; color: var(--c-secondary); }
+    .input-field {
+      background: var(--c-surface-l1);
+      border: 1.5px solid var(--c-outline);
+      border-radius: var(--r-md); /* M3 text fields: Medium (12dp) */
+      padding: 11px var(--sp-4);
+      font-family: var(--font); font-size: 14px;
+      color: var(--c-on-surface); outline: none;
+      transition: border-color 200ms;
+      width: 100%;
+    }
+    .input-field:focus        { border-color: var(--c-primary); background: var(--c-surface-l2); }
+    .input-field::placeholder { color: var(--c-outline); }
+    .input-field.error        { border-color: var(--c-error); background: #FFF5F5; }
+    .input-with-icon          { position: relative; }
+    .input-with-icon .input-field { padding-left: 44px; }
+    .input-icon {
+      position: absolute; left: 14px; top: 50%; transform: translateY(-50%);
+      color: var(--c-outline); font-size: 18px; pointer-events: none;
+    }
+    .textarea-field {
+      background: var(--c-surface-l1); border: 1.5px solid var(--c-outline);
+      border-radius: var(--r-md); padding: 11px var(--sp-4);
+      font-family: var(--font); font-size: 14px; color: var(--c-on-surface);
+      outline: none; resize: vertical; min-height: 90px; width: 100%;
+      transition: border-color 200ms;
+    }
+    .textarea-field:focus { border-color: var(--c-primary); }
+    .select-field {
+      background: var(--c-surface-l1) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23C4977F' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E") no-repeat right 12px center;
+      border: 1.5px solid var(--c-outline); border-radius: var(--r-md);
+      padding: 11px 40px 11px var(--sp-4);
+      font-family: var(--font); font-size: 14px; color: var(--c-on-surface);
+      outline: none; width: 100%; appearance: none; cursor: pointer;
+    }
+
+    /* ---------------------------------------------------------------
+       09 · INGREDIENT CHIPS
+    --------------------------------------------------------------- */
+    .ingredient-list { display: flex; flex-wrap: wrap; gap: var(--sp-2); }
+    .ingredient-chip {
+      display: inline-flex; align-items: center; gap: var(--sp-1);
+      padding: 7px 13px; border-radius: var(--r-md);
+      background: var(--card-bg); border: 1px solid var(--c-outline-variant);
+      font-size: 13px; font-weight: 500; color: var(--c-on-surface);
+    }
+    .ingredient-chip i { font-size: 14px; }
+    .ingredient-chip.have    { background: var(--c-success-container); border-color: #A3CFAA; color: var(--c-success); }
+    .ingredient-chip.missing { background: var(--c-primary-container); border-color: #E8C5B0; color: var(--c-on-primary-container); }
+    .ingredient-chip.unknown { background: var(--c-surface-variant); border-color: var(--c-outline-variant); color: var(--c-on-surface-var); }
+
+    /* ---------------------------------------------------------------
+       10 · METRIC CARDS
+    --------------------------------------------------------------- */
+    .metric-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: var(--sp-3);
+    }
+    .metric-card {
+      background: var(--c-surface-l2); border-radius: var(--r-md);
+      padding: var(--sp-4) var(--sp-4) 14px;
+    }
+    .metric-icon  { font-size: 20px; color: var(--c-primary); margin-bottom: var(--sp-2); }
+    .metric-label { font-size: 12px; color: var(--c-on-surface-var); margin-bottom: var(--sp-1); }
+    .metric-value { font-size: 26px; font-weight: 700; color: var(--c-on-surface); line-height: 1; }
+    .metric-unit  { font-size: 12px; font-weight: 500; color: var(--c-secondary); margin-left: 2px; }
+
+    /* ---------------------------------------------------------------
+       11 · PROGRESS
+    --------------------------------------------------------------- */
+    .progress-wrap { max-width: 400px; display: flex; flex-direction: column; gap: var(--sp-4); }
+    .progress-row  { display: flex; flex-direction: column; gap: var(--sp-1); }
+    .progress-header { display: flex; justify-content: space-between; align-items: center; }
+    .progress-name   { font-size: 13px; font-weight: 500; }
+    .progress-pct    { font-size: 13px; font-weight: 700; }
+    .progress-track  {
+      background: var(--c-outline-variant); border-radius: var(--r-full); height: 6px; overflow: hidden;
+    }
+    .progress-fill   { height: 100%; border-radius: var(--r-full); background: var(--c-primary); }
+
+    /* ---------------------------------------------------------------
+       12 · SNACKBAR
+    --------------------------------------------------------------- */
+    .snackbar {
+      display: inline-flex; align-items: center; gap: var(--sp-3);
+      background: #2D1B0E; color: #FFF8F5;
+      padding: 13px var(--sp-4); border-radius: var(--r-md);
+      font-size: 14px; max-width: 400px;
+    }
+    .snackbar i { font-size: 18px; flex-shrink: 0; }
+    .snackbar-action {
+      color: var(--c-primary-container); font-weight: 600; font-size: 14px;
+      background: none; border: none; cursor: pointer;
+      font-family: var(--font); margin-left: auto; padding-left: var(--sp-2); flex-shrink: 0;
+    }
+
+    /* ---------------------------------------------------------------
+       13 · NAVIGATION
+    --------------------------------------------------------------- */
+    /* Top app bar — Split Design (Logo/Actions Left, Avatar Right) */
+    .top-bar {
+      background: var(--c-surface-l1);
+      border-radius: var(--r-xl); border: 0.5px solid var(--c-outline-variant);
+      padding: 10px var(--sp-4) 10px var(--sp-5);
+      display: flex; align-items: center; justify-content: space-between;
+      max-width: 400px; width: 100%; box-shadow: var(--elev-1);
+      transition: all 0.3s var(--ease-standard);
+    }
+    .top-bar-left {
+      display: flex; align-items: center; gap: var(--sp-2);
+    }
+    .top-bar-left .top-bar-title {
+      font-size: 20px;
+      color: var(--c-on-surface);
+      margin-right: var(--sp-2);
+      line-height: 1;
+    }
+    .top-bar-right {
+      display: flex; align-items: center;
+    }
+
+    /* Bottom nav — Dynamic Floating Design (No Text Labels) */
+    .bottom-nav-floating {
+      position: relative;
+      background: rgba(255, 252, 250, 0.72);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1.5px solid var(--c-outline-variant);
+      border-radius: var(--r-xl); /* Extra large = 28dp */
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 10px 16px;
+      gap: 12px;
+      max-width: 400px;
+      width: 100%;
+      box-shadow: var(--shadow-card);
+      transition: all 0.3s var(--ease-standard);
+    }
+    .bottom-nav-floating .nav-item {
+      position: relative;
+      width: 52px;
+      height: 52px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: var(--r-lg-plus); /* Large+ = 20dp */
+      color: var(--c-secondary);
+      text-decoration: none;
+      transition: all 0.3s var(--ease-standard);
+      cursor: pointer;
+    }
+    .bottom-nav-floating .nav-item::before {
+      content: '';
+      position: absolute;
+      inset: 2px;
+      background: var(--c-primary-container);
+      border-radius: 18px;
+      transform: scale(0);
+      opacity: 0;
+      z-index: 1;
+      transition: all 0.28s var(--ease-standard);
+    }
+    .bottom-nav-floating .nav-item:hover::before {
+      transform: scale(0.9);
+      opacity: 0.55;
+    }
+    .bottom-nav-floating .nav-item.active::before {
+      transform: scale(1);
+      opacity: 1;
+    }
+    .bottom-nav-floating .nav-icon {
+      position: relative;
+      z-index: 2;
+      font-size: 24px;
+      color: var(--c-secondary);
+      transition: transform 0.3s var(--ease-standard), color 0.3s var(--ease-standard);
+    }
+    .bottom-nav-floating .nav-item.active .nav-icon {
+      color: var(--c-on-primary-container);
+      transform: scale(1.15);
+    }
+    .bottom-nav-floating .nav-item:hover .nav-icon {
+      color: var(--c-primary);
+      transform: translateY(-2px);
+    }
+    /* Elegant Micro-tooltips */
+    .bottom-nav-floating .nav-item::after {
+      content: attr(data-tooltip);
+      position: absolute;
+      bottom: 105%;
+      margin-bottom: 10px;
+      background: #2D1B0E;
+      color: #FFF8F5;
+      padding: 5px 12px;
+      border-radius: var(--r-sm);
+      font-size: 11px;
+      font-weight: 600;
+      white-space: nowrap;
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(6px);
+      transition: all 0.2s var(--ease-standard);
+      pointer-events: none;
+      box-shadow: var(--elev-2);
+      z-index: 100;
+    }
+    .bottom-nav-floating .nav-item:hover::after {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0);
+    }
+
+    /* Icon button */
+    .icon-btn {
+      width: 40px; height: 40px; border-radius: var(--r-full); /* M3: icon buttons are full */
+      background: transparent; border: none; cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 20px; color: var(--c-on-surface); transition: background 150ms;
+    }
+    .icon-btn:hover { background: var(--c-surface-variant); }
+
+    /* FABs — M3: Large (16dp) for regular, Full for small circular */
+    .fab {
+      width: 56px; height: 56px; border-radius: var(--r-lg); /* Large */
+      background: var(--c-primary-container); border: none; cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 24px; color: var(--c-on-primary-container);
+      box-shadow: var(--elev-3); transition: box-shadow 200ms;
+    }
+    .fab:hover { box-shadow: var(--elev-4); }
+    .fab-sm {
+      width: 40px; height: 40px; border-radius: var(--r-md); /* Medium */
+      background: var(--c-primary-container); border: none; cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 18px; color: var(--c-on-primary-container);
+      box-shadow: var(--elev-3);
+    }
+    .fab-extended {
+      height: 56px; padding: 0 var(--sp-5); border-radius: var(--r-lg);
+      background: var(--c-primary); color: var(--c-on-primary);
+      border: none; cursor: pointer;
+      display: inline-flex; align-items: center; gap: var(--sp-3);
+      font-family: var(--font); font-size: 15px; font-weight: 600;
+      box-shadow: var(--elev-3); transition: box-shadow 200ms;
+    }
+    .fab-extended i { font-size: 20px; }
+    .fab-extended:hover { box-shadow: var(--elev-4); }
+
+    /* Avatar */
+    .avatar {
+      width: 40px; height: 40px; border-radius: var(--r-full);
+      background: var(--c-primary-container); color: var(--c-on-primary-container);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 13px; font-weight: 700; flex-shrink: 0;
+    }
+
+    /* ---------------------------------------------------------------
+       14 · RECIPE CARDS (adapted from reference)
+    --------------------------------------------------------------- */
+    .recipe-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(min(100%, 20rem), 1fr));
+      gap: 1.5rem;
+    }
+    .recipe-grid > * { grid-row: span 6; }
+
+    ._rcard {
+      --_accent:       var(--recipe-accent, #8C3A1E);
+      --_accent-light: var(--recipe-accent-light, #FFDBC8);
+      --_accent-dark:  var(--recipe-accent-dark, #360E00);
+      --_pad:          16px;
+      --_radius:       var(--r-xl);
+      --_inner-r:      calc(var(--_radius) - var(--_pad)); /* optical roundness */
+      --_cat-r:        14px;
+      --_dur:          360ms;
+
+      display: grid;
+      grid-template-columns: 1fr max-content;
+      grid-template-rows: subgrid;
+      gap: .3rem 1rem;
+      padding: var(--_pad);
+      border-radius: var(--_radius);
+      box-shadow: var(--shadow-card);
+      background: var(--card-bg);
+      color: var(--card-fg);
+    }
+    ._rcard > * { grid-column: 1 / -1; }
+
+    ._rcard-thumb { grid-row: 1 / 2; grid-column: 1 / -1; }
+    ._thumb-stack { display: grid; }
+    ._thumb-stack > img {
+      grid-area: 1 / 1; width: 100%; aspect-ratio: 4/3;
+      border-radius: var(--_inner-r);
+    }
+    ._thumb-stack > img:first-child {
+      filter: brightness(.84) saturate(.9);
+      transition: filter var(--_dur) var(--ease-out-expo);
+    }
+    @media (prefers-reduced-motion: no-preference) {
+      ._thumb-stack > img:nth-child(2) {
+        clip-path: inset(100% round var(--_inner-r));
+        transition: clip-path var(--_dur) var(--ease-in-expo);
+      }
+      ._rcard:hover ._thumb-stack > img:nth-child(2) {
+        clip-path: inset(0% round var(--_inner-r));
+        transition-timing-function: var(--ease-out-expo);
+      }
+      ._rcard:hover ._thumb-stack > img:first-child { filter: brightness(1) saturate(1); }
+    }
+
+    ._rcat {
+      grid-row: 1/2; grid-column: 1/-1;
+      align-self: start; justify-self: start; z-index: 2;
+      position: relative;
+      padding: .55em 1.2em; border-end-end-radius: var(--_cat-r);
+      background: var(--card-bg);
+      filter: drop-shadow(3px 3px 2px rgba(44,21,13,.14));
+      font-size: 10px; font-weight: 800;
+      text-transform: uppercase; letter-spacing: .09em;
+      color: var(--_accent);
+    }
+    ._rcat::before, ._rcat::after {
+      content: ""; position: absolute;
+      width: var(--_cat-r); height: var(--_cat-r);
+      background: var(--card-bg);
+      mask-image: radial-gradient(circle at 100% 100%, transparent var(--_cat-r), black calc(var(--_cat-r) + 1px));
+    }
+    ._rcat::before { top: 0; left: 100%; }
+    ._rcat::after  { top: 100%; left: 0; }
+
+    ._rcard-title {
+      grid-column: 1/2; align-self: center;
+      padding-block: .4rem;
+      font-family: var(--font-display);
+      font-weight: 100;
+      font-size: clamp(18px, 2.5vw, 22px); line-height: 1.25;
+    }
+    ._rtime {
+      grid-column: 2/3; align-self: center; white-space: nowrap;
+      padding: .45em 1em; border-radius: var(--r-full); /* Full shape for time pill */
+      background: var(--_accent); color: #fff;
+      font-size: 12px; font-weight: 700;
+      display: flex; align-items: center; gap: 4px;
+    }
+    ._rtime i { font-size: 12px; }
+
+    ._rdesc {
+      grid-column: 1/-1;
+      display: -webkit-box; overflow: hidden;
+      -webkit-box-orient: vertical; -webkit-line-clamp: 2;
+      font-size: 13px; color: var(--c-secondary); line-height: 1.55;
+    }
+    ._rtags {
+      grid-column: 1/-1; display: flex; flex-wrap: wrap; gap: 6px; padding-block: .2rem;
+    }
+    ._rtag {
+      padding: 4px 11px; border-radius: var(--r-full); /* Full shape for tags */
+      background: var(--_accent-light); color: var(--_accent-dark);
+      font-size: 11px; font-weight: 600;
+    }
+    /* Recipe CTA — Full shape (M3 buttons = full) */
+    ._rbtn {
+      grid-column: 1/-1;
+      display: flex; align-items: center; justify-content: center; gap: var(--sp-2);
+      padding: 13px; border-radius: var(--r-full); /* Full */
+      background: var(--_accent); color: #fff;
+      font-family: var(--font); font-size: 14px; font-weight: 700;
+      border: none; cursor: pointer; width: 100%;
+      transition: opacity 180ms, box-shadow 180ms;
+      box-shadow: var(--elev-0);
+    }
+    ._rbtn:hover { opacity: .88; box-shadow: var(--elev-2); }
+    ._rbtn i { font-size: 16px; }
+
+    /* ---------------------------------------------------------------
+       15 · LIST ITEMS
+    --------------------------------------------------------------- */
+    .recipe-list { display: flex; flex-direction: column; gap: 1px; }
+    .recipe-list-item {
+      display: flex; align-items: center; gap: 14px;
+      padding: 12px 16px;
+      background: var(--card-bg); border: 0.5px solid var(--c-outline-variant);
+      cursor: pointer; transition: background 150ms;
+    }
+    .recipe-list-item:first-child { border-radius: var(--r-lg) var(--r-lg) 0 0; }
+    .recipe-list-item:last-child  { border-radius: 0 0 var(--r-lg) var(--r-lg); }
+    .recipe-list-item:hover       { background: var(--c-surface-l2); }
+    .recipe-thumb-sm {
+      width: 52px; height: 52px; border-radius: var(--r-sm); object-fit: cover; flex-shrink: 0;
+    }
+    .recipe-list-info { flex: 1; min-width: 0; }
+    .recipe-list-name {
+      font-size: 14px; font-weight: 600;
+      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    }
+    .recipe-list-meta { font-size: 12px; color: var(--c-secondary); margin-top: 2px; }
+
+    /* ---------------------------------------------------------------
+       16 · COMMUNITY CARD
+    --------------------------------------------------------------- */
+    .community-card {
+      background: var(--card-bg); border-radius: var(--r-xl);
+      border: 0.5px solid var(--c-outline-variant);
+      padding: var(--sp-4); box-shadow: var(--elev-1); max-width: 340px;
+    }
+    .community-card-header {
+      display: flex; align-items: center; gap: var(--sp-3); margin-bottom: var(--sp-3);
+    }
+    .community-card-author { flex: 1; }
+    .community-card-name   { font-size: 13px; font-weight: 700; }
+    .community-card-time   { font-size: 11px; color: var(--c-secondary); }
+    .community-card-img    { width: 100%; aspect-ratio: 16/9; border-radius: var(--r-md); margin-bottom: var(--sp-3); }
+    .community-card-title  { font-size: 15px; font-weight: 700; margin-bottom: var(--sp-1); }
+    .community-card-desc   { font-size: 13px; color: var(--c-secondary); margin-bottom: var(--sp-3); line-height: 1.5; }
+    .community-card-footer { display: flex; align-items: center; gap: var(--sp-2); }
+    .react-btn {
+      display: inline-flex; align-items: center; gap: 5px;
+      padding: 5px 12px; border-radius: var(--r-full); /* Full shape */
+      background: var(--c-surface-variant); border: none;
+      font-family: var(--font); font-size: 12px; font-weight: 600;
+      color: var(--c-on-surface-var); cursor: pointer; transition: all 150ms;
+    }
+    .react-btn:hover { background: var(--c-primary-container); color: var(--c-on-primary-container); }
+    .react-btn i { font-size: 14px; }
+
+  </style>
+
+  <script>
+    // Background switcher
+    function selectBg(el, bg) {
+      document.querySelectorAll('.bg-swatch').forEach(s => s.classList.remove('selected'));
+      el.classList.add('selected');
+      
+      // Reset body classes and styles
+      document.body.className = '';
+      document.body.style.backgroundColor = '';
+      document.body.style.backgroundImage = '';
+      document.body.style.backgroundSize = '';
+      
+      // Apply chosen bg
+      const map = {
+        'off-white': { bg: '#FAF7F2' },
+        'dark-linen': { bg: '#23211F', img: 'linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px), linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px)', size: '16px 16px', dark: true },
+        'grid-sutil': { bg: '#FAF7F2', img: 'linear-gradient(rgba(140, 58, 30, 0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(140, 58, 30, 0.04) 1px, transparent 1px)', size: '24px 24px' }
+      };
+      
+      const cfg = map[bg];
+      if (cfg) {
+        document.body.style.backgroundColor = cfg.bg;
+        if (cfg.img) document.body.style.backgroundImage = cfg.img;
+        if (cfg.size) document.body.style.backgroundSize = cfg.size;
+        if (cfg.dark) {
+          document.body.classList.add('theme-dark');
+        }
+      }
+    }
+
+    // Bottom Navigation click handler for dynamic active states
+    document.addEventListener('DOMContentLoaded', () => {
+      const navItems = document.querySelectorAll('.bottom-nav-floating .nav-item');
+      navItems.forEach(item => {
+        item.addEventListener('click', (e) => {
+          e.preventDefault();
+          navItems.forEach(i => i.classList.remove('active'));
+          item.classList.add('active');
+        });
+      });
+    });
+  </script>
+</head>
+<body style="background-color: #FAF7F2; background-image: linear-gradient(rgba(140, 58, 30, 0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(140, 58, 30, 0.04) 1px, transparent 1px); background-size: 24px 24px;">
+
+  <!-- HEADER -->
+  <header class="ds-header">
+    <h1 class="ds-logo font-roca">Tempera</h1>
+    <span class="ds-meta">Design System · v2 · Montserrat & Roca</span>
+  </header>
+
+
+  <!-- 00 · BACKGROUNDS -->
+  <section class="ds-section">
+    <p class="section-label">00 · Variações de background</p>
+    <div class="bg-grid">
+      <div class="bg-swatch bg-off-white" onclick="selectBg(this,'off-white')">
+        <span class="bg-swatch-label">Off-white quente</span>
+      </div>
+      <div class="bg-swatch bg-dark-linen" onclick="selectBg(this,'dark-linen')">
+        <span class="bg-swatch-label" style="background: rgba(0,0,0,0.65); color: #fff;">Linho escuro</span>
+      </div>
+      <div class="bg-swatch bg-grid-sutil selected" onclick="selectBg(this,'grid-sutil')">
+        <span class="bg-swatch-label">Grid sutil</span>
+      </div>
+    </div>
+    <p style="font-size:12px;color:var(--c-secondary);margin-top:12px">
+      <i class="ti ti-hand-click" style="font-size:13px;vertical-align:-1px"></i>
+      Clique em qualquer swatch para aplicar a variação de background e transicionar o tema da página
+    </p>
+  </section>
+
+
+  <!-- 01 · COLORS -->
+  <section class="ds-section">
+    <p class="section-label">01 · Paleta de cores · M3 Color System</p>
+    
+    <p style="font-size:11px;font-weight:700;color:var(--c-secondary);text-transform:uppercase;letter-spacing:.08em;margin-bottom:12px">Principais</p>
+    <div class="palette-grid" style="grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); margin-bottom: 24px;">
+      <div class="swatch" style="background:#8C3A1E;color:#fff; min-height: 100px;">
+        <div class="swatch-name" style="font-size: 13px; font-weight: 700;">Primary</div><div class="swatch-hex">#8C3A1E</div>
+      </div>
+      <div class="swatch" style="background:#FFF3EC;color:#360E00;border:1.5px solid var(--c-outline-variant); min-height: 100px;">
+        <div class="swatch-name" style="font-size: 13px; font-weight: 700;">Surface L1</div><div class="swatch-hex">#FFF3EC</div>
+      </div>
+      <div class="swatch" style="background:#FFEEDE;color:#360E00;border:1.5px solid var(--c-outline-variant); min-height: 100px;">
+        <div class="swatch-name" style="font-size: 13px; font-weight: 700;">Surface L2</div><div class="swatch-hex">#FFEEDE</div>
+      </div>
+      <div class="swatch" style="background:#695E2F;color:#fff; min-height: 100px;">
+        <div class="swatch-name" style="font-size: 13px; font-weight: 700;">Tertiary</div><div class="swatch-hex">#695E2F</div>
+      </div>
+      <div class="swatch" style="background:#360E00;color:#FFDBC8; min-height: 100px;">
+        <div class="swatch-name" style="font-size: 13px; font-weight: 700;">On Primary Container</div><div class="swatch-hex">#360E00</div>
+      </div>
+    </div>
+
+    <p style="font-size:11px;font-weight:700;color:var(--c-secondary);text-transform:uppercase;letter-spacing:.08em;margin-bottom:12px">Secundárias e de Suporte</p>
+    <div class="palette-grid">
+      <div class="swatch" style="background:#FFDBC8;color:#360E00">
+        <div class="swatch-name">Primary Container</div><div class="swatch-hex">#FFDBC8</div>
+      </div>
+      <div class="swatch" style="background:#77574A;color:#fff">
+        <div class="swatch-name">Secondary</div><div class="swatch-hex">#77574A</div>
+      </div>
+      <div class="swatch" style="background:#FFDBD1;color:#2C150D">
+        <div class="swatch-name">Secondary Container</div><div class="swatch-hex">#FFDBD1</div>
+      </div>
+      <div class="swatch" style="background:#F1E6C8;color:#241A00">
+        <div class="swatch-name">Tertiary Container</div><div class="swatch-hex">#F1E6C8</div>
+      </div>
+      <div class="swatch" style="background:#FFF8F5;color:#201A18;border:1px solid var(--c-outline-variant)">
+        <div class="swatch-name">Surface</div><div class="swatch-hex">#FFF8F5</div>
+      </div>
+      <div class="swatch" style="background:#F2E4DC;color:#52443C">
+        <div class="swatch-name">Surface Variant</div><div class="swatch-hex">#F2E4DC</div>
+      </div>
+      <div class="swatch" style="background:#201A18;color:#FFF8F5">
+        <div class="swatch-name">On Surface</div><div class="swatch-hex">#201A18</div>
+      </div>
+      <div class="swatch" style="background:#3A6B2A;color:#fff">
+        <div class="swatch-name">Success</div><div class="swatch-hex">#3A6B2A</div>
+      </div>
+      <div class="swatch" style="background:#B3261E;color:#fff">
+        <div class="swatch-name">Error</div><div class="swatch-hex">#B3261E</div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- 02 · TYPOGRAPHY -->
+  <section class="ds-section">
+    <p class="section-label">02 · Tipografia · M3 Type Scale · Montserrat & Roca</p>
+    <div class="type-scale">
+      <div class="type-row">
+        <span class="type-meta">Display Large (Roca)<br>57px · Light (100) · −0.01em</span>
+        <span class="font-roca" style="font-size:clamp(36px,4.5vw,57px);letter-spacing:-0.01em;line-height:1.1">Bom apetite</span>
+      </div>
+      <div class="type-row">
+        <span class="type-meta">Display Medium (Roca)<br>45px · Light (100)</span>
+        <span class="font-roca" style="font-size:clamp(30px,4vw,45px);line-height:1.15">O que fazer hoje?</span>
+      </div>
+      <div class="type-row">
+        <span class="type-meta">Headline Large (Roca)<br>32px · Light (100)</span>
+        <span class="font-roca" style="font-size:32px;line-height:1.25">Receitas da semana</span>
+      </div>
+      <div class="type-row">
+        <span class="type-meta">Headline Medium (Roca)<br>28px · Light (100)</span>
+        <span class="font-roca" style="font-size:28px;line-height:1.3">Minhas receitas favoritas</span>
+      </div>
+      <div class="type-row">
+        <span class="type-meta">Headline Small (Roca)<br>24px · Light (100)</span>
+        <span class="font-roca" style="font-size:24px;line-height:1.3">Ingredientes na geladeira</span>
+      </div>
+      <div class="type-row">
+        <span class="type-meta">Title Large (Montserrat)<br>22px · 500</span>
+        <span style="font-size:22px;font-weight:500">Risoto de cogumelos silvestres</span>
+      </div>
+      <div class="type-row">
+        <span class="type-meta">Title Medium (Montserrat)<br>16px · 500</span>
+        <span style="font-size:16px;font-weight:500">Macarrão ao sugo da vovó</span>
+      </div>
+      <div class="type-row">
+        <span class="type-meta">Title Small (Montserrat)<br>14px · 500</span>
+        <span style="font-size:14px;font-weight:500">Sopa cremosa de abóbora</span>
+      </div>
+      <div class="type-row">
+        <span class="type-meta">Body Large (Montserrat)<br>16px · 400</span>
+        <span style="font-size:16px;font-weight:400">Adicione os ingredientes que você tem em casa e o Tempera sugere uma receita.</span>
+      </div>
+      <div class="type-row">
+        <span class="type-meta">Body Medium (Montserrat)<br>14px · 400</span>
+        <span style="font-size:14px;font-weight:400;color:var(--c-on-surface-var)">Uma pitada de criatividade faz toda a diferença na cozinha do dia a dia.</span>
+      </div>
+      <div class="type-row">
+        <span class="type-meta">Label Large (Montserrat)<br>14px · 500 · +0.1 tracking</span>
+        <span style="font-size:14px;font-weight:500;letter-spacing:.007em">30 min · Fácil · 4 porções</span>
+      </div>
+      <div class="type-row">
+        <span class="type-meta">Label Small (Montserrat)<br>11px · 700 · +0.5 tracking · CAPS</span>
+        <span style="font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--c-secondary)">Categoria · Massa</span>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- 03 · BUTTONS — M3 FULL SHAPE -->
+  <section class="ds-section">
+    <p class="section-label">03 · Botões · M3 Full corner shape (border-radius: 9999px)</p>
+    <div class="col">
+      <p style="font-size:11px;font-weight:600;color:var(--c-secondary);text-transform:uppercase;letter-spacing:.08em">Variantes principais</p>
+      <div class="row">
+        <button class="btn btn-filled"><i class="ti ti-sparkles"></i> Gerar receita</button>
+        <button class="btn btn-tonal"><i class="ti ti-plus"></i> Adicionar</button>
+        <button class="btn btn-outlined"><i class="ti ti-heart"></i> Salvar</button>
+        <button class="btn btn-elevated"><i class="ti ti-search"></i> Explorar</button>
+        <button class="btn btn-text">Cancelar</button>
+      </div>
+      <p style="font-size:11px;font-weight:600;color:var(--c-secondary);text-transform:uppercase;letter-spacing:.08em">Tamanhos</p>
+      <div class="row">
+        <button class="btn btn-filled btn-sm"><i class="ti ti-filter"></i> Filtrar</button>
+        <button class="btn btn-filled"><i class="ti ti-chef-hat"></i> Ver receita</button>
+        <button class="btn btn-filled btn-lg"><i class="ti ti-sparkles"></i> Gerar com IA</button>
+      </div>
+      <p style="font-size:11px;font-weight:600;color:var(--c-secondary);text-transform:uppercase;letter-spacing:.08em">Ações destrutivas</p>
+      <div class="row">
+        <button class="btn btn-danger btn-sm"><i class="ti ti-trash"></i> Remover</button>
+        <button class="btn btn-outlined" style="color:var(--c-error);border-color:var(--c-error)"><i class="ti ti-x"></i> Cancelar pedido</button>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- 04 · CHIPS -->
+  <section class="ds-section">
+    <p class="section-label">04 · Chips · M3 Small (8dp) assist/filter · Full suggestion</p>
+    <div class="col">
+      <div class="row">
+        <button class="chip chip-filter active"><i class="ti ti-check"></i> Rápido</button>
+        <button class="chip chip-filter">Vegano</button>
+        <button class="chip chip-filter">Sem glúten</button>
+        <button class="chip chip-filter">Proteico</button>
+        <button class="chip chip-filter">Sem lactose</button>
+      </div>
+      <div class="row">
+        <button class="chip chip-assist"><i class="ti ti-tool-kitchen-2"></i> Tenho em casa</button>
+        <button class="chip chip-neutral"><i class="ti ti-clock"></i> Até 30 min</button>
+        <button class="chip chip-neutral"><i class="ti ti-flame"></i> Fácil</button>
+        <button class="chip chip-success"><i class="ti ti-leaf"></i> Saudável</button>
+      </div>
+      <div class="row">
+        <button class="chip chip-suggestion">Macarrão</button>
+        <button class="chip chip-suggestion">Frango</button>
+        <button class="chip chip-suggestion">Vegetariano</button>
+        <button class="chip chip-suggestion">+ Sugestões</button>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- 05 · BADGES -->
+  <section class="ds-section">
+    <p class="section-label">05 · Badges · Full shape</p>
+    <div class="row">
+      <span class="badge badge-primary">Destaque</span>
+      <span class="badge badge-secondary">Comunidade</span>
+      <span class="badge badge-tertiary"><i class="ti ti-star"></i> Popular</span>
+      <span class="badge badge-success"><i class="ti ti-leaf"></i> Vegano</span>
+      <span class="badge badge-warning"><i class="ti ti-flame"></i> Picante</span>
+      <span class="badge badge-error"><i class="ti ti-alert-circle"></i> Alérgeno</span>
+      <span class="badge badge-outline">Sem glúten</span>
+    </div>
+  </section>
+
+
+  <!-- 06 · CORNER RADIUS SCALE -->
+  <section class="ds-section">
+    <p class="section-label">06 · Escala de raio M3 · Escala Simplificada</p>
+    <div class="radius-grid">
+      <div class="radius-demo">
+        <div class="radius-box" style="border-radius:var(--r-xs)"></div>
+        <span class="radius-label">Extra small</span>
+        <span class="radius-value">4dp</span>
+      </div>
+      <div class="radius-demo">
+        <div class="radius-box" style="border-radius:var(--r-sm)"></div>
+        <span class="radius-label">Small</span>
+        <span class="radius-value">8dp</span>
+      </div>
+      <div class="radius-demo" style="transform: scale(1.05); border: 1.5px solid var(--c-primary); padding: var(--sp-2); border-radius: var(--r-md); background: rgba(140,58,30,0.03);">
+        <div class="radius-box" style="border-radius:var(--r-md); background: var(--c-primary); border-color: var(--c-primary);"></div>
+        <span class="radius-label" style="font-weight: 700; color: var(--c-primary);">Medium</span>
+        <span class="radius-value" style="font-weight: 700;">12dp</span>
+      </div>
+      <div class="radius-demo" style="transform: scale(1.05); border: 1.5px solid var(--c-primary); padding: var(--sp-2); border-radius: var(--r-md); background: rgba(140,58,30,0.03);">
+        <div class="radius-box" style="border-radius:var(--r-lg); background: var(--c-primary); border-color: var(--c-primary);"></div>
+        <span class="radius-label" style="font-weight: 700; color: var(--c-primary);">Large</span>
+        <span class="radius-value" style="font-weight: 700;">16dp</span>
+      </div>
+      <div class="radius-demo" style="transform: scale(1.05); border: 1.5px solid var(--c-primary); padding: var(--sp-2); border-radius: var(--r-md); background: rgba(140,58,30,0.03);">
+        <div class="radius-box" style="border-radius:var(--r-lg-plus); background: var(--c-primary); border-color: var(--c-primary);"></div>
+        <span class="radius-label" style="font-weight: 700; color: var(--c-primary);">Large+</span>
+        <span class="radius-value" style="font-weight: 700;">20dp</span>
+      </div>
+      <div class="radius-demo" style="transform: scale(1.05); border: 1.5px solid var(--c-primary); padding: var(--sp-2); border-radius: var(--r-md); background: rgba(140,58,30,0.03);">
+        <div class="radius-box" style="border-radius:var(--r-xl); background: var(--c-primary); border-color: var(--c-primary);"></div>
+        <span class="radius-label" style="font-weight: 700; color: var(--c-primary);">Extra Large</span>
+        <span class="radius-value" style="font-weight: 700;">28dp</span>
+      </div>
+      <div class="radius-demo">
+        <div class="radius-box" style="border-radius:var(--r-full);width:64px;height:40px"></div>
+        <span class="radius-label">Full</span>
+        <span class="radius-value">9999px</span>
+      </div>
+    </div>
+    <div style="margin-top:16px;padding:12px 16px;background:var(--c-tertiary-container);border-radius:var(--r-md);max-width:500px">
+      <p style="font-size:12px;font-weight:600;color:var(--c-on-tertiary-container)">Optical roundness (M3)</p>
+      <p style="font-size:12px;color:var(--c-on-tertiary-container);margin-top:4px">Raio interno = raio externo − padding. Ex: card com 28dp externo e 12dp de padding → imagem interna com 16dp de raio.</p>
+    </div>
+  </section>
+
+
+  <!-- 07 · ELEVATION -->
+  <section class="ds-section">
+    <p class="section-label">07 · Elevação · M3 Tonal Surface Colors</p>
+    <div class="elev-row">
+      <div class="elev-card" style="background:#FFF8F5;border:0.5px solid var(--c-outline-variant)">
+        <span class="elev-name">Nível 0</span>
+        <span class="elev-dp">Surface · 0dp</span>
+      </div>
+      <div class="elev-card" style="background:#FFF3EC;box-shadow:var(--elev-1)">
+        <span class="elev-name">Nível 1</span>
+        <span class="elev-dp">L1 · +5% tint</span>
+      </div>
+      <div class="elev-card" style="background:#FFEEDE;box-shadow:var(--elev-2)">
+        <span class="elev-name">Nível 2</span>
+        <span class="elev-dp">L2 · +8% tint</span>
+      </div>
+      <div class="elev-card" style="background:#FFE6D0;box-shadow:var(--elev-3)">
+        <span class="elev-name">Nível 3</span>
+        <span class="elev-dp">L3 · +11% tint</span>
+      </div>
+      <div class="elev-card" style="background:#FFE1C8;box-shadow:var(--elev-4)">
+        <span class="elev-name">Nível 4</span>
+        <span class="elev-dp">L4 · +12% tint</span>
+      </div>
+      <div class="elev-card" style="background:#FFD9BC;box-shadow:var(--elev-5)">
+        <span class="elev-name">Nível 5</span>
+        <span class="elev-dp">L5 · +14% tint</span>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- 08 · INPUTS -->
+  <section class="ds-section">
+    <p class="section-label">08 · Campos de entrada · Medium shape (12dp)</p>
+    <div class="grid-2">
+      <div class="input-group">
+        <label class="input-label" for="fridge">O que você tem na geladeira?</label>
+        <div class="input-with-icon">
+          <i class="ti ti-fridge input-icon"></i>
+          <input class="input-field" id="fridge" type="text" value="Ovos, tomate, queijo...">
+        </div>
+        <span class="input-hint">Separe por vírgula</span>
+      </div>
+      <div class="input-group">
+        <label class="input-label" for="search">Pesquisar receita ou nutriente</label>
+        <div class="input-with-icon">
+          <i class="ti ti-search input-icon"></i>
+          <input class="input-field" id="search" type="text" placeholder="Ex: proteína, vitamina C...">
+        </div>
+      </div>
+      <div class="input-group">
+        <label class="input-label" for="cat">Categoria</label>
+        <select class="select-field" id="cat">
+          <option>Todas as categorias</option>
+          <option>Massas</option>
+          <option>Saladas</option>
+          <option>Sopas</option>
+          <option>Doces</option>
+        </select>
+      </div>
+      <div class="input-group">
+        <label class="input-label" for="note">Notas da receita</label>
+        <textarea class="textarea-field" id="note" placeholder="Substituições, dicas, observações..."></textarea>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- 09 · INGREDIENTS -->
+  <section class="ds-section">
+    <p class="section-label">09 · Estado dos ingredientes</p>
+    <div class="ingredient-list">
+      <span class="ingredient-chip have"><i class="ti ti-check"></i> Ovos</span>
+      <span class="ingredient-chip have"><i class="ti ti-check"></i> Tomate</span>
+      <span class="ingredient-chip have"><i class="ti ti-check"></i> Queijo</span>
+      <span class="ingredient-chip have"><i class="ti ti-check"></i> Azeite</span>
+      <span class="ingredient-chip missing"><i class="ti ti-shopping-cart"></i> Manjericão</span>
+      <span class="ingredient-chip missing"><i class="ti ti-shopping-cart"></i> Alho</span>
+      <span class="ingredient-chip missing"><i class="ti ti-shopping-cart"></i> Cream cheese</span>
+      <span class="ingredient-chip unknown"><i class="ti ti-question-mark"></i> Orégano</span>
+    </div>
+  </section>
+
+
+  <!-- 10 · METRICS -->
+  <section class="ds-section">
+    <p class="section-label">10 · Cards de métricas · M3 Surface L2</p>
+    <div class="metric-grid">
+      <div class="metric-card">
+        <div class="metric-icon"><i class="ti ti-bookmark"></i></div>
+        <div class="metric-label">Receitas salvas</div>
+        <div class="metric-value">24<span class="metric-unit">rec.</span></div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-icon"><i class="ti ti-clock"></i></div>
+        <div class="metric-label">Tempo médio</div>
+        <div class="metric-value">28<span class="metric-unit">min</span></div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-icon"><i class="ti ti-flame"></i></div>
+        <div class="metric-label">Calorias médias</div>
+        <div class="metric-value">480<span class="metric-unit">kcal</span></div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-icon"><i class="ti ti-users"></i></div>
+        <div class="metric-label">Comunidade</div>
+        <div class="metric-value">1.2<span class="metric-unit">mil</span></div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- 11 · PROGRESS -->
+  <section class="ds-section">
+    <p class="section-label">11 · Barras de progresso · Nutrição diária</p>
+    <div class="progress-wrap">
+      <div class="progress-row">
+        <div class="progress-header">
+          <span class="progress-name">Proteína</span>
+          <span class="progress-pct" style="color:var(--c-primary)">60% · 72g / 120g</span>
+        </div>
+        <div class="progress-track"><div class="progress-fill" style="width:60%"></div></div>
+      </div>
+      <div class="progress-row">
+        <div class="progress-header">
+          <span class="progress-name">Carboidratos</span>
+          <span class="progress-pct" style="color:var(--c-tertiary)">72% · 180g / 250g</span>
+        </div>
+        <div class="progress-track"><div class="progress-fill" style="width:72%;background:var(--c-tertiary)"></div></div>
+      </div>
+      <div class="progress-row">
+        <div class="progress-header">
+          <span class="progress-name">Gorduras</span>
+          <span class="progress-pct" style="color:var(--c-success)">43% · 28g / 65g</span>
+        </div>
+        <div class="progress-track"><div class="progress-fill" style="width:43%;background:var(--c-success)"></div></div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- 12 · SNACKBAR -->
+  <section class="ds-section">
+    <p class="section-label">12 · Snackbar</p>
+    <div class="col">
+      <div class="snackbar">
+        <i class="ti ti-check"></i>
+        <span>Receita salva com sucesso!</span>
+        <button class="snackbar-action">Ver</button>
+      </div>
+      <div class="snackbar">
+        <i class="ti ti-alert-triangle"></i>
+        <span>Faltam 3 ingredientes para essa receita.</span>
+        <button class="snackbar-action">Comprar</button>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- 13 · NAVIGATION -->
+  <section class="ds-section">
+    <p class="section-label">13 · Navegação · M3 tonal surfaces</p>
+    <div style="display:flex;flex-wrap:wrap;gap:32px;align-items:flex-start">
+      <div class="col">
+        <p style="font-size:10px;font-weight:700;color:var(--c-outline);text-transform:uppercase;letter-spacing:.1em">Top app bar (separada)</p>
+        <div class="top-bar">
+          <div class="top-bar-left">
+            <span class="top-bar-title font-roca">Tempera</span>
+            <button class="icon-btn" aria-label="Pesquisar"><i class="ti ti-search"></i></button>
+            <button class="icon-btn" aria-label="Notificações"><i class="ti ti-bell"></i></button>
+          </div>
+          <div class="top-bar-right">
+            <div class="avatar">AM</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col">
+        <p style="font-size:10px;font-weight:700;color:var(--c-outline);text-transform:uppercase;letter-spacing:.1em">Bottom navigation (dinâmica)</p>
+        <div class="bottom-nav-floating">
+          <a class="nav-item active" href="#" data-tooltip="Início" aria-label="Início">
+            <i class="ti ti-home nav-icon"></i>
+          </a>
+          <a class="nav-item" href="#" data-tooltip="Pesquisar" aria-label="Pesquisar">
+            <i class="ti ti-search nav-icon"></i>
+          </a>
+          <a class="nav-item" href="#" data-tooltip="Receitas" aria-label="Receitas">
+            <i class="ti ti-notebook nav-icon"></i>
+          </a>
+          <a class="nav-item" href="#" data-tooltip="Comunidade" aria-label="Comunidade">
+            <i class="ti ti-users nav-icon"></i>
+          </a>
+          <a class="nav-item" href="#" data-tooltip="Perfil" aria-label="Perfil">
+            <i class="ti ti-user nav-icon"></i>
+          </a>
+        </div>
+      </div>
+
+      <div class="col">
+        <p style="font-size:10px;font-weight:700;color:var(--c-outline);text-transform:uppercase;letter-spacing:.1em">FABs · Large shape (16dp)</p>
+        <div class="row" style="align-items:center">
+          <button class="fab-sm" aria-label="FAB pequeno"><i class="ti ti-plus"></i></button>
+          <button class="fab" aria-label="FAB regular"><i class="ti ti-plus"></i></button>
+          <button class="fab-extended"><i class="ti ti-sparkles"></i> Gerar receita</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- 14 · RECIPE CARDS -->
+  <section class="ds-section">
+    <p class="section-label">14 · Cards de receita · Grid · Hover reveal</p>
+    <div class="recipe-grid">
+      <article class="_rcard" style="--recipe-accent:#8C3A1E;--recipe-accent-light:#FFDBC8;--recipe-accent-dark:#360E00">
+        <div class="_rcard-thumb"><div class="_thumb-stack">
+          <img src="https://picsum.photos/id/431/800/600" alt="" width="400" height="300">
+          <img src="https://picsum.photos/id/292/800/600" alt="" width="400" height="300">
+        </div></div>
+        <p class="_rcat">Massa</p>
+        <h2 class="_rcard-title">Macarrão ao sugo simples</h2>
+        <span class="_rtime"><i class="ti ti-clock"></i> 25 min</span>
+        <p class="_rdesc">Uma receita clássica e rápida, perfeita para quando bate aquela preguiça mas você quer comer bem.</p>
+        <ul class="_rtags"><li class="_rtag">Fácil</li><li class="_rtag">2 porções</li><li class="_rtag">Vegetariano</li></ul>
+        <button class="_rbtn"><i class="ti ti-chef-hat"></i> Ver receita</button>
+      </article>
+
+      <article class="_rcard" style="--recipe-accent:#3A6B2A;--recipe-accent-light:#D4EDDA;--recipe-accent-dark:#0F5132">
+        <div class="_rcard-thumb"><div class="_thumb-stack">
+          <img src="https://picsum.photos/id/326/800/600" alt="" width="400" height="300">
+          <img src="https://picsum.photos/id/488/800/600" alt="" width="400" height="300">
+        </div></div>
+        <p class="_rcat">Salada</p>
+        <h2 class="_rcard-title">Salada verde com croutons</h2>
+        <span class="_rtime"><i class="ti ti-clock"></i> 10 min</span>
+        <p class="_rdesc">Leve, nutritiva e cheia de textura. Perfeita como entrada ou refeição principal nos dias de calor.</p>
+        <ul class="_rtags"><li class="_rtag">Muito fácil</li><li class="_rtag">1 porção</li><li class="_rtag">Vegano</li></ul>
+        <button class="_rbtn"><i class="ti ti-chef-hat"></i> Ver receita</button>
+      </article>
+
+      <article class="_rcard" style="--recipe-accent:#695E2F;--recipe-accent-light:#F1E6C8;--recipe-accent-dark:#241A00">
+        <div class="_rcard-thumb"><div class="_thumb-stack">
+          <img src="https://picsum.photos/id/493/800/600" alt="" width="400" height="300">
+          <img src="https://picsum.photos/id/312/800/600" alt="" width="400" height="300">
+        </div></div>
+        <p class="_rcat">Sopa</p>
+        <h2 class="_rcard-title">Sopa cremosa de abóbora</h2>
+        <span class="_rtime"><i class="ti ti-clock"></i> 40 min</span>
+        <p class="_rdesc">Reconfortante e cheia de sabor, essa sopa aquece o corpo e a alma nos dias mais frios.</p>
+        <ul class="_rtags"><li class="_rtag">Médio</li><li class="_rtag">4 porções</li><li class="_rtag">Sem glúten</li></ul>
+        <button class="_rbtn"><i class="ti ti-chef-hat"></i> Ver receita</button>
+      </article>
+
+      <article class="_rcard" style="--recipe-accent:#C05621;--recipe-accent-light:#FFE8D6;--recipe-accent-dark:#4A1B00">
+        <div class="_rcard-thumb"><div class="_thumb-stack">
+          <img src="https://picsum.photos/id/429/800/600" alt="" width="400" height="300">
+          <img src="https://picsum.photos/id/325/800/600" alt="" width="400" height="300">
+        </div></div>
+        <p class="_rcat">Doce</p>
+        <h2 class="_rcard-title">Bolo de canela e mel</h2>
+        <span class="_rtime"><i class="ti ti-clock"></i> 55 min</span>
+        <p class="_rdesc">Um bolo úmido com aquele aroma irresistível de especiarias. Sucesso garantido em qualquer ocasião.</p>
+        <ul class="_rtags"><li class="_rtag">Médio</li><li class="_rtag">8 porções</li><li class="_rtag">Forno</li></ul>
+        <button class="_rbtn"><i class="ti ti-chef-hat"></i> Ver receita</button>
+      </article>
+    </div>
+  </section>
+
+
+  <!-- 15 · LIST -->
+  <section class="ds-section">
+    <p class="section-label">15 · Lista de receitas</p>
+    <div class="recipe-list" style="max-width:480px">
+      <div class="recipe-list-item">
+        <img class="recipe-thumb-sm" src="https://picsum.photos/id/431/200/200" alt="">
+        <div class="recipe-list-info">
+          <div class="recipe-list-name">Macarrão ao sugo simples</div>
+          <div class="recipe-list-meta">25 min · Fácil · Vegetariano</div>
+        </div>
+        <span class="badge badge-primary">Destaque</span>
+        <i class="ti ti-chevron-right" style="font-size:18px;color:var(--c-outline)"></i>
+      </div>
+      <div class="recipe-list-item">
+        <img class="recipe-thumb-sm" src="https://picsum.photos/id/326/200/200" alt="">
+        <div class="recipe-list-info">
+          <div class="recipe-list-name">Salada verde com croutons</div>
+          <div class="recipe-list-meta">10 min · Muito fácil · Vegano</div>
+        </div>
+        <span class="badge badge-success">Vegano</span>
+        <i class="ti ti-chevron-right" style="font-size:18px;color:var(--c-outline)"></i>
+      </div>
+      <div class="recipe-list-item">
+        <img class="recipe-thumb-sm" src="https://picsum.photos/id/493/200/200" alt="">
+        <div class="recipe-list-info">
+          <div class="recipe-list-name">Sopa cremosa de abóbora</div>
+          <div class="recipe-list-meta">40 min · Médio · Sem glúten</div>
+        </div>
+        <i class="ti ti-chevron-right" style="font-size:18px;color:var(--c-outline)"></i>
+      </div>
+      <div class="recipe-list-item">
+        <img class="recipe-thumb-sm" src="https://picsum.photos/id/429/200/200" alt="">
+        <div class="recipe-list-info">
+          <div class="recipe-list-name">Bolo de canela e mel</div>
+          <div class="recipe-list-meta">55 min · Médio · Forno</div>
+        </div>
+        <span class="badge badge-warning"><i class="ti ti-star"></i> Popular</span>
+        <i class="ti ti-chevron-right" style="font-size:18px;color:var(--c-outline)"></i>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- 16 · COMMUNITY -->
+  <section class="ds-section">
+    <p class="section-label">16 · Cards da comunidade</p>
+    <div style="display:flex;flex-wrap:wrap;gap:16px">
+      <div class="community-card">
+        <div class="community-card-header">
+          <div class="avatar">JS</div>
+          <div class="community-card-author">
+            <div class="community-card-name">Julia Santos</div>
+            <div class="community-card-time">há 2 horas</div>
+          </div>
+          <button class="icon-btn" aria-label="Mais"><i class="ti ti-dots"></i></button>
+        </div>
+        <img class="community-card-img" src="https://picsum.photos/id/431/600/340" alt="">
+        <div class="community-card-title">Minha versão do risoto de cogumelos</div>
+        <div class="community-card-desc">Fiz com o que tinha em casa e ficou incrível! Adicionei um toque de limão siciliano no final.</div>
+        <div class="community-card-footer">
+          <button class="react-btn"><i class="ti ti-heart"></i> 84</button>
+          <button class="react-btn"><i class="ti ti-message-circle"></i> 12</button>
+          <button class="react-btn"><i class="ti ti-bookmark"></i> Salvar</button>
+        </div>
+      </div>
+
+      <div class="community-card">
+        <div class="community-card-header">
+          <div class="avatar" style="background:var(--c-tertiary-container);color:var(--c-on-tertiary-container)">RC</div>
+          <div class="community-card-author">
+            <div class="community-card-name">Rafael Costa</div>
+            <div class="community-card-time">há 5 horas</div>
+          </div>
+          <button class="icon-btn" aria-label="Mais"><i class="ti ti-dots"></i></button>
+        </div>
+        <img class="community-card-img" src="https://picsum.photos/id/292/600/340" alt="">
+        <div class="community-card-title">Sopa de feijão com linguiça defumada</div>
+        <div class="community-card-desc">Receita da minha avó, finalmente adaptada para o app. Rende bastante e congela muito bem!</div>
+        <div class="community-card-footer">
+          <button class="react-btn"><i class="ti ti-heart"></i> 231</button>
+          <button class="react-btn"><i class="ti ti-message-circle"></i> 38</button>
+          <button class="react-btn"><i class="ti ti-bookmark"></i> Salvar</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</body>
+</html>

@@ -8,7 +8,7 @@
   <!-- Fontes e Ícones -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/dist/tabler-icons.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
   <!-- GSAP 3 para Animações de Alta Fidelidade (Arc Carousel) -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
 
@@ -755,6 +755,637 @@
       width: 20px;
       border-radius: var(--r-full);
       background: var(--c-primary);
+    }
+
+    /* ================================================================
+       MINI DASHBOARD GRID & WIDGETS (REFINED APP UI)
+       ================================================================ */
+    .dashboard-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--sp-3);
+      padding: 0 var(--sp-4);
+      margin-bottom: var(--sp-2);
+    }
+    
+    .widget-column {
+      display: flex;
+      flex-direction: column;
+      gap: var(--sp-3);
+    }
+    
+    .widget-card {
+      background: var(--card-bg);
+      color: var(--card-fg);
+      border-radius: 24px;
+      padding: var(--sp-5);
+      border: 0.5px solid var(--c-outline-variant);
+      box-shadow: var(--elev-1);
+      position: relative;
+      overflow: hidden;
+      transition: transform 300ms ease, box-shadow 300ms ease;
+      display: flex;
+      flex-direction: column;
+      box-sizing: border-box;
+      gap: var(--sp-3);
+    }
+    
+    .widget-card:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--elev-2);
+      border-color: var(--c-outline);
+    }
+
+    /* 1. Chef Profile Widget (Full Width) */
+    .widget-chef-profile {
+      background: linear-gradient(135deg, #FFDBC8 0%, #FFDBD1 100%);
+      color: #360E00;
+      border: none;
+      grid-column: span 2;
+    }
+    body.theme-dark .widget-chef-profile {
+      background: linear-gradient(135deg, #4A2216 0%, #360E00 100%);
+      color: #FFDBC8;
+    }
+    .widget-chef-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+    }
+    .widget-chef-info {
+      display: flex;
+      align-items: center;
+      gap: var(--sp-3);
+    }
+    .widget-chef-avatar {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      border: 2px solid #FFFFFF;
+      object-fit: cover;
+      box-shadow: var(--elev-1);
+    }
+    body.theme-dark .widget-chef-avatar {
+      border-color: var(--c-primary);
+    }
+    .widget-chef-meta {
+      display: flex;
+      flex-direction: column;
+      line-height: 1.25;
+    }
+    .widget-chef-name {
+      font-size: 13.5px;
+      font-weight: 700;
+    }
+    .widget-chef-role {
+      font-size: 10px;
+      opacity: 0.8;
+      font-weight: 600;
+    }
+    .widget-chef-actions {
+      display: flex;
+      gap: var(--sp-2);
+    }
+    .widget-chef-btn {
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      background: #FFFFFF;
+      color: #360E00;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+      box-shadow: var(--elev-1);
+      transition: all 200ms ease;
+    }
+    body.theme-dark .widget-chef-btn {
+      background: #2E2B27;
+      color: #FFDBC8;
+    }
+    .widget-chef-btn:hover {
+      transform: scale(1.08);
+      background: var(--c-primary-container);
+    }
+    .widget-chef-middle-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      width: 100%;
+      margin-top: 2px;
+    }
+    .widget-chef-rank {
+      font-family: var(--font-display);
+      font-size: 20px;
+      font-weight: 700;
+      line-height: 1.1;
+      letter-spacing: -0.02em !important;
+    }
+    .widget-chef-selector {
+      background: #FFFFFF;
+      color: #360E00;
+      padding: 6px 14px;
+      border-radius: var(--r-full);
+      font-size: 10.5px;
+      font-weight: 700;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      box-shadow: var(--elev-1);
+    }
+    body.theme-dark .widget-chef-selector {
+      background: #2E2B27;
+      color: #FFDBC8;
+    }
+    .widget-chef-progress-container {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      width: 100%;
+    }
+    .widget-chef-progress-bar {
+      height: 8px;
+      background: rgba(54, 14, 0, 0.12);
+      border-radius: var(--r-full);
+      overflow: hidden;
+      position: relative;
+      width: 100%;
+    }
+    body.theme-dark .widget-chef-progress-bar {
+      background: rgba(255, 220, 200, 0.12);
+    }
+    .widget-chef-progress-fill {
+      height: 100%;
+      background: var(--c-primary);
+      border-radius: var(--r-full);
+      width: 74%;
+      transition: width 1s var(--ease-standard);
+    }
+    body.theme-dark .widget-chef-progress-fill {
+      background: #E06E53;
+    }
+    .widget-chef-progress-labels {
+      display: flex;
+      justify-content: space-between;
+      font-size: 10px;
+      font-weight: 600;
+      opacity: 0.9;
+    }
+    .widget-chef-bottom-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      width: 100%;
+      margin-top: 2px;
+    }
+    .widget-chef-spec {
+      font-size: 10.5px;
+      opacity: 0.85;
+      font-weight: 600;
+    }
+    .widget-chef-go-btn {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: #201A18;
+      color: #FFFFFF;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+      box-shadow: var(--elev-1);
+      transition: all 200ms ease;
+    }
+    body.theme-dark .widget-chef-go-btn {
+      background: var(--c-primary-container);
+      color: var(--c-on-primary-container);
+    }
+    .widget-chef-go-btn:hover {
+      transform: scale(1.1) rotate(15deg);
+      background: var(--c-primary);
+      color: #FFFFFF;
+    }
+
+    /* 2. Meal Planner Widget (Full Width) */
+    .widget-meal-planner {
+      grid-column: span 2;
+    }
+    .widget-header-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      width: 100%;
+    }
+    .widget-title {
+      font-family: var(--font-display);
+      font-size: 16px;
+      font-weight: 700;
+      letter-spacing: -0.02em !important;
+      color: var(--c-on-surface);
+    }
+    .widget-subtitle {
+      font-size: 10.5px;
+      color: var(--c-secondary);
+      font-weight: 600;
+      margin-top: 2px;
+    }
+    body.theme-dark .widget-subtitle {
+      color: var(--c-on-surface-var);
+    }
+    .widget-dropdown-pill {
+      font-size: 10px;
+      font-weight: 700;
+      padding: 5px 12px;
+      background: var(--c-surface-l1);
+      border: 0.5px solid var(--c-outline-variant);
+      border-radius: var(--r-full);
+      display: flex;
+      align-items: center;
+      gap: 3px;
+      color: var(--c-on-surface-var);
+    }
+    .widget-calendar-strip {
+      display: flex;
+      justify-content: space-between;
+      gap: 6px;
+      width: 100%;
+      margin-top: 2px;
+    }
+    .widget-calendar-day {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+      padding: 10px 8px;
+      background: var(--c-surface-l1);
+      border-radius: var(--r-full);
+      flex: 1;
+      transition: all 250ms ease;
+      cursor: pointer;
+    }
+    .widget-calendar-day:hover {
+      background: var(--c-surface-l2);
+    }
+    .widget-calendar-day.active {
+      background: var(--c-primary);
+      color: #FFFFFF;
+      box-shadow: var(--elev-1);
+    }
+    .widget-calendar-num {
+      font-size: 12px;
+      font-weight: 700;
+    }
+    .widget-calendar-label {
+      font-size: 8px;
+      font-weight: 600;
+      opacity: 0.8;
+      text-transform: uppercase;
+    }
+    .widget-calendar-dot-track {
+      display: flex;
+      justify-content: center;
+      gap: 3px;
+      margin-top: 2px;
+    }
+    .widget-calendar-dot {
+      width: 4px;
+      height: 4px;
+      border-radius: 50%;
+      background: var(--c-outline-variant);
+    }
+    .widget-calendar-dot.done {
+      background: var(--c-primary);
+    }
+    body.theme-dark .widget-calendar-dot.done {
+      background: #E06E53;
+    }
+    .widget-calendar-day.active .widget-calendar-dot.active-dot {
+      background: #FFFFFF;
+    }
+    .widget-calendar-dot.active-dot {
+      background: var(--c-primary);
+      transform: scale(1.3);
+    }
+
+    /* 3. Challenges Roadmap Widget (Full Width) */
+    .widget-challenges-roadmap {
+      grid-column: span 2;
+    }
+    .widget-challenge-add-btn {
+      font-size: 9px;
+      font-weight: 700;
+      padding: 4px 8px;
+      background: #201A18;
+      color: #FFFFFF;
+      border-radius: var(--r-full);
+      display: flex;
+      align-items: center;
+      gap: 3px;
+    }
+    body.theme-dark .widget-challenge-add-btn {
+      background: var(--c-primary-container);
+      color: var(--c-on-primary-container);
+    }
+    .widget-challenge-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-top: 2px;
+      width: 100%;
+    }
+    .widget-challenge-item {
+      display: flex;
+      width: 100%;
+    }
+    .widget-challenge-bar-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+      gap: 10px;
+    }
+    .widget-challenge-name {
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--c-on-surface);
+      width: 95px;
+      flex-shrink: 0;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .widget-challenge-bar-pill {
+      flex: 1;
+      height: 10px;
+      background: var(--c-surface-l1);
+      border-radius: var(--r-full);
+      position: relative;
+      overflow: hidden;
+      border: 0.5px solid var(--c-outline-variant);
+    }
+    .widget-challenge-bar-fill {
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      background: rgba(140, 58, 30, 0.08);
+      border-radius: var(--r-full);
+      transition: width 1s var(--ease-standard);
+    }
+    .widget-challenge-bar-fill.highlight {
+      background: rgba(105, 94, 47, 0.15);
+    }
+    .widget-challenge-bar-fill.complete {
+      background: rgba(58, 107, 42, 0.15);
+    }
+    .widget-challenge-right-group {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      width: 75px;
+      justify-content: flex-end;
+      flex-shrink: 0;
+    }
+    .widget-challenge-pct {
+      font-size: 10.5px;
+      font-weight: 700;
+      color: var(--c-on-surface);
+      opacity: 0.85;
+    }
+    .widget-challenge-avatars {
+      display: flex;
+      align-items: center;
+      flex-shrink: 0;
+    }
+    .widget-challenge-avatar-img {
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      border: 1px solid var(--c-surface);
+      margin-left: -4px;
+      object-fit: cover;
+    }
+    .widget-challenge-avatar-img:first-child {
+      margin-left: 0;
+    }
+    .widget-challenges-timeline-labels {
+      display: flex;
+      justify-content: space-between;
+      font-size: 8px;
+      font-weight: 600;
+      color: var(--c-outline);
+      text-transform: uppercase;
+      padding-top: var(--sp-1);
+      border-top: 0.5px dashed var(--c-outline-variant);
+      margin-top: 2px;
+      width: 100%;
+    }
+
+    /* 4. Small Cards Layout inside the main Grid */
+    .widget-small-card {
+      background: var(--card-bg);
+      border-radius: 20px;
+      padding: var(--sp-3) var(--sp-4);
+      border: 0.5px solid var(--c-outline-variant);
+      box-shadow: var(--elev-1);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      min-height: 52px;
+      box-sizing: border-box;
+      transition: transform 300ms ease, box-shadow 300ms ease;
+      width: 100%;
+    }
+    .widget-small-card:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--elev-2);
+      border-color: var(--c-outline);
+    }
+    
+    .widget-small-card.streak {
+      grid-column: span 2;
+      background: #FFFFFF;
+      justify-content: center;
+      gap: 6px;
+      min-height: 36px;
+      padding: 6px 12px;
+      border-radius: var(--r-full);
+    }
+    body.theme-dark .widget-small-card.streak {
+      background: #2E2B27;
+    }
+    .widget-streak-text {
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--c-on-surface);
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .widget-streak-fire {
+      font-size: 13px;
+      animation: flame-pulse 1.2s ease infinite alternate;
+    }
+    @keyframes flame-pulse {
+      0% { transform: scale(0.9) rotate(-3deg); filter: drop-shadow(0 0 1px #FF4500); }
+      100% { transform: scale(1.1) rotate(3deg); filter: drop-shadow(0 0 3px #FF8C00); }
+    }
+    
+    .widget-small-card.stats {
+      grid-column: span 1;
+      background: var(--c-surface-l2);
+      flex-direction: row;
+      gap: var(--sp-2);
+      min-height: 72px;
+    }
+    .widget-stats-info-group {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+    .widget-stats-icon {
+      font-size: 16px;
+      color: var(--c-primary);
+    }
+    body.theme-dark .widget-stats-icon {
+      color: #E06E53;
+    }
+    .widget-stats-label {
+      font-size: 9px;
+      color: var(--c-secondary);
+      font-weight: 600;
+    }
+    body.theme-dark .widget-stats-label {
+      color: var(--c-on-surface-var);
+    }
+    .widget-stats-value-row {
+      display: flex;
+      align-items: baseline;
+    }
+    .widget-stats-value {
+      font-size: 18px;
+      font-weight: 700;
+      line-height: 1;
+      color: var(--c-on-surface);
+    }
+    .widget-stats-unit {
+      font-size: 10px;
+      font-weight: 600;
+      color: var(--c-secondary);
+      margin-left: 2px;
+    }
+
+    .widget-small-card.efficiency {
+      grid-column: span 1;
+      background: #201A18;
+      color: #FFFFFF;
+      border: none;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 4px;
+      min-height: 72px;
+    }
+    body.theme-dark .widget-small-card.efficiency {
+      background: #2E2B27;
+    }
+    .widget-eff-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      width: 100%;
+    }
+    .widget-eff-title {
+      font-size: 8.5px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      opacity: 0.8;
+    }
+    .widget-eff-pct {
+      font-size: 8px;
+      font-weight: 700;
+      background: rgba(255,255,255,0.15);
+      padding: 1px 5px;
+      border-radius: var(--r-full);
+      color: #FFF8F5;
+    }
+    .widget-eff-graph {
+      width: 100%;
+      height: 20px;
+    }
+    .widget-eff-wave {
+      stroke: #FFDBC8;
+      fill: none;
+      stroke-width: 2;
+      stroke-linecap: round;
+      animation: dash 5s linear infinite;
+    }
+    body.theme-dark .widget-eff-wave {
+      stroke: #E06E53;
+    }
+    
+    .widget-small-card.assistant {
+      grid-column: span 2;
+      background: var(--c-tertiary-container);
+      color: var(--c-on-tertiary-container);
+      border: none;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      gap: var(--sp-2);
+      padding: var(--sp-3) var(--sp-4);
+      min-height: 72px;
+    }
+    body.theme-dark .widget-small-card.assistant {
+      background: #3A351D;
+      color: #F1E6C8;
+    }
+    .widget-assistant-info {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      flex: 1;
+    }
+    .widget-assistant-arrow-icon {
+      width: 18px;
+      height: 18px;
+      background: rgba(36, 26, 0, 0.1);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 10px;
+      align-self: flex-start;
+      margin-top: 4px;
+      transition: all 200ms ease;
+    }
+    body.theme-dark .widget-assistant-arrow-icon {
+      background: rgba(255, 255, 255, 0.1);
+    }
+    .widget-small-card.assistant:hover .widget-assistant-arrow-icon {
+      transform: translate(2px, -2px);
+      background: var(--c-primary);
+      color: #FFFFFF;
+    }
+    .widget-assistant-title {
+      font-size: 11px;
+      font-weight: 700;
+      line-height: 1.2;
+    }
+    .widget-assistant-desc {
+      font-size: 9px;
+      opacity: 0.85;
+      line-height: 1.2;
+      margin-top: 1px;
+    }
+    .widget-assistant-pic {
+      width: 44px;
+      height: 56px;
+      object-fit: cover;
+      border-radius: 10px;
+      flex-shrink: 0;
+      align-self: flex-end;
     }
 
     /* ================================================================
@@ -2386,6 +3017,154 @@
       transform: scale(1.2);
     }
 
+    /* ----------------- COMPOSER & FEED (ESTILO FACEBOOK) ----------------- */
+    .composer-card {
+      background: var(--card-bg);
+      border-radius: var(--r-xl);
+      border: 0.5px solid var(--c-outline-variant);
+      padding: var(--sp-4);
+      box-shadow: var(--elev-1);
+      margin-bottom: var(--sp-4);
+      display: flex;
+      flex-direction: column;
+      gap: var(--sp-3);
+    }
+    .composer-header {
+      display: flex;
+      align-items: center;
+      gap: var(--sp-3);
+    }
+    .composer-header input {
+      flex: 1;
+      background: var(--c-surface-l1);
+      border: none;
+      outline: none;
+      height: 40px;
+      border-radius: var(--r-full);
+      padding: 0 var(--sp-4);
+      font-size: 13px;
+      color: var(--c-on-surface);
+      font-family: var(--font);
+    }
+    body.theme-dark .composer-header input {
+      background: var(--c-surface-l2);
+    }
+    .composer-divider {
+      height: 0.5px;
+      background: var(--c-outline-variant);
+      margin: 0;
+    }
+    .composer-actions {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      animation: slideDown 250ms var(--ease-standard);
+    }
+    .composer-tools {
+      display: flex;
+      gap: var(--sp-2);
+    }
+    .tool-btn {
+      background: none;
+      border: none;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 12px;
+      border-radius: var(--r-full);
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--c-on-surface-var);
+      transition: background 200ms;
+    }
+    .tool-btn:hover {
+      background: var(--c-surface-l1);
+    }
+    body.theme-dark .tool-btn:hover {
+      background: var(--c-surface-l3);
+    }
+    .tool-btn i {
+      font-size: 16px;
+    }
+
+    /* Comments styles */
+    .comments-section {
+      margin-top: var(--sp-4);
+      padding-top: var(--sp-4);
+      border-top: 0.5px solid var(--c-outline-variant);
+      display: flex;
+      flex-direction: column;
+      gap: var(--sp-3);
+    }
+    .comments-list {
+      display: flex;
+      flex-direction: column;
+      gap: var(--sp-3);
+    }
+    .comment-item {
+      display: flex;
+      gap: var(--sp-2);
+      align-items: flex-start;
+    }
+    .comment-avatar {
+      width: 28px !important;
+      height: 28px !important;
+      font-size: 10px !important;
+      flex-shrink: 0;
+    }
+    .comment-content {
+      flex: 1;
+      background: var(--c-surface-l1);
+      padding: var(--sp-2) var(--sp-3);
+      border-radius: var(--r-lg);
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+    body.theme-dark .comment-content {
+      background: var(--c-surface-l2);
+    }
+    .comment-author {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--c-on-surface);
+    }
+    .comment-text {
+      font-size: 12px;
+      color: var(--c-on-surface-var);
+      line-height: 1.4;
+    }
+    .comment-input-area {
+      display: flex;
+      align-items: center;
+      gap: var(--sp-2);
+      margin-top: var(--sp-1);
+    }
+    .comment-input-area input {
+      flex: 1;
+      height: 36px;
+      background: var(--c-surface-l1);
+      border: 0.5px solid var(--c-outline-variant);
+      border-radius: var(--r-full);
+      padding: 0 var(--sp-3);
+      font-size: 12px;
+      color: var(--c-on-surface);
+      outline: none;
+      font-family: var(--font);
+    }
+    body.theme-dark .comment-input-area input {
+      background: var(--c-surface-l2);
+    }
+    .comment-input-area input:focus {
+      border-color: var(--c-primary);
+    }
+
+    @keyframes slideDown {
+      from { opacity: 0; transform: translateY(-8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
     /* ----------------- SEÇÃO MERCADOS ----------------- */
     .markets-container {
       padding: 0 var(--sp-4);
@@ -2438,6 +3217,20 @@
     }
     body.theme-dark .market-basket-price {
       color: var(--c-primary-container);
+    }
+    
+    .market-map-container {
+      width: 100%;
+      height: 200px;
+      border-radius: var(--r-lg);
+      overflow: hidden;
+      margin-bottom: var(--sp-4);
+      border: 0.5px solid var(--c-outline-variant);
+      box-shadow: var(--elev-1);
+      transition: all 400ms ease;
+    }
+    body.theme-dark .market-map-container iframe {
+      filter: invert(90%) hue-rotate(180deg) brightness(90%) contrast(90%);
     }
 
     /* ================================================================
@@ -2735,7 +3528,7 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      transition: opacity 600ms var(--ease-emphasized), visibility 600ms;
+      transition: opacity 600ms var(--ease-emphasized);
       overflow: hidden;
     }
     .app-splash-screen video {
@@ -2746,7 +3539,7 @@
     .skip-video-btn {
       position: absolute;
       top: 54px; /* Abaixo do notch virtual */
-      right: 20px;
+      left: 20px;
       z-index: 1250;
       background: rgba(0, 0, 0, 0.6);
       backdrop-filter: blur(8px);
@@ -2811,7 +3604,7 @@
       z-index: 1100;
       display: flex;
       flex-direction: column;
-      transition: opacity 600ms var(--ease-emphasized), visibility 600ms, transform 600ms var(--ease-emphasized);
+      transition: opacity 600ms var(--ease-emphasized), transform 600ms var(--ease-emphasized);
       opacity: 0;
       visibility: hidden;
       transform: scale(1.05);
@@ -3518,58 +4311,227 @@
         <div class="phone-content" id="app-scroll-container">
           
           <!-- SEÇÃO HOME / HERO CAROUSEL -->
-          <section class="carousel-section" id="section-home">
-            <div class="carousel-wrapper">
-              <div class="carousel-track" id="carouselTrack">
-                
-                <!-- Slide 1: Receita do Chef -->
-                <div class="carousel-slide">
-                  <img class="carousel-img" src="https://picsum.photos/id/493/600/400" alt="Risoto do Chef">
-                  <div class="carousel-content">
-                    <span class="badge badge-primary carousel-badge">Especial do Chef</span>
-                    <h3 class="carousel-title">Risoto de Cogumelos Silvestres</h3>
-                    <p class="carousel-desc">Receita autoral do Chef Rafael com notas terrosas profundas e cremosidade incrível.</p>
-                    <button class="btn btn-filled btn-sm carousel-btn" onclick="scrollToSection('section-recipes'); showToast('Carregando receita do chef...', 'ti-chef-hat')">
-                      <i class="ti ti-chef-hat"></i> Ver Receita
-                    </button>
+          <!-- SEÇÃO HOME / MINI DASHBOARD -->
+          <section class="dashboard-grid" id="section-home">
+            
+            <!-- 1. Perfil & Progresso do Chef (Largura Total) -->
+            <div class="widget-card widget-chef-profile">
+              <div class="widget-chef-header">
+                <div class="widget-chef-info">
+                  <img src="https://picsum.photos/id/64/100/100" alt="Camila Silva" class="widget-chef-avatar">
+                  <div class="widget-chef-meta">
+                    <span class="widget-chef-name">Camila Silva</span>
+                    <span class="widget-chef-role">Cozinheira Amadora</span>
                   </div>
                 </div>
-
-                <!-- Slide 2: Geladeira Inteligente -->
-                <div class="carousel-slide">
-                  <img class="carousel-img" src="https://picsum.photos/id/292/600/400" alt="Geladeira">
-                  <div class="carousel-content">
-                    <span class="badge badge-tertiary carousel-badge">Sua Geladeira</span>
-                    <h3 class="carousel-title">O que cozinhar hoje?</h3>
-                    <p class="carousel-desc">Tem sobras e ingredientes parados na geladeira? Use nossa IA para sugerir pratos perfeitos.</p>
-                    <button class="btn btn-filled btn-sm carousel-btn" style="background: var(--c-tertiary);" onclick="scrollToSection('section-fridge')">
-                      <i class="ti ti-sparkles"></i> Abrir Geladeira
-                    </button>
-                  </div>
+                <div class="widget-chef-actions">
+                  <button class="widget-chef-btn" aria-label="Notificações">
+                    <i class="ti ti-bell" style="position:relative;"><span style="position:absolute;top:-2px;right:-2px;width:6px;height:6px;background:var(--c-primary);border-radius:50%;"></span></i>
+                  </button>
+                  <button class="widget-chef-btn" aria-label="Ajuda">
+                    <i class="ti ti-info-circle"></i>
+                  </button>
                 </div>
-
-                <!-- Slide 3: Mercados -->
-                <div class="carousel-slide">
-                  <img class="carousel-img" src="https://picsum.photos/id/326/600/400" alt="Mercado">
-                  <div class="carousel-content">
-                    <span class="badge badge-success carousel-badge">Economia</span>
-                    <h3 class="carousel-title">Ingredientes Mais Baratos</h3>
-                    <p class="carousel-desc">Compare preços nos supermercados próximos a você e faça suas compras economizando.</p>
-                    <button class="btn btn-filled btn-sm carousel-btn" style="background: var(--c-success);" onclick="scrollToSection('section-markets')">
-                      <i class="ti ti-shopping-cart"></i> Ver Mercados
-                    </button>
-                  </div>
+              </div>
+              
+              <div class="widget-chef-middle-row">
+                <h3 class="widget-chef-rank">Nível 4 · Chef Estrela</h3>
+                <button class="widget-chef-selector">
+                  Massas ▾
+                </button>
+              </div>
+              
+              <div class="widget-chef-progress-container">
+                <div class="widget-chef-progress-bar">
+                  <div class="widget-chef-progress-fill"></div>
                 </div>
-
+                <div class="widget-chef-progress-labels">
+                  <span>Progresso de Nível</span>
+                  <span>74%</span>
+                </div>
+              </div>
+              
+              <div class="widget-chef-bottom-row">
+                <span class="widget-chef-spec">Especialidade: Massas & Molhos</span>
+                <button class="widget-chef-go-btn" aria-label="Cozinhar agora" onclick="scrollToSection('section-recipes')">
+                  <i class="ti ti-arrow-up-right"></i>
+                </button>
               </div>
             </div>
             
-            <!-- Indicadores do Carrossel (Dots) -->
-            <div class="carousel-dots">
-              <span class="carousel-dot active" onclick="moveCarousel(0)"></span>
-              <span class="carousel-dot" onclick="moveCarousel(1)"></span>
-              <span class="carousel-dot" onclick="moveCarousel(2)"></span>
+            <!-- 2. Planejamento de Refeições (Largura Total) -->
+            <div class="widget-card widget-meal-planner">
+              <div class="widget-header-row">
+                <div class="widget-chef-meta">
+                  <h3 class="widget-title">Planejamento</h3>
+                  <span class="widget-subtitle">3 refeições • Junho</span>
+                </div>
+                <button class="widget-dropdown-pill">
+                  Junho ▾
+                </button>
+              </div>
+              
+              <div class="widget-calendar-strip">
+                <!-- Seg -->
+                <div class="widget-calendar-day">
+                  <span class="widget-calendar-num">8</span>
+                  <span class="widget-calendar-label">Seg</span>
+                  <div class="widget-calendar-dot-track">
+                    <div class="widget-calendar-dot done"></div>
+                  </div>
+                </div>
+                <!-- Ter -->
+                <div class="widget-calendar-day">
+                  <span class="widget-calendar-num">9</span>
+                  <span class="widget-calendar-label">Ter</span>
+                  <div class="widget-calendar-dot-track">
+                    <div class="widget-calendar-dot done"></div>
+                  </div>
+                </div>
+                <!-- Qua (Hoje) -->
+                <div class="widget-calendar-day active">
+                  <span class="widget-calendar-num">10</span>
+                  <span class="widget-calendar-label">Qua</span>
+                  <div class="widget-calendar-dot-track">
+                    <div class="widget-calendar-dot active-dot"></div>
+                  </div>
+                </div>
+                <!-- Qui -->
+                <div class="widget-calendar-day">
+                  <span class="widget-calendar-num">11</span>
+                  <span class="widget-calendar-label">Qui</span>
+                  <div class="widget-calendar-dot-track">
+                    <div class="widget-calendar-dot"></div>
+                  </div>
+                </div>
+                <!-- Sex -->
+                <div class="widget-calendar-day">
+                  <span class="widget-calendar-num">12</span>
+                  <span class="widget-calendar-label">Sex</span>
+                  <div class="widget-calendar-dot-track">
+                    <div class="widget-calendar-dot"></div>
+                  </div>
+                </div>
+                <!-- Sáb -->
+                <div class="widget-calendar-day">
+                  <span class="widget-calendar-num">13</span>
+                  <span class="widget-calendar-label">Sáb</span>
+                  <div class="widget-calendar-dot-track">
+                    <div class="widget-calendar-dot"></div>
+                  </div>
+                </div>
+              </div>
             </div>
+            
+            <!-- 3. Desafios do Mês (Largura Total) -->
+            <div class="widget-card widget-challenges-roadmap">
+              <div class="widget-header-row">
+                <h3 class="widget-title">Desafios</h3>
+                <button class="widget-challenge-add-btn">
+                  <i class="ti ti-plus"></i> Novo
+                </button>
+              </div>
+              
+              <div class="widget-challenge-list">
+                <!-- Desafio 1 -->
+                <div class="widget-challenge-item">
+                  <div class="widget-challenge-bar-row">
+                    <span class="widget-challenge-name">Molho Pomodoro</span>
+                    <div class="widget-challenge-bar-pill">
+                      <div class="widget-challenge-bar-fill complete" style="width: 100%;"></div>
+                    </div>
+                    <div class="widget-challenge-right-group">
+                      <span class="widget-challenge-pct">100%</span>
+                      <div class="widget-challenge-avatars">
+                        <img src="https://picsum.photos/id/1025/50/50" alt="Amigo 1" class="widget-challenge-avatar-img">
+                        <img src="https://picsum.photos/id/65/50/50" alt="Amigo 2" class="widget-challenge-avatar-img">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <!-- Desafio 2 -->
+                <div class="widget-challenge-item">
+                  <div class="widget-challenge-bar-row">
+                    <span class="widget-challenge-name">Nhoque Rústico</span>
+                    <div class="widget-challenge-bar-pill">
+                      <div class="widget-challenge-bar-fill" style="width: 59%;"></div>
+                    </div>
+                    <div class="widget-challenge-right-group">
+                      <span class="widget-challenge-pct">59%</span>
+                      <div class="widget-challenge-avatars">
+                        <img src="https://picsum.photos/id/338/50/50" alt="Amigo 3" class="widget-challenge-avatar-img">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <!-- Desafio 3 -->
+                <div class="widget-challenge-item">
+                  <div class="widget-challenge-bar-row">
+                    <span class="widget-challenge-name">Massa Fresca</span>
+                    <div class="widget-challenge-bar-pill">
+                      <div class="widget-challenge-bar-fill highlight" style="width: 74%;"></div>
+                    </div>
+                    <div class="widget-challenge-right-group">
+                      <span class="widget-challenge-pct">74%</span>
+                      <div class="widget-challenge-avatars">
+                        <img src="https://picsum.photos/id/177/50/50" alt="Amigo 4" class="widget-challenge-avatar-img">
+                        <img src="https://picsum.photos/id/64/50/50" alt="Amigo 5" class="widget-challenge-avatar-img">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              
+              <div class="widget-challenges-timeline-labels">
+                <span>Seg 8</span>
+                <span>Qua 10</span>
+                <span>Sáb 13</span>
+              </div>
+            </div>
+            
+            <!-- Streak (Largura Total) -->
+            <div class="widget-small-card streak">
+              <span class="widget-streak-text">
+                <span class="widget-streak-fire">🔥</span>
+                5 dias seguidos
+              </span>
+            </div>
+            
+            <!-- Stats (Coluna 1) -->
+            <div class="widget-small-card stats">
+              <div class="widget-stats-info-group">
+                <i class="ti ti-clock widget-stats-icon"></i>
+                <span class="widget-stats-label">Tempo Total</span>
+              </div>
+              <div class="widget-stats-value-row">
+                <span class="widget-stats-value">12.5</span>
+                <span class="widget-stats-unit">h</span>
+              </div>
+            </div>
+            
+            <!-- Efficiency (Coluna 2) -->
+            <div class="widget-small-card efficiency">
+              <div class="widget-eff-header">
+                <span class="widget-eff-title">Eficiência</span>
+                <span class="widget-eff-pct">+40%</span>
+              </div>
+              <svg class="widget-eff-graph" viewBox="0 0 100 20">
+                <path class="widget-eff-wave" d="M 0 15 C 20 15, 30 2, 50 10 C 70 18, 80 2, 100 5" />
+              </svg>
+            </div>
+            
+            <!-- Assistant AI (Largura Total) -->
+            <div class="widget-small-card assistant" onclick="scrollToSection('section-fridge')">
+              <div class="widget-assistant-info">
+                <span class="widget-assistant-title">Tempera AI</span>
+                <span class="widget-assistant-desc">Sugerir pratos com ingredientes da geladeira</span>
+              </div>
+              <div class="widget-assistant-arrow-icon" style="margin-right: 12px; margin-top: 0; align-self: center;">
+                <i class="ti ti-arrow-up-right"></i>
+              </div>
+              <img src="cozy_kitchen_hero.png" alt="Tempera AI Assistant" class="widget-assistant-pic">
+            </div>
+            
           </section>
 
           <!-- CATEGORIAS RÁPIDAS (SUGGESTION CHIPS) -->
@@ -3667,38 +4629,133 @@
           <!-- SEÇÃO 3: COMUNIDADE (ABA COMUNIDADE) -->
           <div class="section-header">
             <h3 class="section-title font-roca">Comunidade</h3>
-            <a href="#" class="section-link" onclick="event.preventDefault(); showToast('Abrindo feed da comunidade...', 'ti-users')">Ver feed <i class="ti ti-chevron-right"></i></a>
+            <a href="#" class="section-link" onclick="event.preventDefault(); scrollToSection('section-community')">Ver feed <i class="ti ti-chevron-right"></i></a>
           </div>
 
           <section class="community-container" id="section-community">
             
-            <!-- Card da Comunidade 1 (Julia Santos) -->
-            <div class="community-card">
-              <div class="community-card-header">
-                <div class="avatar" style="background-color: var(--c-primary-container); color: var(--c-on-primary-container);">JS</div>
-                <div class="community-card-author">
-                  <div class="community-card-name">Julia Santos</div>
-                  <div class="community-card-time">há 2 horas</div>
+            <!-- Compositor de Post (Estilo Facebook) -->
+            <div class="composer-card">
+              <div class="composer-header">
+                <div class="avatar" style="background-color: var(--c-primary); color: #fff;">TM</div>
+                <input type="text" id="composerInput" placeholder="No que você está pensando, Chef?" onclick="showComposerActions()">
+              </div>
+              <div class="composer-divider"></div>
+              <div class="composer-actions" id="composerActions" style="display: none;">
+                <div class="composer-tools">
+                  <button class="tool-btn" onclick="showToast('Upload de imagem disponível na versão final.', 'ti-photo')">
+                    <i class="ti ti-photo" style="color: var(--c-success);"></i> Foto
+                  </button>
+                  <button class="tool-btn" onclick="showToast('Marcação de ingredientes em desenvolvimento.', 'ti-carrot')">
+                    <i class="ti ti-carrot" style="color: var(--c-tertiary);"></i> Ingrediente
+                  </button>
                 </div>
-                <button class="icon-btn" aria-label="Mais" onclick="showToast('Menu de postagem em desenvolvimento.', 'ti-dots')"><i class="ti ti-dots"></i></button>
+                <button class="btn btn-filled btn-sm" id="publishPostBtn" onclick="publishNewPost()" disabled>Publicar</button>
               </div>
+            </div>
+
+            <!-- Feed de Posts -->
+            <div id="communityFeed">
               
-              <img class="community-card-img" src="https://picsum.photos/id/292/500/300" alt="Risoto Julia">
-              
-              <div class="community-card-title">Minha versão do Risoto de Cogumelos!</div>
-              <div class="community-card-desc">Adaptei com o que tinha em casa e ficou dos deuses! Usei um toque final de raspas de limão siciliano e queijo grana padano ralado na hora.</div>
-              
-              <div class="community-card-footer">
-                <button class="react-btn" onclick="toggleLike(this, 84)">
-                  <i class="ti ti-heart"></i> <span class="like-count">84</span>
-                </button>
-                <button class="react-btn" onclick="showToast('Comentários em desenvolvimento para esta postagem.', 'ti-message-circle')">
-                  <i class="ti ti-message-circle"></i> 12
-                </button>
-                <button class="react-btn" onclick="toggleSavePost(this)">
-                  <i class="ti ti-bookmark"></i> Salvar
-                </button>
+              <!-- Post 1 (Julia Santos) -->
+              <div class="community-card" data-post-id="post-1">
+                <div class="community-card-header">
+                  <div class="avatar" style="background-color: var(--c-primary-container); color: var(--c-on-primary-container);">JS</div>
+                  <div class="community-card-author">
+                    <div class="community-card-name">Julia Santos</div>
+                    <div class="community-card-time">há 2 horas · <i class="ti ti-world"></i></div>
+                  </div>
+                  <button class="icon-btn" aria-label="Mais" onclick="showToast('Menu de postagem em desenvolvimento.', 'ti-dots')"><i class="ti ti-dots"></i></button>
+                </div>
+                
+                <img class="community-card-img" src="https://picsum.photos/id/292/500/300" alt="Risoto Julia">
+                
+                <div class="community-card-title">Minha versão do Risoto de Cogumelos!</div>
+                <div class="community-card-desc">Adaptei com o que tinha em casa e ficou dos deuses! Usei um toque final de raspas de limão siciliano e queijo grana padano ralado na hora.</div>
+                
+                <div class="community-card-footer">
+                  <button class="react-btn" onclick="toggleLike(this, 84)">
+                    <i class="ti ti-heart"></i> <span class="like-count">84</span>
+                  </button>
+                  <button class="react-btn" onclick="toggleComments('post-1')">
+                    <i class="ti ti-message-circle"></i> <span class="comments-count">2</span>
+                  </button>
+                  <button class="react-btn" onclick="toggleSavePost(this)">
+                    <i class="ti ti-bookmark"></i> Salvar
+                  </button>
+                </div>
+
+                <!-- Seção de Comentários -->
+                <div class="comments-section" id="comments-post-1" style="display: none;">
+                  <div class="comments-list">
+                    <div class="comment-item">
+                      <div class="avatar comment-avatar" style="background-color: var(--c-secondary-container); color: var(--c-on-secondary-container);">MO</div>
+                      <div class="comment-content">
+                        <span class="comment-author">Marcos Oliveira</span>
+                        <span class="comment-text">Ficou lindo demais! Você chegou a colocar vinho branco na receita?</span>
+                      </div>
+                    </div>
+                    <div class="comment-item">
+                      <div class="avatar comment-avatar" style="background-color: var(--c-tertiary-container); color: var(--c-on-tertiary-container);">AC</div>
+                      <div class="comment-content">
+                        <span class="comment-author">Amanda Costa</span>
+                        <span class="comment-text">Nossa, raspas de limão no risoto de cogumelos é um segredo de chef! Vou testar hoje mesmo.</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="comment-input-area">
+                    <div class="avatar comment-avatar" style="background-color: var(--c-primary); color: #fff;">TM</div>
+                    <input type="text" placeholder="Escreva um comentário..." onkeydown="handleCommentSubmit(event, 'post-1')">
+                  </div>
+                </div>
               </div>
+
+              <!-- Post 2 (Marcos Oliveira) -->
+              <div class="community-card" data-post-id="post-2" style="margin-top: var(--sp-4);">
+                <div class="community-card-header">
+                  <div class="avatar" style="background-color: var(--c-secondary-container); color: var(--c-on-secondary-container);">MO</div>
+                  <div class="community-card-author">
+                    <div class="community-card-name">Marcos Oliveira</div>
+                    <div class="community-card-time">há 5 horas · <i class="ti ti-world"></i></div>
+                  </div>
+                  <button class="icon-btn" aria-label="Mais" onclick="showToast('Menu de postagem em desenvolvimento.', 'ti-dots')"><i class="ti ti-dots"></i></button>
+                </div>
+                
+                <img class="community-card-img" src="https://picsum.photos/id/493/500/300" alt="Café da Manhã">
+                
+                <div class="community-card-title">Café da manhã dos campeões! 🥑🍳</div>
+                <div class="community-card-desc">Ovos mexidos super cremosos usando a técnica do Chef (fogo bem baixo + cream cheese no final) servidos com avocado toast no pão de fermentação natural. Simples e maravilhoso!</div>
+                
+                <div class="community-card-footer">
+                  <button class="react-btn" onclick="toggleLike(this, 120)">
+                    <i class="ti ti-heart"></i> <span class="like-count">120</span>
+                  </button>
+                  <button class="react-btn" onclick="toggleComments('post-2')">
+                    <i class="ti ti-message-circle"></i> <span class="comments-count">1</span>
+                  </button>
+                  <button class="react-btn" onclick="toggleSavePost(this)">
+                    <i class="ti ti-bookmark"></i> Salvar
+                  </button>
+                </div>
+
+                <!-- Seção de Comentários -->
+                <div class="comments-section" id="comments-post-2" style="display: none;">
+                  <div class="comments-list">
+                    <div class="comment-item">
+                      <div class="avatar comment-avatar" style="background-color: var(--c-primary-container); color: var(--c-on-primary-container);">JS</div>
+                      <div class="comment-content">
+                        <span class="comment-author">Julia Santos</span>
+                        <span class="comment-text">Esse pão de fermentação natural tostado é tudo de bom!</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="comment-input-area">
+                    <div class="avatar comment-avatar" style="background-color: var(--c-primary); color: #fff;">TM</div>
+                    <input type="text" placeholder="Escreva um comentário..." onkeydown="handleCommentSubmit(event, 'post-2')">
+                  </div>
+                </div>
+              </div>
+
             </div>
           </section>
 
@@ -3709,6 +4766,19 @@
           </div>
 
           <section class="markets-container" id="section-markets">
+            <!-- Google Maps Embed of Curitiba -->
+            <div class="market-map-container">
+              <iframe 
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d115243.20986701832!2d-49.33611176274479!3d-25.434444399999995!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x94dce41180fb7cb7%3A0x2287fbb46db7c4e5!2sCuritiba%20-%20PR!5e0!3m2!1spt-BR!2sbr!4v1700000000000!5m2!1spt-BR!2sbr" 
+                width="100%" 
+                height="100%" 
+                style="border:0;" 
+                allowfullscreen="" 
+                loading="lazy" 
+                referrerpolicy="no-referrer-when-downgrade">
+              </iframe>
+            </div>
+
             <div class="market-comparison">
               
               <!-- Mercado 1 -->
@@ -3842,7 +4912,7 @@
               </div>
 
               <button type="submit" class="btn login-submit-btn" id="loginSubmitBtn">
-                <span class="btn-text">Entrar</span>
+                <span class="login-btn-text">Entrar</span>
                 <div class="spinner" id="loginSpinner" style="display: none;"></div>
               </button>
             </form>
@@ -4254,21 +5324,18 @@
         // Ativa o botão no painel
         const targetBtn = Array.from(themeButtons).find(btn => btn.getAttribute('onclick').includes('grid-sutil'));
         if (targetBtn) targetBtn.classList.add('active');
-        showToast('Tema claro com grid sutil ativado!', 'ti-sun');
       } 
       else if (bgStyle === 'off-white') {
         body.style.backgroundColor = '#FAF7F2';
         
         const targetBtn = Array.from(themeButtons).find(btn => btn.getAttribute('onclick').includes('off-white'));
         if (targetBtn) targetBtn.classList.add('active');
-        showToast('Tema clássico quente ativado!', 'ti-sun');
       } 
       else if (bgStyle === 'dark-linen') {
         body.classList.add('theme-dark');
         
         const targetBtn = Array.from(themeButtons).find(btn => btn.getAttribute('onclick').includes('dark-linen'));
         if (targetBtn) targetBtn.classList.add('active');
-        showToast('Tema escuro com linho ativado! 🌙', 'ti-moon');
       }
     }
 
@@ -4281,6 +5348,7 @@
     const dots = document.querySelectorAll('.carousel-dot');
 
     function moveCarousel(slideIndex) {
+      if (!track) return;
       currentSlide = slideIndex;
       const slide = document.querySelector('.carousel-slide');
       const slideWidth = slide ? slide.getBoundingClientRect().width : 361;
@@ -4297,14 +5365,23 @@
       });
     }
 
-    // Auto-slide a cada 5 segundos
-    let autoSlideInterval = setInterval(() => {
-      let nextSlide = (currentSlide + 1) % totalSlides;
-      moveCarousel(nextSlide);
-    }, 6000);
+    // Auto-slide a cada 6 segundos apenas se existirem track e dots
+    let autoSlideInterval = null;
+    if (track && dots.length > 0) {
+      autoSlideInterval = setInterval(() => {
+        let nextSlide = (currentSlide + 1) % totalSlides;
+        moveCarousel(nextSlide);
+      }, 6000);
+
+      // Liga cliques nos dots
+      dots.forEach((dot, index) => {
+        dot.onclick = () => userResetCarousel(index);
+      });
+    }
 
     // Reinicia temporizador de auto-slide quando o usuário interage
     function userResetCarousel(slideIndex) {
+      if (!track || dots.length === 0) return;
       clearInterval(autoSlideInterval);
       moveCarousel(slideIndex);
       autoSlideInterval = setInterval(() => {
@@ -4312,10 +5389,6 @@
         moveCarousel(nextSlide);
       }, 6000);
     }
-    // Liga cliques nos dots
-    dots.forEach((dot, index) => {
-      dot.onclick = () => userResetCarousel(index);
-    });
     // ----------------------------------------------------
     // VOCABULÁRIO COMPLETO DE INGREDIENTES (45+ ITENS)
     // ----------------------------------------------------
@@ -5369,6 +6442,125 @@ Retorne EXCLUSIVAMENTE um objeto JSON estruturado no seguinte formato. Não colo
     }
 
     // ----------------------------------------------------
+    // COMPOSER E INTERATIVIDADE DO FEED DA COMUNIDADE (ESTILO FACEBOOK)
+    // ----------------------------------------------------
+    function showComposerActions() {
+      const actions = document.getElementById('composerActions');
+      if (actions) {
+        actions.style.display = 'flex';
+      }
+      // Listener para habilitar/desabilitar botão de postar
+      const input = document.getElementById('composerInput');
+      const btn = document.getElementById('publishPostBtn');
+      if (input && btn) {
+        input.addEventListener('input', () => {
+          btn.disabled = input.value.trim() === '';
+        });
+      }
+    }
+
+    function publishNewPost() {
+      const input = document.getElementById('composerInput');
+      if (!input || input.value.trim() === '') return;
+
+      const text = input.value.trim();
+      const feed = document.getElementById('communityFeed');
+      if (!feed) return;
+
+      const postId = 'post-' + Date.now();
+
+      const postCard = document.createElement('div');
+      postCard.className = 'community-card';
+      postCard.style.marginTop = 'var(--sp-4)';
+      postCard.setAttribute('data-post-id', postId);
+
+      postCard.innerHTML = `
+        <div class="community-card-header">
+          <div class="avatar" style="background-color: var(--c-primary); color: #fff;">TM</div>
+          <div class="community-card-author">
+            <div class="community-card-name">Você (Chef Tempera)</div>
+            <div class="community-card-time">agora mesmo · <i class="ti ti-world"></i></div>
+          </div>
+          <button class="icon-btn" aria-label="Mais" onclick="showToast('Menu de postagem em desenvolvimento.', 'ti-dots')"><i class="ti ti-dots"></i></button>
+        </div>
+        
+        <div class="community-card-title">Nova receita compartilhada!</div>
+        <div class="community-card-desc">${text}</div>
+        
+        <div class="community-card-footer">
+          <button class="react-btn" onclick="toggleLike(this, 0)">
+            <i class="ti ti-heart"></i> <span class="like-count">0</span>
+          </button>
+          <button class="react-btn" onclick="toggleComments('${postId}')">
+            <i class="ti ti-message-circle"></i> <span class="comments-count">0</span>
+          </button>
+          <button class="react-btn" onclick="toggleSavePost(this)">
+            <i class="ti ti-bookmark"></i> Salvar
+          </button>
+        </div>
+
+        <div class="comments-section" id="comments-${postId}" style="display: none;">
+          <div class="comments-list"></div>
+          <div class="comment-input-area">
+            <div class="avatar comment-avatar" style="background-color: var(--c-primary); color: #fff;">TM</div>
+            <input type="text" placeholder="Escreva um comentário..." onkeydown="handleCommentSubmit(event, '${postId}')">
+          </div>
+        </div>
+      `;
+
+      feed.insertBefore(postCard, feed.firstChild);
+
+      // Reset
+      input.value = '';
+      document.getElementById('publishPostBtn').disabled = true;
+      document.getElementById('composerActions').style.display = 'none';
+
+      showToast('Publicação enviada para o feed! 🍳', 'ti-circle-check');
+    }
+
+    function toggleComments(postId) {
+      const section = document.getElementById('comments-' + postId);
+      if (section) {
+        const isHidden = section.style.display === 'none';
+        section.style.display = isHidden ? 'flex' : 'none';
+      }
+    }
+
+    function handleCommentSubmit(event, postId) {
+      if (event.key !== 'Enter') return;
+      const input = event.target;
+      const text = input.value.trim();
+      if (text === '') return;
+
+      const postCard = document.querySelector(`[data-post-id="${postId}"]`);
+      if (!postCard) return;
+
+      const commentsList = postCard.querySelector('.comments-list');
+      if (!commentsList) return;
+
+      const commentItem = document.createElement('div');
+      commentItem.className = 'comment-item';
+      commentItem.innerHTML = `
+        <div class="avatar comment-avatar" style="background-color: var(--c-primary); color: #fff;">TM</div>
+        <div class="comment-content">
+          <span class="comment-author">Você (Chef Tempera)</span>
+          <span class="comment-text">${text}</span>
+        </div>
+      `;
+
+      commentsList.appendChild(commentItem);
+      input.value = '';
+
+      const countEl = postCard.querySelector('.comments-count');
+      if (countEl) {
+        const currentCount = parseInt(countEl.textContent) || 0;
+        countEl.textContent = currentCount + 1;
+      }
+
+      showToast('Comentário enviado!', 'ti-message-circle');
+    }
+
+    // ----------------------------------------------------
     // NAVEGAÇÃO INTERNA E BARRA INFERIOR DOURADA
     // ----------------------------------------------------
     function scrollToSection(sectionId) {
@@ -5485,8 +6677,9 @@ Retorne EXCLUSIVAMENTE um objeto JSON estruturado no seguinte formato. Não colo
       }
 
       if (login) {
-        login.classList.add('show');
         login.style.visibility = 'visible';
+        login.offsetHeight; // Force reflow to ensure visibility change is painted before opacity transition
+        login.classList.add('show');
       }
 
       // Ativa classe para deixar os textos da barra de status legíveis no formulário claro
@@ -5506,7 +6699,7 @@ Retorne EXCLUSIVAMENTE um objeto JSON estruturado no seguinte formato. Não colo
       
       const submitBtn = document.getElementById('loginSubmitBtn');
       const spinner = document.getElementById('loginSpinner');
-      const btnText = submitBtn.querySelector('.btn-text');
+      const btnText = submitBtn.querySelector('.login-btn-text');
 
       if (spinner && btnText) {
         btnText.style.display = 'none';
@@ -5603,14 +6796,17 @@ Retorne EXCLUSIVAMENTE um objeto JSON estruturado no seguinte formato. Não colo
       const screen = document.querySelector('.phone-screen');
 
       if (splash) {
+        splash.style.visibility = 'visible';
+        splash.offsetHeight; // Force reflow
         splash.style.opacity = '1';
         splash.style.pointerEvents = 'all';
-        splash.style.visibility = 'visible';
       }
 
       if (login) {
         login.classList.remove('show');
-        login.style.visibility = 'hidden';
+        setTimeout(() => {
+          login.style.visibility = 'hidden';
+        }, 600);
       }
 
       // Reseta a barra de status transparente

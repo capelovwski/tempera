@@ -1,126 +1,115 @@
-# Prompts para Geração de Imagens dos Cards — Tempera
+﻿# Prompts para Geração de Imagens — Tempera 🍳
 
-Este arquivo contém os prompts prontos e testados para gerar as imagens dos cards do aplicativo **Tempera** usando geradores de imagens por IA (como Midjourney v6, DALL-E 3 ou Imagen 3). Os prompts foram otimizados para garantir alta qualidade estética, iluminação natural calorosa e coerência com a identidade visual acolhedora do app (estilo Material 3, tons quentes e afeto).
+Este guia contém os prompts prontos e testados para gerar todas as imagens do simulador **Tempera** usando geradores de imagens por IA (Midjourney v6, DALL-E 3 ou Adobe Firefly). 
 
----
-
-## 🎨 Diretrizes Gerais de Estilo (Estética Tempera)
-Para que todas as imagens fiquem harmoniosas no app:
-- **Iluminação**: Luz natural suave vinda de uma janela lateral (*soft golden hour side lighting*).
-- **Cores**: Tons quentes, terrosos, azeitona, terracota, madeira natural, off-white e detalhes dourados.
-- **Profundidade**: Fundo levemente desfocado (*shallow depth of field, soft bokeh*) para dar foco ao prato principal.
-- **Vibe**: Caseira, artesanal, fresca, com sensação de afeto e aconchego (*cozy, artisanal, home-cooked, rustic elegant*).
+Conforme solicitado, todas as imagens foram planejadas para extensão **.jpg** com foco em uma estética **clean, minimalista e aconchegante** (tons quentes, luz natural lateral, louças artesanais e fundo suave/desfocado).
 
 ---
 
-## 📸 Prompts Específicos para Cada Card
-
-### 1. Risoto de Cogumelos Silvestres
-* **Nome do Arquivo sugerido:** `risoto_cogumelos.png`
-* **Local no HTML (Linha 3527):** Substituir `https://picsum.photos/id/493/600/400`
-* **Prompt (Midjourney/DALL-E):**
-  > A rustic ceramic bowl filled with creamy wild mushroom risotto, garnished with fresh thyme, grated parmesan cheese, and a drizzle of olive oil. Warm golden hour lighting, steam gently rising, cozy kitchen background, shallow depth of field, extreme detail, food photography, 8k resolution. --ar 3:2 --stylize 250
-
----
-
-### 2. Geladeira Inteligente (O que cozinhar hoje?)
-* **Nome do Arquivo sugerido:** `banner_geladeira.png`
-* **Local no HTML (Linha 3540):** Substituir `https://picsum.photos/id/292/600/400`
-* **Prompt (Midjourney/DALL-E):**
-  > An open modern refrigerator with warm interior lighting, neatly organized with fresh ingredients: vibrant green vegetables, ripe red tomatoes, eggs in a wooden carton, fresh herbs, and glass jars. Cosy kitchen setting, soft focus on the background, clean and appetizing, warm color palette. --ar 3:2 --stylize 180
+## 🎨 Diretrizes Gerais para Imagens Clean & Tempera
+Para manter a consistência visual em todo o aplicativo:
+*   **Fundo**: Cozinhas limpas, bancadas de madeira clara ou mármore off-white, levemente desfocadas (*shallow depth of field, soft bokeh*). Sem poluição visual.
+*   **Luz**: Luz natural suave vinda de uma janela lateral (*soft golden hour window lighting*).
+*   **Cores**: Tons quentes, terrosos, cerâmica terracota, madeira natural, ervas frescas e toques sutis de azeitona.
+*   **Aparência**: Comida real, apetitosa e fresca. Evitar visual excessivamente artificial ou "plástico".
 
 ---
 
-### 3. Mercados (Ingredientes Mais Baratos)
-* **Nome do Arquivo sugerido:** `banner_mercado.png`
-* **Local no HTML (Linha 3553):** Substituir `https://picsum.photos/id/326/600/400`
-* **Prompt (Midjourney/DALL-E):**
-  > A beautiful wooden market stand filled with baskets of fresh organic produce, including heirloom tomatoes, colorful peppers, fresh greens, and artisanal bread. Sunny day, soft natural light, warm inviting atmosphere, rustic aesthetic, food market photography. --ar 3:2 --stylize 200
+## 👤 Foto de Perfil da Usuária
+
+### `img/camila_silva.webp`
+*   **Contexto**: Foto exibida nos círculos de perfil da barra superior, no widget do painel inicial, na aba lateral de perfil e nas publicações/comentários da usuária.
+*   **Prompt**:
+    > A close-up headshot of a friendly 28-year-old Brazilian woman named Camila Silva, smiling warmly with gentle eyes, natural look, wearing a clean beige linen shirt. Modern soft-lit kitchen background with plants, warm golden sunlight, cozy atmosphere, minimalist style, clean photography. --ar 1:1 --stylize 200
 
 ---
 
-### 4. Macarrão ao Sugo (Destaque Principal)
-* **Nome do Arquivo sugerido:** `macarrao_sugo.png`
-* **Local no HTML (Linha 3596):** Substituir `https://picsum.photos/id/431/600/400`
-* **Prompt (Midjourney/DALL-E):**
-  > A plate of artisanal spaghetti pasta covered in rich, glossy red tomato sugo sauce, topped with fresh basil leaves and freshly grated Pecorino Romano cheese. Shallow depth of field, warm side light from a window, steam rising, elegant kitchen counter, premium food styling. --ar 4:3 --stylize 250
+## 🍝 Seção: Receitas Criativas (Aba Receitas)
+
+### 1. `img/macarrao_sugo.webp`
+*   **Contexto**: Card principal de Destaque da seção.
+*   **Prompt**:
+    > A clean white plate of artisanal spaghetti pasta with glossy, rich red tomato sugo, topped with a single fresh basil sprig and a light sprinkle of grated pecorino. Warm side light from a window, clean wooden kitchen counter background, minimal and modern food photography. --ar 3:2 --stylize 250
+
+### 2. `img/macarrao_manjericao.webp`
+*   **Contexto**: Segunda imagem na pilha de Destaque.
+*   **Prompt**:
+    > A clean ceramic bowl of fresh pasta tossed with light green basil pesto, cherry tomatoes, and pine nuts. Minimalist and bright styling, soft morning light, clean background, rustic modern kitchen. --ar 3:2 --stylize 180
+
+### 3. `img/sopa_abobora.webp`
+*   **Contexto**: Thumbnail de receita na lista complementar.
+*   **Prompt**:
+    > A minimalist ceramic bowl of creamy, bright orange pumpkin soup, garnished with a clean swirl of cream and pumpkin seeds. Clean off-white background, soft lighting, cozy and warm. --ar 1:1 --stylize 150
+
+### 4. `img/salada_verde.webp`
+*   **Contexto**: Thumbnail de receita na lista complementar.
+*   **Prompt**:
+    > A simple wooden bowl filled with crisp green salad leaves, cucumber slices, and golden croutons, dressed with olive oil. Bright, clean natural light, minimalist setting, fresh and healthy look. --ar 1:1 --stylize 150
 
 ---
 
-### 5. Macarrão com Manjericão (Receitas Rápidas)
-* **Nome do Arquivo sugerido:** `macarrao_manjericao.png`
-* **Local no HTML (Linha 3597):** Substituir `https://picsum.photos/id/326/600/400`
-* **Prompt (Midjourney/DALL-E):**
-  > A close-up of fresh penne pasta tossed with bright green basil pesto, cherry tomatoes, and toasted pine nuts. Served in a warm terracotta bowl. Soft, clean morning light, culinary magazine style, rustic and fresh. --ar 4:3 --stylize 150
+## 💬 Seção: Comunidade
+
+### 5. `img/risoto_julia.webp`
+*   **Contexto**: Foto do post da Julia Santos na comunidade (Risoto de Cogumelos).
+*   **Prompt**:
+    > A casual mobile phone photo of a plate of creamy mushroom risotto on a home dining table. Shot on a smartphone, natural messy home lighting, amateur food photography, simple plate, realistic snapshot quality. --ar 3:2 --stylize 80
+
+### 6. `img/breakfast_marcos.webp`
+*   **Contexto**: Foto do post do Marcos Oliveira na comunidade (Avocado Toast com Ovos).
+*   **Prompt**:
+    > A casual smartphone photo of avocado toast with scrambled eggs on a plate, sitting on a wooden dining table. Taken on a mobile phone camera, casual snapshot style, overhead angle, natural lighting, realistic amateur food snapshot. --ar 3:2 --stylize 80
 
 ---
 
-### 6. Sopa de Abóbora (Receitas Rápidas)
-* **Nome do Arquivo sugerido:** `sopa_abobora.png`
-* **Local no HTML (Linha 3616):** Substituir `https://picsum.photos/id/493/150/150`
-* **Prompt (Midjourney/DALL-E):**
-  > A small ceramic bowl of creamy, orange pumpkin soup, decorated with a swirl of heavy cream, pumpkin seeds, and a sprig of rosemary. Warm background with crusty bread nearby, cozy and comforting, food photography. --ar 1:1 --stylize 200
+## ❄️ Seção: Geladeira Inteligente (Carrossel de Receitas Prontas)
 
----
+### 7. `img/risoto_caprese.webp`
+*   **Contexto**: Card 1 (Destaque da Geladeira).
+*   **Prompt**:
+    > A shallow ceramic dish of creamy caprese risotto with melted mozzarella pearls, cherry tomatoes, and fresh basil leaves. Warm sunset lighting, clean wooden background, modern minimalist style. --ar 3:2 --stylize 200
 
-### 7. Salada Quente de Abóbora (Receitas Rápidas)
-* **Nome do Arquivo sugerido:** `salada_abobora.png`
-* **Local no HTML (Linha 3626):** Substituir `https://picsum.photos/id/326/150/150`
-* **Prompt (Midjourney/DALL-E):**
-  > A vibrant salad of roasted pumpkin cubes, fresh baby spinach, toasted walnuts, and crumbled goat cheese in a shallow olive wood bowl. Bright natural light, crisp details, fresh and healthy aesthetic. --ar 1:1 --stylize 150
+### 8. `img/omelete_bacon_frango.webp`
+*   **Contexto**: Card 2 (Opção Proteica).
+*   **Prompt**:
+    > A perfectly folded golden omelette stuffed with shredded chicken breast and crispy bacon bits, served on a clean matte plate. Warm lighting, minimalist kitchen setup, fresh chives on top. --ar 3:2 --stylize 180
 
----
+### 9. `img/bruschetta_rustica.webp`
+*   **Contexto**: Card 3 (Opção Rápida).
+*   **Prompt**:
+    > Two crispy sourdough bruschettas topped with diced red tomatoes, garlic, olive oil, and fresh basil. Plated on a clean light wood board, sunny window light, fresh and rustic. --ar 3:2 --stylize 200
 
-### 8. Risoto de Camarão (Comunidade)
-* **Nome do Arquivo sugerido:** `comunidade_risoto.png`
-* **Local no HTML (Linha 3686):** Substituir `https://picsum.photos/id/292/500/300`
-* **Prompt (Midjourney/DALL-E):**
-  > A plate of creamy shrimp risotto cooked with white wine and herbs, topped with grilled juicy prawns and microgreens. Beautifully plated on an organic texture ceramic plate, golden hour lighting, authentic home-cooked style, delicious. --ar 5:3 --stylize 220
+### 10. `img/sopa_cebola.webp`
+*   **Contexto**: Card 4 (Opção Aconchegante).
+*   **Prompt**:
+    > A dark ceramic crock bowl of hot French onion soup, topped with a toasted bread slice and melted, golden gruyere cheese. Gentle steam rising, warm cozy lighting, clean table setup. --ar 3:2 --stylize 220
 
----
+### 11. `img/frango_caprese.webp`
+*   **Contexto**: Card 5 (Opção Fit).
+*   **Prompt**:
+    > A grilled chicken breast topped with sliced tomatoes, melted mozzarella cheese, and a drizzle of balsamic glaze. Served on a clean white ceramic plate, side lighting, healthy and minimal. --ar 3:2 --stylize 180
 
-### 9. Omelete Caprese (Carrossel Geladeira)
-* **Nome do Arquivo sugerido:** `omelete_caprese.png`
-* **Local no HTML (Linha 3949):** Substituir `https://picsum.photos/id/493/300/200`
-* **Prompt (Midjourney/DALL-E):**
-  > A perfectly folded golden omelette stuffed with melted mozzarella, sweet cherry tomatoes, and fresh basil leaves, served on a warm ceramic plate. Window light, rustic kitchen, delicious breakfast setting. --ar 3:2 --stylize 180
+### 12. `img/ovos_mexidos_premium.webp`
+*   **Contexto**: Card 6 (Opção Cremosa).
+*   **Prompt**:
+    > Soft, creamy scrambled eggs in a ceramic bowl, garnished with chopped chives, served next to a piece of toast. Clean aesthetic, soft morning light, cozy breakfast feel. --ar 3:2 --stylize 200
 
----
+### 13. `img/pasta_alho_oleo.webp`
+*   **Contexto**: Card 7 (Opção Clássica).
+*   **Prompt**:
+    > Spaghetti pasta tossed in olive oil with golden garlic slices and red pepper flakes in a clean ceramic bowl. Warm Italian morning light, minimal setting, rustic elegancy. --ar 3:2 --stylize 200
 
-### 10. Omelete de Frango e Bacon (Carrossel Geladeira)
-* **Nome do Arquivo sugerido:** `omelete_frango_bacon.png`
-* **Local no HTML (Linha 3965):** Substituir `https://picsum.photos/id/292/300/200`
-* **Prompt (Midjourney/DALL-E):**
-  > A hearty golden omelette stuffed with shredded chicken breast and crispy bacon bits, topped with chives. Warm light, rustic wood table background, cozy home feel. --ar 3:2 --stylize 150
+### 14. `img/batatas_rusticas.webp`
+*   **Contexto**: Card 8 (Opção Acompanhamento).
+*   **Prompt**:
+    > Golden brown roasted potato wedges with rosemary sprigs and garlic cloves in a small rustic skillet. Clean wood surface background, warm golden lighting, crispy texture. --ar 3:2 --stylize 180
 
----
+### 15. `img/salada_abobora.webp`
+*   **Contexto**: Card 9 (Opção Quente).
+*   **Prompt**:
+    > Roasted pumpkin chunks, spinach leaves, walnuts, and goat cheese crumbled in an organic ceramic bowl. Minimal styling, bright natural light, clean warm colors. --ar 3:2 --stylize 200
 
-### 11. Bruschetta Rústica (Carrossel Geladeira)
-* **Nome do Arquivo sugerido:** `bruschetta_rustica.png`
-* **Local no HTML (Linha 3981):** Substituir `https://picsum.photos/id/326/300/200`
-* **Prompt (Midjourney/DALL-E):**
-  > Three slices of toasted sourdough bread topped with diced ripe tomatoes, fresh garlic, basil, and a generous splash of olive oil. Plated on a slate board, warm Italian countryside vibe, rustic and detailed. --ar 3:2 --stylize 200
-
----
-
-### 12. Sopa Cremosa de Cebola (Carrossel Geladeira)
-* **Nome do Arquivo sugerido:** `sopa_cebola.png`
-* **Local no HTML (Linha 3997):** Substituir `https://picsum.photos/id/431/300/200`
-* **Prompt (Midjourney/DALL-E):**
-  > Traditional French onion soup in a dark clay bowl, topped with a thick slice of toasted baguette covered in melted Gruyere cheese, bubbling and golden-brown. Steam rising, dark cozy tavern light. --ar 3:2 --stylize 250
-
----
-
-### 13. Ovos Mexidos com Cream Cheese (Carrossel Geladeira)
-* **Nome do Arquivo sugerido:** `ovos_mexidos_cream_cheese.png`
-* **Local no HTML (Linha 4029):** Substituir `https://picsum.photos/id/292/300/200`
-* **Prompt (Midjourney/DALL-E):**
-  > Fluffy, creamy scrambled eggs whipped with premium cream cheese and butter, garnished with finely chopped chives. Served in a modern matte ceramic bowl with a side of toasted sourdough. Soft morning window light. --ar 3:2 --stylize 200
-
----
-
-### 14. Batatas Rústicas (Carrossel Geladeira)
-* **Nome do Arquivo sugerido:** `batatas_rusticas.png`
-* **Local no HTML (Linha 4061):** Substituir `https://picsum.photos/id/431/300/200`
-* **Prompt (Midjourney/DALL-E):**
-  > Crispy roasted potato wedges seasoned with sea salt, rosemary sprigs, and garlic cloves. Plated in a rustic iron skillet, crispy texture visible, golden hour lighting. --ar 3:2 --stylize 220
+### 16. `img/creme_queijo.webp`
+*   **Contexto**: Card 10 (Opção Petisco).
+*   **Prompt**:
+    > A small ceramic bowl of creamy white herb cheese dip, surrounded by a few sourdough crackers. Clean and elegant styling, soft side light, warm neutral background. --ar 3:2 --stylize 180

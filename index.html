@@ -9,6 +9,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
+  <!-- Tailwind CSS v4 para Estilização do Menu de Perfil -->
+  <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
   <!-- GSAP 3 para Animações de Alta Fidelidade (Arc Carousel) -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
 
@@ -4035,7 +4037,7 @@
       scroll-snap-type: x mandatory !important;
       -webkit-overflow-scrolling: touch !important;
       gap: 8px !important;
-      padding: 10px var(--sp-4) 18px !important;
+      padding: 10px calc(50% - 105px) 18px !important;
       height: auto !important;
       align-items: center !important;
       touch-action: pan-x !important;
@@ -4082,17 +4084,59 @@
     /* ---- CHEF IA WIDGET — DARK PREMIUM AI ---- */
     .chef-ia-widget {
       margin: 0 var(--sp-4);
-      background: linear-gradient(145deg, #2C1204 0%, #4A1E08 50%, #2C1204 100%);
+      background: linear-gradient(135deg, #3A1508 0%, #5E260D 50%, #3A1508 100%);
       border-radius: var(--r-xl);
       padding: var(--sp-5);
       position: relative;
       overflow: hidden;
-      box-shadow: 0 24px 48px -12px rgba(44,21,13,.5), inset 0 1px 0 rgba(255,219,200,.1);
-      border: 1px solid rgba(255,219,200,.1);
-      transition: all 400ms cubic-bezier(0.2,0,0,1);
+      box-shadow: 0 20px 40px -10px rgba(94, 38, 13, 0.4), inset 0 1px 0 rgba(255, 219, 200, 0.15);
+      border: 1px solid rgba(255, 219, 200, 0.12);
+      transition: transform 300ms cubic-bezier(0.2,0,0,1), box-shadow 300ms ease, border-color 300ms ease;
+    }
+    .chef-ia-widget:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 24px 48px -10px rgba(94, 38, 13, 0.5), inset 0 1px 0 rgba(255, 219, 200, 0.25);
+      border-color: rgba(255, 219, 200, 0.25);
     }
     body.theme-dark .chef-ia-widget {
-      background: linear-gradient(145deg, #180A02 0%, #2E1608 50%, #180A02 100%);
+      background: linear-gradient(135deg, #1A0904 0%, #351508 50%, #1A0904 100%);
+      box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 219, 200, 0.08);
+      border-color: rgba(255, 219, 200, 0.08);
+    }
+    
+    /* STYLE CHIPS FOR INTERACTIVE AI WIDGET */
+    .ia-style-chip {
+      background: rgba(255, 255, 255, 0.05) !important;
+      border: 1px solid rgba(255, 219, 200, 0.1) !important;
+      border-radius: var(--r-md) !important;
+      padding: 8px 10px !important;
+      color: rgba(255, 219, 200, 0.65) !important;
+      font-size: 11px !important;
+      font-weight: 600 !important;
+      display: flex !important;
+      align-items: center !important;
+      gap: 6px !important;
+      justify-content: flex-start !important;
+      transition: all 250ms cubic-bezier(0.2, 0, 0, 1) !important;
+      cursor: pointer !important;
+      width: 100% !important;
+      line-height: 1.2 !important;
+      box-shadow: var(--elev-0) !important;
+    }
+    .ia-style-chip:hover {
+      background: rgba(255, 255, 255, 0.08) !important;
+      border-color: rgba(255, 219, 200, 0.22) !important;
+      color: #FFF8F4 !important;
+    }
+    .ia-style-chip.active {
+      background: rgba(255, 219, 200, 0.12) !important;
+      border-color: #FF8F6B !important;
+      color: #FFF8F4 !important;
+      font-weight: 700 !important;
+      box-shadow: 0 4px 12px rgba(255, 143, 107, 0.15), inset 0 1px 0 rgba(255,255,255,0.05) !important;
+    }
+    .ia-style-icon {
+      font-size: 13px !important;
     }
     .chef-ia-ambient {
       position: absolute;
@@ -4174,6 +4218,892 @@
     }
     .chef-ia-widget .ia-details-title { color: rgba(255,219,200,.6); }
     .chef-ia-widget .fridge-ia-divider { background: rgba(255,255,255,.08); }
+
+    /* ---- WIDGET ESTATÍSTICAS ---- */
+    .fridge-stats-grid {
+      display: grid;
+      grid-template-columns: 1fr 1.2fr;
+      gap: var(--sp-4);
+      align-items: center;
+    }
+    .fridge-stats-summary {
+      display: flex;
+      flex-direction: column;
+      gap: var(--sp-2);
+    }
+    .fridge-stat-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--c-on-surface-var);
+    }
+    .fridge-stat-row i {
+      font-size: 16px;
+    }
+    .fridge-stat-row.haves i { color: var(--c-success); }
+    .fridge-stat-row.missing i { color: var(--c-primary); }
+    .fridge-stat-row.saved i { color: var(--c-tertiary); }
+    
+    .fridge-stats-chart {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      height: 70px;
+      padding-top: var(--sp-2);
+      border-bottom: 1.5px solid var(--c-outline-variant);
+      padding-bottom: 2px;
+    }
+    .chart-bar-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+      flex: 1;
+    }
+    .chart-bar {
+      width: 10px;
+      background: var(--c-outline-variant);
+      border-radius: var(--r-xs) var(--r-xs) 0 0;
+      min-height: 4px;
+      transition: height 800ms var(--ease-standard), background-color 300ms ease;
+      cursor: pointer;
+      position: relative;
+    }
+    .chart-bar:hover {
+      background: var(--c-primary) !important;
+    }
+    .chart-bar.active {
+      background: var(--c-primary) !important;
+    }
+    .chart-bar::after {
+      content: attr(data-tooltip);
+      position: absolute;
+      bottom: 100%;
+      left: 50%;
+      transform: translateX(-50%) translateY(-4px);
+      background: var(--c-on-surface);
+      color: var(--c-surface);
+      font-size: 8px;
+      padding: 2px 6px;
+      border-radius: var(--r-xs);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 200ms ease;
+      white-space: nowrap;
+      z-index: 10;
+      box-shadow: var(--elev-1);
+    }
+    .chart-bar:hover::after {
+      opacity: 1;
+    }
+    .chart-label {
+      font-size: 8px;
+      font-weight: 700;
+      color: var(--c-on-surface-var);
+      opacity: 0.7;
+      text-transform: uppercase;
+    }
+    body.theme-dark .chart-bar {
+      background: rgba(255, 255, 255, 0.1);
+    }
+    body.theme-dark .chart-bar:hover,
+    body.theme-dark .chart-bar.active {
+      background: var(--c-primary-container) !important;
+    }
+
+    /* ---- CHEF IA LOADING FLUIDO ---- */
+    .chef-ia-fluid-container {
+      position: relative;
+      width: 100%;
+      height: 110px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+      margin: var(--sp-2) 0;
+      border-radius: var(--r-lg);
+      background: rgba(0, 0, 0, 0.15);
+      border: 1px solid rgba(255, 219, 200, 0.05);
+    }
+    .chef-ia-liquid-wrapper {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      filter: blur(10px) contrast(18);
+      background: transparent;
+    }
+    .chef-ia-blob {
+      position: absolute;
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      background: #8C3A1E;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      animation: blob-move-1 3.5s infinite ease-in-out;
+    }
+    .chef-ia-blob-2 {
+      position: absolute;
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      background: #FFDBC8;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      animation: blob-move-2 2.8s infinite ease-in-out;
+    }
+    .chef-ia-blob-3 {
+      position: absolute;
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      background: #77574A;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      animation: blob-move-3 4.2s infinite ease-in-out;
+    }
+    @keyframes blob-move-1 {
+      0%, 100% { transform: translate(-50%, -50%) translate(-25px, 0); }
+      50% { transform: translate(-50%, -50%) translate(25px, 0); }
+    }
+    @keyframes blob-move-2 {
+      0%, 100% { transform: translate(-50%, -50%) translate(0, -22px); }
+      50% { transform: translate(-50%, -50%) translate(0, 22px); }
+    }
+    @keyframes blob-move-3 {
+      0%, 100% { transform: translate(-50%, -50%) translate(18px, 18px); }
+      50% { transform: translate(-50%, -50%) translate(-18px, -18px); }
+    }
+    .chef-ia-loader-text {
+      position: relative;
+      z-index: 2;
+      font-size: 11px;
+      font-weight: 700;
+      color: #FFF8F4;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+      animation: pulse-loader-text 1.5s infinite alternate;
+    }
+    @keyframes pulse-loader-text {
+      0% { opacity: 0.7; transform: scale(0.98); }
+      100% { opacity: 1; transform: scale(1.02); }
+    }
+
+    /* ---- RECIPE MODAL POPUP (BOTTOM SHEET) ---- */
+    .recipe-modal-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(44, 21, 13, 0.4);
+      backdrop-filter: blur(5px);
+      z-index: 1000;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 400ms var(--ease-standard);
+    }
+    .recipe-modal-overlay.show {
+      opacity: 1;
+      pointer-events: auto;
+    }
+    .recipe-modal-sheet {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      max-height: 85%;
+      background: var(--c-surface);
+      border-radius: var(--r-xl) var(--r-xl) 0 0;
+      border-top: 1px solid var(--c-outline-variant);
+      box-shadow: 0 -12px 32px rgba(44, 21, 13, 0.2);
+      z-index: 1001;
+      display: flex;
+      flex-direction: column;
+      transform: translateY(100%);
+      transition: transform 400ms var(--ease-emphasized);
+    }
+    .recipe-modal-sheet.show {
+      transform: translateY(0);
+    }
+    .recipe-modal-header {
+      padding: var(--sp-4) var(--sp-5);
+      border-bottom: 1px solid var(--c-outline-variant);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: var(--c-surface-l1);
+      border-radius: var(--r-xl) var(--r-xl) 0 0;
+    }
+    .recipe-modal-title-group {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+    .recipe-modal-title {
+      font-size: 16px;
+      color: var(--c-primary);
+      margin: 0;
+    }
+    .recipe-modal-subtitle {
+      font-size: 10px;
+      color: var(--c-on-surface-var);
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .recipe-modal-body {
+      padding: var(--sp-5);
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: var(--sp-4);
+    }
+    .recipe-modal-body::-webkit-scrollbar {
+      display: none;
+    }
+    .recipe-modal-meta-row {
+      display: flex;
+      gap: var(--sp-2);
+      flex-wrap: wrap;
+    }
+    .recipe-modal-meta-pill {
+      font-size: 10px;
+      font-weight: 700;
+      padding: 6px 12px;
+      border-radius: var(--r-full);
+      background: var(--c-surface-l2);
+      color: var(--c-on-surface-var);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      border: 0.5px solid var(--c-outline-variant);
+    }
+    .recipe-modal-section-title {
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--c-primary);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: var(--sp-2);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .recipe-modal-ingredients-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .recipe-modal-ingredient-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 11px;
+      color: var(--c-on-surface);
+      font-weight: 600;
+    }
+    .recipe-modal-ingredient-item i {
+      font-size: 14px;
+    }
+    .recipe-modal-ingredient-item.have i {
+      color: var(--c-success);
+    }
+    .recipe-modal-ingredient-item.missing i {
+      color: var(--c-primary);
+    }
+    .recipe-modal-steps-list {
+      padding: 0;
+      margin: 0;
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .recipe-modal-step-item {
+      display: flex;
+      gap: 12px;
+      font-size: 12px;
+      color: var(--c-on-surface-var);
+      line-height: 1.5;
+    }
+    .recipe-modal-step-number {
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: var(--c-primary-container);
+      color: var(--c-on-primary-container);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 10px;
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+    .recipe-modal-footer {
+      padding: var(--sp-4) var(--sp-5);
+      border-top: 1px solid var(--c-outline-variant);
+      display: flex;
+      gap: var(--sp-3);
+      background: var(--c-surface-l1);
+    }
+    .recipe-modal-footer button {
+      flex: 1;
+    }
+    
+    body.theme-dark .recipe-modal-sheet {
+      background: var(--c-surface-dim);
+      border-color: rgba(255, 255, 255, 0.08);
+    }
+    body.theme-dark .recipe-modal-header,
+    body.theme-dark .recipe-modal-footer {
+      background: rgba(0, 0, 0, 0.25);
+      border-color: rgba(255, 255, 255, 0.08);
+    }
+    body.theme-dark .recipe-modal-meta-pill {
+      background: rgba(255, 255, 255, 0.05);
+      border-color: rgba(255, 255, 255, 0.08);
+    }
+    body.theme-dark .recipe-modal-step-number {
+      background: rgba(255, 219, 200, 0.15);
+      color: var(--c-primary-container);
+    }
+    
+    /* ---- CARROSSEL BADGES ---- */
+    .fridge-carousel-tag.badge-ready {
+      background-color: var(--c-success-container) !important;
+      color: var(--c-success) !important;
+    }
+    .fridge-carousel-tag.badge-missing {
+      background-color: var(--c-warning-container) !important;
+      color: var(--c-on-warning) !important;
+    }
+
+    /* ================================================================
+       PROFILE DRAWER v1.2 (CUSTOM STYLES FOR SIMULATOR)
+    ================================================================ */
+    #profile-drawer {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      z-index: 1380;
+      background: var(--c-surface);
+      color: var(--c-on-surface);
+      display: flex;
+      flex-direction: column;
+      pointer-events: none;
+      overflow: hidden;
+      box-sizing: border-box;
+      padding-top: 44px; /* Compensate status bar */
+      transform: translateY(100%);
+    }
+
+    #profile-drawer.pointer-events-none {
+      pointer-events: none;
+    }
+    #profile-drawer:not(.pointer-events-none) {
+      pointer-events: auto;
+    }
+
+    .profile-drawer-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: var(--sp-3) var(--sp-5);
+      border-bottom: 1px solid var(--c-outline-variant);
+      background: var(--c-surface);
+    }
+
+    .profile-drawer-content {
+      flex: 1;
+      overflow-y: auto;
+      padding: var(--sp-4) var(--sp-5) 100px var(--sp-5);
+      display: flex;
+      flex-direction: column;
+      gap: var(--sp-4);
+    }
+
+    .profile-hero {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      margin-top: var(--sp-2);
+    }
+
+    .profile-avatar-wrapper {
+      position: relative;
+      margin-bottom: var(--sp-4);
+    }
+
+    .profile-avatar-ring {
+      position: absolute;
+      inset: -4px;
+      border-radius: var(--r-full);
+      background: linear-gradient(135deg, #F59E0B, #D97706);
+      filter: blur(2px);
+      opacity: 0.75;
+      animation: profile-ring-pulse 2.5s infinite ease-in-out;
+    }
+
+    @keyframes profile-ring-pulse {
+      0%, 100% { transform: scale(1.02); opacity: 0.7; }
+      50% { transform: scale(1.06); opacity: 0.95; }
+    }
+
+    .profile-avatar-container {
+      position: relative;
+      width: 100px;
+      height: 100px;
+      border-radius: var(--r-full);
+      padding: 3px;
+      background: linear-gradient(135deg, #FBBF24, #F59E0B, #B45309);
+      box-shadow: var(--elev-3);
+    }
+
+    .profile-avatar-img {
+      width: 100%;
+      height: 100%;
+      border-radius: var(--r-full);
+      border: 2px solid var(--c-surface);
+      object-fit: cover;
+    }
+
+    .profile-elo-badge {
+      position: absolute;
+      bottom: -10px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: linear-gradient(to right, #F59E0B, #D97706);
+      color: #FFFFFF;
+      font-size: 10px;
+      font-weight: 700;
+      padding: 3px 12px;
+      border-radius: var(--r-full);
+      box-shadow: var(--elev-2);
+      white-space: nowrap;
+      letter-spacing: 0.05em;
+      border: 1px solid rgba(255,255,255,0.25);
+    }
+
+    .profile-name {
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--c-on-surface);
+      margin-top: var(--sp-3);
+      line-height: 1.2;
+    }
+
+    .profile-join-date {
+      font-size: 12px;
+      color: var(--c-on-surface-var);
+      margin-top: var(--sp-1);
+    }
+
+    .profile-stats-card {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      padding: var(--sp-3) var(--sp-2);
+      background: var(--c-surface-l1);
+      border-radius: var(--r-lg);
+      border: 1px solid var(--c-outline-variant);
+      text-align: center;
+      box-shadow: var(--elev-1);
+    }
+
+    .profile-stat-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .profile-stat-item:not(:last-child) {
+      border-right: 1px solid var(--c-outline-variant);
+    }
+
+    .profile-stat-val {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--c-primary);
+    }
+
+    .profile-stat-lbl {
+      font-size: 10px;
+      text-transform: uppercase;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      color: var(--c-on-surface-var);
+      margin-top: 2px;
+    }
+
+    .profile-xp-card {
+      background: var(--c-surface-l1);
+      border-radius: var(--r-lg);
+      border: 1px solid var(--c-outline-variant);
+      padding: var(--sp-4);
+      box-shadow: var(--elev-1);
+    }
+
+    .profile-xp-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 11px;
+      font-weight: 700;
+      margin-bottom: var(--sp-2);
+    }
+
+    .profile-level-tag {
+      color: var(--c-primary);
+    }
+
+    .profile-xp-values {
+      color: var(--c-on-surface-var);
+    }
+
+    .profile-xp-bar-bg {
+      width: 100%;
+      height: 10px;
+      background: var(--c-outline-variant);
+      border-radius: var(--r-full);
+      overflow: hidden;
+      box-shadow: inset 0 1px 2px rgba(0,0,0,0.1);
+    }
+
+    .profile-xp-bar-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--c-primary), #F59E0B);
+      border-radius: var(--r-full);
+      box-shadow: 0 1px 2px rgba(0,0,0,0.15);
+    }
+
+    .profile-xp-subtitle {
+      font-size: 10px;
+      text-align: center;
+      color: var(--c-on-surface-var);
+      margin-top: var(--sp-2);
+    }
+
+    .profile-section-title {
+      font-size: 11px;
+      text-transform: uppercase;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      color: var(--c-on-surface-var);
+      margin-bottom: var(--sp-2);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .profile-section-title i {
+      color: var(--c-primary);
+      font-size: 14px;
+    }
+
+    .profile-badge-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: var(--sp-3);
+    }
+
+    .profile-badge-card {
+      background: var(--c-surface-l1);
+      padding: var(--sp-3) var(--sp-2);
+      border-radius: var(--r-md);
+      border: 1px solid var(--c-outline-variant);
+      text-align: center;
+      cursor: pointer;
+      transition: all 200ms ease;
+    }
+
+    .profile-badge-card:hover {
+      transform: translateY(-2px);
+      background: var(--c-surface-l2);
+      border-color: var(--c-primary);
+    }
+
+    .profile-badge-emoji {
+      font-size: 24px;
+      display: block;
+      margin-bottom: 4px;
+    }
+
+    .profile-badge-name {
+      font-size: 10px;
+      font-weight: 700;
+      color: var(--c-on-surface);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      display: block;
+    }
+
+    .profile-badge-status {
+      font-size: 8px;
+      color: var(--c-success);
+      font-weight: 600;
+      margin-top: 2px;
+      display: block;
+    }
+
+    .profile-friend-list {
+      display: flex;
+      flex-direction: column;
+      gap: var(--sp-2);
+    }
+
+    .profile-friend-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: var(--sp-3);
+      background: var(--c-surface-l1);
+      border-radius: var(--r-md);
+      border: 1px solid var(--c-outline-variant);
+      box-shadow: var(--elev-1);
+    }
+
+    .profile-friend-info {
+      display: flex;
+      align-items: center;
+      gap: var(--sp-3);
+    }
+
+    .profile-friend-avatar-container {
+      position: relative;
+      width: 38px;
+      height: 38px;
+    }
+
+    .profile-friend-avatar {
+      width: 100%;
+      height: 100%;
+      border-radius: var(--r-full);
+      object-fit: cover;
+    }
+
+    .profile-friend-status-dot {
+      position: absolute;
+      bottom: 0;
+      right: 0;
+      width: 10px;
+      height: 10px;
+      border-radius: var(--r-full);
+      border: 2px solid var(--c-surface);
+    }
+
+    .profile-friend-status-dot.online { background-color: #10B981; }
+    .profile-friend-status-dot.offline { background-color: #9CA3AF; }
+
+    .profile-friend-meta {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .profile-friend-name {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--c-on-surface);
+    }
+
+    .profile-friend-status-text {
+      font-size: 9px;
+      color: var(--c-on-surface-var);
+      margin-top: 1px;
+      display: flex;
+      align-items: center;
+      gap: 3px;
+    }
+
+    .profile-friend-pulse {
+      width: 5px;
+      height: 5px;
+      border-radius: var(--r-full);
+      background-color: var(--c-primary);
+      animation: profile-pulse-dot 1.5s infinite;
+    }
+
+    @keyframes profile-pulse-dot {
+      0%, 100% { opacity: 0.3; }
+      50% { opacity: 1; }
+    }
+
+    .profile-follow-btn {
+      font-size: 10px;
+      font-weight: 700;
+      padding: 6px 14px;
+      border-radius: var(--r-full);
+      border: 1.5px solid var(--c-primary);
+      cursor: pointer;
+      transition: all 200ms ease;
+    }
+
+    .profile-follow-btn.following {
+      background: var(--c-primary);
+      color: #FFFFFF;
+    }
+
+    .profile-follow-btn:not(.following) {
+      color: var(--c-primary);
+      background: transparent;
+    }
+
+    .profile-follow-btn:not(.following):hover {
+      background: var(--c-primary-container);
+      color: var(--c-on-primary-container);
+    }
+
+    /* Settings slide-in panel */
+    #profile-settings-panel {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      z-index: 10;
+      background: var(--c-surface);
+      color: var(--c-on-surface);
+      display: flex;
+      flex-direction: column;
+      box-sizing: border-box;
+      transform: translateX(100%);
+      padding-top: 44px; /* Compensate status bar */
+    }
+
+    .settings-content-scroll {
+      flex: 1;
+      overflow-y: auto;
+      padding: var(--sp-4) var(--sp-5) var(--sp-6) var(--sp-5);
+      display: flex;
+      flex-direction: column;
+      gap: var(--sp-5);
+    }
+
+    .settings-section-lbl {
+      font-size: 10px;
+      text-transform: uppercase;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      color: var(--c-on-surface-var);
+      margin-bottom: var(--sp-2);
+    }
+
+    .settings-row-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: var(--sp-3);
+      background: var(--c-surface-l1);
+      border-radius: var(--r-md);
+      border: 1px solid var(--c-outline-variant);
+      box-shadow: var(--elev-1);
+    }
+
+    .settings-row-label-group {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .settings-row-title {
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .settings-row-desc {
+      font-size: 9px;
+      color: var(--c-on-surface-var);
+      margin-top: 1px;
+    }
+
+    /* iOS toggle switch */
+    .ios-switch-label {
+      position: relative;
+      width: 38px;
+      height: 22px;
+      display: inline-block;
+      cursor: pointer;
+    }
+
+    .ios-switch-input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+
+    .ios-switch-slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background-color: #E4E4E7;
+      transition: .3s;
+      border-radius: var(--r-full);
+    }
+
+    body.theme-dark .ios-switch-slider {
+      background-color: #3F3F46;
+    }
+
+    .ios-switch-slider:before {
+      position: absolute;
+      content: "";
+      height: 16px;
+      width: 16px;
+      left: 3px;
+      bottom: 3px;
+      background-color: white;
+      transition: .3s;
+      border-radius: var(--r-full);
+      box-shadow: 0 1px 3px rgba(0,0,0,0.25);
+    }
+
+    .ios-switch-input:checked + .ios-switch-slider {
+      background-color: var(--c-primary);
+    }
+
+    .ios-switch-input:checked + .ios-switch-slider:before {
+      transform: translateX(16px);
+    }
+
+    .settings-action-btn {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: var(--sp-3);
+      background: var(--c-surface-l1);
+      border-radius: var(--r-md);
+      border: 1px solid var(--c-outline-variant);
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--c-primary);
+      cursor: pointer;
+      transition: all 200ms ease;
+    }
+
+    .settings-action-btn:hover {
+      background: var(--c-surface-l2);
+    }
+
+    .settings-action-btn.danger {
+      color: #EF4444;
+    }
+    
+    .settings-action-btn.danger:hover {
+      background: rgba(239, 68, 68, 0.05);
+    }
   </style>
 </head>
 <body>
@@ -4289,12 +5219,12 @@
               <button class="icon-btn" aria-label="Pesquisar" onclick="showToast('Recurso de busca em desenvolvimento!', 'ti-search')"><i class="ti ti-search"></i></button>
               <button class="icon-btn" aria-label="Notificações" onclick="showToast('Você tem 2 novas receitas na comunidade!', 'ti-bell')"><i class="ti ti-bell"></i></button>
               <div class="avatar-container">
-                <div class="avatar" onclick="setAppTheme('toggle')">TM</div>
+                <div class="avatar cursor-pointer" onclick="openProfileDrawer()"><img src="img/camila_silva.webp" onerror="this.onerror=null; this.src='https://picsum.photos/id/64/100/100';" alt="Camila Silva" style="width:100%; height:100%; border-radius:50%; object-fit:cover; display:block;"></div>
               </div>
             </div>
             <!-- Fridge mode: back + avatar -->
             <button class="top-bar-fridge-back" onclick="closeFridgePage()"><i class="ti ti-chevron-left"></i></button>
-            <div class="avatar top-bar-fridge-avatar" onclick="setAppTheme('toggle')">TM</div>
+            <div class="avatar top-bar-fridge-avatar cursor-pointer" onclick="openProfileDrawer()"><img src="img/camila_silva.webp" onerror="this.onerror=null; this.src='https://picsum.photos/id/64/100/100';" alt="Camila Silva" style="width:100%; height:100%; border-radius:50%; object-fit:cover; display:block;"></div>
           </header>
         </div>
 
@@ -4318,7 +5248,7 @@
             <div class="widget-card widget-chef-profile">
               <div class="widget-chef-header">
                 <div class="widget-chef-info">
-                  <img src="https://picsum.photos/id/64/100/100" alt="Camila Silva" class="widget-chef-avatar">
+                  <img src="img/camila_silva.webp" onerror="this.onerror=null; this.src='https://picsum.photos/id/64/100/100';" alt="Camila Silva" class="widget-chef-avatar cursor-pointer" onclick="openProfileDrawer()">
                   <div class="widget-chef-meta">
                     <span class="widget-chef-name">Camila Silva</span>
                     <span class="widget-chef-role">Cozinheira Amadora</span>
@@ -4475,7 +5405,7 @@
                       <span class="widget-challenge-pct">74%</span>
                       <div class="widget-challenge-avatars">
                         <img src="https://picsum.photos/id/177/50/50" alt="Amigo 4" class="widget-challenge-avatar-img">
-                        <img src="https://picsum.photos/id/64/50/50" alt="Amigo 5" class="widget-challenge-avatar-img">
+                        <img src="img/camila_silva.webp" onerror="this.onerror=null; this.src='https://picsum.photos/id/64/50/50';" alt="Camila Silva" class="widget-challenge-avatar-img">
                       </div>
                     </div>
                   </div>
@@ -4555,8 +5485,8 @@
             <article class="_rcard" style="--recipe-accent:#8C3A1E;--recipe-accent-light:#FFDBC8;--recipe-accent-dark:#360E00">
               <div class="_rcard-thumb">
                 <div class="_thumb-stack">
-                  <img src="https://picsum.photos/id/431/600/400" alt="Macarrão ao sugo" width="400" height="300">
-                  <img src="https://picsum.photos/id/326/600/400" alt="Macarrão com manjericão" width="400" height="300">
+                  <img src="img/macarrao_sugo.webp" onerror="this.onerror=null; this.src='https://picsum.photos/id/431/600/400';" alt="Macarrão ao sugo" width="400" height="300">
+                  <img src="img/macarrao_manjericao.webp" onerror="this.onerror=null; this.src='https://picsum.photos/id/326/600/400';" alt="Macarrão com manjericão" width="400" height="300">
                 </div>
               </div>
               <p class="_rcat">Massa</p>
@@ -4575,7 +5505,7 @@
             <div class="recipe-list">
               
               <div class="recipe-list-item" onclick="showToast('Carregando Sopa de Abóbora...', 'ti-chef-hat')">
-                <img class="recipe-thumb-sm" src="https://picsum.photos/id/493/150/150" alt="Sopa de Abóbora">
+                <img class="recipe-thumb-sm" src="img/sopa_abobora.webp" onerror="this.onerror=null; this.src='https://picsum.photos/id/493/150/150';" alt="Sopa de Abóbora">
                 <div class="recipe-list-info">
                   <div class="recipe-list-name">Sopa cremosa de abóbora</div>
                   <div class="recipe-list-meta">40 min · Médio · Sem glúten</div>
@@ -4585,7 +5515,7 @@
               </div>
 
               <div class="recipe-list-item" onclick="showToast('Carregando Salada Verde...', 'ti-chef-hat')">
-                <img class="recipe-thumb-sm" src="https://picsum.photos/id/326/150/150" alt="Salada">
+                <img class="recipe-thumb-sm" src="img/salada_verde.webp" onerror="this.onerror=null; this.src='https://picsum.photos/id/326/150/150';" alt="Salada">
                 <div class="recipe-list-info">
                   <div class="recipe-list-name">Salada verde com croutons</div>
                   <div class="recipe-list-meta">10 min · Muito fácil · Vegano</div>
@@ -4637,7 +5567,7 @@
             <!-- Compositor de Post (Estilo Facebook) -->
             <div class="composer-card">
               <div class="composer-header">
-                <div class="avatar" style="background-color: var(--c-primary); color: #fff;">TM</div>
+                <div class="avatar cursor-pointer" onclick="openProfileDrawer()"><img src="img/camila_silva.webp" onerror="this.onerror=null; this.src='https://picsum.photos/id/64/100/100';" alt="Camila Silva" style="width:100%; height:100%; border-radius:50%; object-fit:cover; display:block;"></div>
                 <input type="text" id="composerInput" placeholder="No que você está pensando, Chef?" onclick="showComposerActions()">
               </div>
               <div class="composer-divider"></div>
@@ -4668,7 +5598,7 @@
                   <button class="icon-btn" aria-label="Mais" onclick="showToast('Menu de postagem em desenvolvimento.', 'ti-dots')"><i class="ti ti-dots"></i></button>
                 </div>
                 
-                <img class="community-card-img" src="https://picsum.photos/id/292/500/300" alt="Risoto Julia">
+                <img class="community-card-img" src="img/risoto_julia.webp" onerror="this.onerror=null; this.src='https://picsum.photos/id/292/500/300';" alt="Risoto Julia">
                 
                 <div class="community-card-title">Minha versão do Risoto de Cogumelos!</div>
                 <div class="community-card-desc">Adaptei com o que tinha em casa e ficou dos deuses! Usei um toque final de raspas de limão siciliano e queijo grana padano ralado na hora.</div>
@@ -4704,7 +5634,7 @@
                     </div>
                   </div>
                   <div class="comment-input-area">
-                    <div class="avatar comment-avatar" style="background-color: var(--c-primary); color: #fff;">TM</div>
+                    <div class="avatar comment-avatar cursor-pointer" onclick="openProfileDrawer()"><img src="img/camila_silva.webp" onerror="this.onerror=null; this.src='https://picsum.photos/id/64/100/100';" alt="Camila Silva" style="width:100%; height:100%; border-radius:50%; object-fit:cover; display:block;"></div>
                     <input type="text" placeholder="Escreva um comentário..." onkeydown="handleCommentSubmit(event, 'post-1')">
                   </div>
                 </div>
@@ -4721,7 +5651,7 @@
                   <button class="icon-btn" aria-label="Mais" onclick="showToast('Menu de postagem em desenvolvimento.', 'ti-dots')"><i class="ti ti-dots"></i></button>
                 </div>
                 
-                <img class="community-card-img" src="https://picsum.photos/id/493/500/300" alt="Café da Manhã">
+                <img class="community-card-img" src="img/breakfast_marcos.webp" onerror="this.onerror=null; this.src='https://picsum.photos/id/493/500/300';" alt="Café da Manhã">
                 
                 <div class="community-card-title">Café da manhã dos campeões! 🥑🍳</div>
                 <div class="community-card-desc">Ovos mexidos super cremosos usando a técnica do Chef (fogo bem baixo + cream cheese no final) servidos com avocado toast no pão de fermentação natural. Simples e maravilhoso!</div>
@@ -4750,7 +5680,7 @@
                     </div>
                   </div>
                   <div class="comment-input-area">
-                    <div class="avatar comment-avatar" style="background-color: var(--c-primary); color: #fff;">TM</div>
+                    <div class="avatar comment-avatar cursor-pointer" onclick="openProfileDrawer()"><img src="img/camila_silva.webp" onerror="this.onerror=null; this.src='https://picsum.photos/id/64/100/100';" alt="Camila Silva" style="width:100%; height:100%; border-radius:50%; object-fit:cover; display:block;"></div>
                     <input type="text" placeholder="Escreva um comentário..." onkeydown="handleCommentSubmit(event, 'post-2')">
                   </div>
                 </div>
@@ -4951,7 +5881,9 @@
               <div class="fridge-hero-glow"></div>
               <div class="fridge-hero-body">
                 <div class="fridge-hero-left">
-                  <span class="badge badge-primary fridge-hero-badge font-montserrat"><i class="ti ti-sparkles pulse-fast"></i> Inteligência Artificial</span>
+                  <div class="font-roca-bold" style="font-size: 13px; color: var(--c-primary); display: flex; align-items: center; gap: 6px; align-self: flex-start; margin-bottom: 2px; text-transform: uppercase; letter-spacing: 0.05em;">
+                    <i class="ti ti-fridge" style="font-size: 16px;"></i> Estoque Inteligente
+                  </div>
                   <h2 class="font-roca-bold fridge-hero-title">Minha Geladeira</h2>
                   <p class="fridge-hero-subtitle font-montserrat">Gerencie seus ingredientes e crie receitas afetivas instantâneas com IA.</p>
                   
@@ -4976,34 +5908,150 @@
               </div>
             </div>
             
-            <!-- SEÇÃO DE INGREDIENTES EM CARD PREMIUM -->
-            <div class="fridge-section-card">
-              <!-- Barra de Busca Rápida com Sugestões -->
-            <div class="fridge-search-group-container">
-              <div class="fridge-search-group">
-                <div class="input-with-icon">
-                  <i class="ti ti-search input-icon"></i>
-                  <input type="text" id="fridge-ingredient-search" class="input-field font-montserrat" placeholder="Buscar ou adicionar ingrediente..." onkeyup="handleSearchInput(event)" onfocus="showSuggestions()" onblur="hideSuggestionsWithDelay()">
-                </div>
-                <button class="search-add-btn" onclick="addCustomIngredient()" aria-label="Adicionar ingrediente"><i class="ti ti-plus"></i></button>
+            <!-- 1. WIDGET MEU ESTOQUE (Ver Minha Geladeira) -->
+            <div class="fridge-section-card" style="display: flex; flex-direction: column; align-items: center; text-align: center; padding: var(--sp-5) var(--sp-4); gap: var(--sp-3); background: linear-gradient(135deg, var(--c-surface-l1) 0%, var(--c-surface-l2) 100%); border: 1px solid var(--c-outline-variant); border-radius: var(--r-lg);">
+              <div style="width: 48px; height: 48px; border-radius: 50%; background: var(--c-primary-container); color: var(--c-primary); display: flex; align-items: center; justify-content: center; font-size: 20px;">
+                <i class="ti ti-fridge"></i>
               </div>
-              <div class="fridge-suggestions-dropdown" id="fridgeSuggestionsDropdown"></div>
-            </div>
-            
-            <!-- Seção de Ingredientes Ativos no Estoque -->
-            <div class="fridge-active-ingredients-container" id="fridgeActiveIngredients">
-              <!-- Renderizado dinamicamente via Javascript -->
-            </div>
-
-            <!-- Botão Ver Todos os Ingredientes -->
-            <div style="padding: 0 var(--sp-2); text-align: center; margin-top: var(--sp-4);">
-              <button class="btn-ver-todos" onclick="openAllIngredientsDrawer()">
-                <i class="ti ti-list"></i> Catálogo de Ingredientes (45+)
+              <div>
+                <h4 class="font-roca-bold" style="font-size: 15px; color: var(--c-primary); margin: 0 0 4px 0;">Estoque da Geladeira</h4>
+                <p class="font-montserrat" style="font-size: 11px; color: var(--c-on-surface-var); margin: 0; line-height: 1.4;">Configure o que você tem em casa para gerar receitas sob medida.</p>
+              </div>
+              <button class="btn btn-filled font-montserrat" onclick="openAllIngredientsDrawer()" style="width: 100%; border-radius: var(--r-full); padding: var(--sp-3) var(--sp-4); font-size: 12px; font-weight: 600; display: flex; align-items: center; justify-content: center; gap: 8px;">
+                <i class="ti ti-pencil"></i> Gerenciar Ingredientes
               </button>
             </div>
-            </div> <!-- Closes .fridge-section-card -->
 
-            <!-- CARROSSEL DE IDEIAS EM CARD PREMIUM -->
+            <!-- 2. WIDGET ESTATÍSTICAS (Estoque e Gráfico de Cozinhadas) -->
+            <div class="fridge-section-card widget-stats-container">
+              <div class="fridge-carousel-header" style="margin-bottom: var(--sp-4);">
+                <h3 class="font-roca-bold" style="font-size: 18px; margin: 0 0 4px 0; color: var(--c-primary);">Hábitos do Chef</h3>
+                <p class="font-montserrat" style="font-size: 11px; margin: 0; color: var(--c-on-surface-var); font-weight: 500;">Seu progresso semanal na cozinha</p>
+              </div>
+              <div class="fridge-stats-grid">
+                <div class="fridge-stats-summary font-montserrat">
+                  <div class="fridge-stat-row haves">
+                    <i class="ti ti-circle-check"></i>
+                    <div>
+                      <span id="stats-haves-count" style="font-weight: 700; color: var(--c-success);">4</span> itens ativos
+                    </div>
+                  </div>
+                  <div class="fridge-stat-row missing">
+                    <i class="ti ti-shopping-cart"></i>
+                    <div>
+                      <span id="stats-missing-count" style="font-weight: 700; color: var(--c-primary);">2</span> para comprar
+                    </div>
+                  </div>
+                  <div class="fridge-stat-row saved">
+                    <i class="ti ti-heart"></i>
+                    <div>
+                      <span id="stats-saved-count" style="font-weight: 700; color: var(--c-tertiary);">0</span> receitas salvas
+                    </div>
+                  </div>
+                </div>
+                <div class="fridge-stats-chart">
+                  <div class="chart-bar-container">
+                    <div class="chart-bar" style="height: 15px;" data-tooltip="Seg: 1 receita" id="chart-bar-0"></div>
+                    <span class="chart-label font-montserrat">S</span>
+                  </div>
+                  <div class="chart-bar-container">
+                    <div class="chart-bar" style="height: 45px;" data-tooltip="Ter: 3 receitas" id="chart-bar-1"></div>
+                    <span class="chart-label font-montserrat">T</span>
+                  </div>
+                  <div class="chart-bar-container">
+                    <div class="chart-bar" style="height: 30px;" data-tooltip="Qua: 2 receitas" id="chart-bar-2"></div>
+                    <span class="chart-label font-montserrat">Q</span>
+                  </div>
+                  <div class="chart-bar-container">
+                    <div class="chart-bar" style="height: 10px;" data-tooltip="Qui: 1 receita" id="chart-bar-3"></div>
+                    <span class="chart-label font-montserrat">Q</span>
+                  </div>
+                  <div class="chart-bar-container">
+                    <div class="chart-bar" style="height: 55px;" data-tooltip="Sex: 4 receitas" id="chart-bar-4"></div>
+                    <span class="chart-label font-montserrat">S</span>
+                  </div>
+                  <div class="chart-bar-container">
+                    <div class="chart-bar" style="height: 20px;" data-tooltip="Sáb: 1 receita" id="chart-bar-5"></div>
+                    <span class="chart-label font-montserrat">S</span>
+                  </div>
+                  <div class="chart-bar-container">
+                    <div class="chart-bar" style="height: 60px;" data-tooltip="Dom: 5 receitas" id="chart-bar-6"></div>
+                    <span class="chart-label font-montserrat">D</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- 3. WIDGET ASSISTENTE IA REDESENHADO (Glassmorphic + Seletores de Estilo) -->
+            <div class="chef-ia-widget" id="fridge-ia-generator-widget">
+              <div class="chef-ia-ambient"></div>
+              
+              <div class="chef-ia-header">
+                <div class="chef-ia-live-badge font-montserrat">
+                  <span class="chef-ia-pulse-dot"></span>
+                  Inteligência Artificial
+                </div>
+                <span class="badge badge-success font-montserrat" id="fridge-ia-status-badge">IA Pronta</span>
+              </div>
+
+              <!-- Interface Estática/Inicial do Card -->
+              <div id="fridge-ia-initial-state" style="position: relative; z-index: 1; display: flex; flex-direction: column; gap: var(--sp-3);">
+                <div>
+                  <h4 class="chef-ia-recipe-title font-roca-bold" style="color: #FFF8F4; font-size: 20px; margin: 0 0 4px 0; font-weight: 800;">Chef IA Inteligente</h4>
+                  <p class="chef-ia-recipe-desc font-montserrat" style="color: rgba(255,219,200,.65); font-size: 11.5px; line-height: 1.5; margin: 0;">Selecione seus ingredientes e escolha o estilo da sua receita personalizada.</p>
+                </div>
+
+                <!-- Selector de Estilos de Receitas -->
+                <div class="chef-ia-styles-selector" style="margin-top: 2px;">
+                  <span class="chef-ia-styles-label font-montserrat" style="font-size: 10px; font-weight: 700; color: rgba(255,219,200,.6); text-transform: uppercase; letter-spacing: 0.05em; display: block; margin-bottom: 8px;">Estilo da Receita:</span>
+                  <div class="chef-ia-styles-grid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
+                    <button class="ia-style-chip font-montserrat active" onclick="selectAiStyle('comfort', this)" type="button">
+                      <span class="ia-style-icon">🍲</span> Comfort Food
+                    </button>
+                    <button class="ia-style-chip font-montserrat" onclick="selectAiStyle('healthy', this)" type="button">
+                      <span class="ia-style-icon">🥗</span> Saudável
+                    </button>
+                    <button class="ia-style-chip font-montserrat" onclick="selectAiStyle('fast', this)" type="button">
+                      <span class="ia-style-icon">⏱️</span> Rápida
+                    </button>
+                    <button class="ia-style-chip font-montserrat" onclick="selectAiStyle('gourmet', this)" type="button">
+                      <span class="ia-style-icon">💎</span> Gourmet
+                    </button>
+                  </div>
+                </div>
+
+                <!-- Preview dinâmico dos ingredientes selecionados -->
+                <div id="chef-ia-ingredients-preview" class="font-montserrat" style="font-size: 11px; color: rgba(255,219,200,.85); background: rgba(255,255,255,0.05); padding: 10px 14px; border-radius: var(--r-md); border: 1px solid rgba(255,219,200,.1); display: flex; align-items: center; gap: 8px; margin-top: var(--sp-1);">
+                  <i class="ti ti-info-circle" style="color: #FF8F6B; font-size: 14px;"></i>
+                  <span>Nenhum ingrediente selecionado na geladeira.</span>
+                </div>
+                
+                <div style="display: flex; justify-content: flex-end; align-items: center; border-top: 1px solid rgba(255,219,200,.08); padding-top: var(--sp-3); margin-top: var(--sp-1);">
+                  <button class="chef-ia-cook-btn font-montserrat" onclick="generateAiMagicV2()" style="box-shadow: 0 8px 20px rgba(140,58,30,.4); display: flex; align-items: center; gap: 8px; width: 100%; justify-content: center; padding: 12px var(--sp-4);">
+                    <i class="ti ti-sparkles"></i> Criar Receita Mágica
+                  </button>
+                </div>
+              </div>
+
+              <!-- Liquid Shimmer Loading (Fluid Animation) -->
+              <div id="fridge-ia-fluid-loader" style="display: none; position: relative; z-index: 1;">
+                <div class="chef-ia-fluid-container" style="background: rgba(0, 0, 0, 0.2); border-color: rgba(255, 219, 200, 0.08);">
+                  <div class="chef-ia-liquid-wrapper">
+                    <div class="chef-ia-blob" style="background: #E06E53;"></div>
+                    <div class="chef-ia-blob-2" style="background: #F1E6C8;"></div>
+                    <div class="chef-ia-blob-3" style="background: #C4977F;"></div>
+                  </div>
+                  <span class="chef-ia-loader-text font-montserrat" id="chef-ia-loader-status-text">Misturando sabores...</span>
+                </div>
+                <!-- Micro progress indicator -->
+                <div style="width: 100%; height: 3px; background: rgba(255,255,255,0.05); border-radius: var(--r-full); overflow: hidden; margin-top: 12px;">
+                  <div id="chef-ia-loader-progress-bar" style="width: 0%; height: 100%; background: linear-gradient(90deg, #FF8F6B, #F1E6C8); transition: width 1500ms linear; border-radius: var(--r-full);"></div>
+                </div>
+                <p class="font-montserrat" style="font-size: 11px; text-align: center; color: rgba(255,219,200,.5); margin: var(--sp-2) 0 0 0;">O Chef IA está preparando sua sugestão <span id="chef-ia-loading-style-name">comfort</span>...</p>
+              </div>
+            </div>
+
+            <!-- 5. CARROSSEL DE IDEIAS EM CARD PREMIUM -->
             <div class="fridge-section-card" style="overflow: visible; margin-bottom: var(--sp-6);">
               <div class="fridge-carousel-header" style="margin-bottom: var(--sp-4);">
                 <h3 class="font-roca-bold" style="font-size: 18px; margin: 0 0 4px 0; color: var(--c-primary);">Ideias Rápidas para Hoje</h3>
@@ -5016,8 +6064,8 @@
                 <!-- Card 1 -->
                 <div class="fridge-carousel-card" onclick="loadReadyRecipe(1)">
                   <div class="fridge-carousel-thumb">
-                    <img src="https://picsum.photos/id/493/300/200" alt="Risoto Caprese">
-                    <span class="badge badge-primary fridge-carousel-tag font-montserrat">Destaque</span>
+                    <img src="img/risoto_caprese.webp" onerror="this.onerror=null; this.src='https://picsum.photos/id/493/300/200';" alt="Risoto Caprese">
+                    <span class="badge badge-primary fridge-carousel-tag font-montserrat" data-recipe-badge="1">Destaque</span>
                   </div>
                   <div class="fridge-carousel-info">
                     <h4 class="fridge-carousel-title font-roca-bold">Risoto Caprese</h4>
@@ -5032,8 +6080,8 @@
                 <!-- Card 2 -->
                 <div class="fridge-carousel-card" onclick="loadReadyRecipe(2)">
                   <div class="fridge-carousel-thumb">
-                    <img src="https://picsum.photos/id/292/300/200" alt="Omelete de Frango e Bacon">
-                    <span class="badge badge-secondary fridge-carousel-tag font-montserrat">Proteico</span>
+                    <img src="img/omelete_bacon_frango.webp" onerror="this.onerror=null; this.src='https://picsum.photos/id/292/300/200';" alt="Omelete de Frango e Bacon">
+                    <span class="badge badge-secondary fridge-carousel-tag font-montserrat" data-recipe-badge="2">Proteico</span>
                   </div>
                   <div class="fridge-carousel-info">
                     <h4 class="fridge-carousel-title font-roca-bold">Omelete Bacon & Frango</h4>
@@ -5048,8 +6096,8 @@
                 <!-- Card 3 -->
                 <div class="fridge-carousel-card" onclick="loadReadyRecipe(3)">
                   <div class="fridge-carousel-thumb">
-                    <img src="https://picsum.photos/id/326/300/200" alt="Bruschetta Rústica">
-                    <span class="badge badge-tertiary fridge-carousel-tag font-montserrat">Rápido</span>
+                    <img src="img/bruschetta_rustica.webp" onerror="this.onerror=null; this.src='https://picsum.photos/id/326/300/200';" alt="Bruschetta Rústica">
+                    <span class="badge badge-tertiary fridge-carousel-tag font-montserrat" data-recipe-badge="3">Rápido</span>
                   </div>
                   <div class="fridge-carousel-info">
                     <h4 class="fridge-carousel-title font-roca-bold">Bruschetta Rústica</h4>
@@ -5064,8 +6112,8 @@
                 <!-- Card 4 -->
                 <div class="fridge-carousel-card" onclick="loadReadyRecipe(4)">
                   <div class="fridge-carousel-thumb">
-                    <img src="https://picsum.photos/id/431/300/200" alt="Sopa Cremosa de Cebola">
-                    <span class="badge badge-success fridge-carousel-tag font-montserrat">Aconchegante</span>
+                    <img src="img/sopa_cebola.webp" onerror="this.onerror=null; this.src='https://picsum.photos/id/431/300/200';" alt="Sopa Cremosa de Cebola">
+                    <span class="badge badge-success fridge-carousel-tag font-montserrat" data-recipe-badge="4">Aconchegante</span>
                   </div>
                   <div class="fridge-carousel-info">
                     <h4 class="fridge-carousel-title font-roca-bold">Sopa Cremosa de Cebola</h4>
@@ -5080,8 +6128,8 @@
                 <!-- Card 5 -->
                 <div class="fridge-carousel-card" onclick="loadReadyRecipe(5)">
                   <div class="fridge-carousel-thumb">
-                    <img src="https://picsum.photos/id/493/300/200" alt="Frango Grelhado Caprese">
-                    <span class="badge badge-primary fridge-carousel-tag font-montserrat">Fit</span>
+                    <img src="img/frango_caprese.webp" onerror="this.onerror=null; this.src='https://picsum.photos/id/493/300/200';" alt="Frango Grelhado Caprese">
+                    <span class="badge badge-primary fridge-carousel-tag font-montserrat" data-recipe-badge="5">Fit</span>
                   </div>
                   <div class="fridge-carousel-info">
                     <h4 class="fridge-carousel-title font-roca-bold">Frango Caprese Grelhado</h4>
@@ -5096,8 +6144,8 @@
                 <!-- Card 6 -->
                 <div class="fridge-carousel-card" onclick="loadReadyRecipe(6)">
                   <div class="fridge-carousel-thumb">
-                    <img src="https://picsum.photos/id/292/300/200" alt="Ovos Mexidos Cream Cheese">
-                    <span class="badge badge-secondary fridge-carousel-tag font-montserrat">Cremoso</span>
+                    <img src="img/ovos_mexidos_premium.webp" onerror="this.onerror=null; this.src='https://picsum.photos/id/292/300/200';" alt="Ovos Mexidos Cream Cheese">
+                    <span class="badge badge-secondary fridge-carousel-tag font-montserrat" data-recipe-badge="6">Cremoso</span>
                   </div>
                   <div class="fridge-carousel-info">
                     <h4 class="fridge-carousel-title font-roca-bold">Ovos Mexidos Premium</h4>
@@ -5112,8 +6160,8 @@
                 <!-- Card 7 -->
                 <div class="fridge-carousel-card" onclick="loadReadyRecipe(7)">
                   <div class="fridge-carousel-thumb">
-                    <img src="https://picsum.photos/id/326/300/200" alt="Macarrão Alho e Óleo com Manjericão">
-                    <span class="badge badge-tertiary fridge-carousel-tag font-montserrat">Clássico</span>
+                    <img src="img/pasta_alho_oleo.webp" onerror="this.onerror=null; this.src='https://picsum.photos/id/326/300/200';" alt="Macarrão Alho e Óleo com Manjericão">
+                    <span class="badge badge-tertiary fridge-carousel-tag font-montserrat" data-recipe-badge="7">Clássico</span>
                   </div>
                   <div class="fridge-carousel-info">
                     <h4 class="fridge-carousel-title font-roca-bold">Pasta Alho & Óleo</h4>
@@ -5128,8 +6176,8 @@
                 <!-- Card 8 -->
                 <div class="fridge-carousel-card" onclick="loadReadyRecipe(8)">
                   <div class="fridge-carousel-thumb">
-                    <img src="https://picsum.photos/id/431/300/200" alt="Batatas Rústicas">
-                    <span class="badge badge-success fridge-carousel-tag font-montserrat">Acompanhamento</span>
+                    <img src="img/batatas_rusticas.webp" onerror="this.onerror=null; this.src='https://picsum.photos/id/431/300/200';" alt="Batatas Rústicas">
+                    <span class="badge badge-success fridge-carousel-tag font-montserrat" data-recipe-badge="8">Acompanhamento</span>
                   </div>
                   <div class="fridge-carousel-info">
                     <h4 class="fridge-carousel-title font-roca-bold">Batatas Rústicas</h4>
@@ -5144,8 +6192,8 @@
                 <!-- Card 9 -->
                 <div class="fridge-carousel-card" onclick="loadReadyRecipe(9)">
                   <div class="fridge-carousel-thumb">
-                    <img src="https://picsum.photos/id/493/300/200" alt="Saladinha Quente de Abóbora">
-                    <span class="badge badge-primary fridge-carousel-tag font-montserrat">Quente</span>
+                    <img src="img/salada_abobora.webp" onerror="this.onerror=null; this.src='https://picsum.photos/id/493/300/200';" alt="Saladinha Quente de Abóbora">
+                    <span class="badge badge-primary fridge-carousel-tag font-montserrat" data-recipe-badge="9">Quente</span>
                   </div>
                   <div class="fridge-carousel-info">
                     <h4 class="fridge-carousel-title font-roca-bold">Salada de Abóbora Assada</h4>
@@ -5160,8 +6208,8 @@
                 <!-- Card 10 -->
                 <div class="fridge-carousel-card" onclick="loadReadyRecipe(10)">
                   <div class="fridge-carousel-thumb">
-                    <img src="https://picsum.photos/id/292/300/200" alt="Creme de Queijo e Ervas">
-                    <span class="badge badge-secondary fridge-carousel-tag font-montserrat">Petisco</span>
+                    <img src="img/creme_queijo.webp" onerror="this.onerror=null; this.src='https://picsum.photos/id/292/300/200';" alt="Creme de Queijo e Ervas">
+                    <span class="badge badge-secondary fridge-carousel-tag font-montserrat" data-recipe-badge="10">Petisco</span>
                   </div>
                   <div class="fridge-carousel-info">
                     <h4 class="fridge-carousel-title font-roca-bold">Creme de Queijo & Ervas</h4>
@@ -5183,53 +6231,60 @@
               </div>
             </div> <!-- Closes .fridge-section-card -->
 
-            <!-- CHEF IA WIDGET — premium dark AI card -->
-            <div class="chef-ia-widget" id="ia-suggestion-box-v2">
-              <div class="chef-ia-ambient"></div>
-
-              <div class="chef-ia-header">
-                <div class="chef-ia-live-badge font-montserrat">
-                  <span class="chef-ia-pulse-dot"></span>
-                  Chef IA Tempera
+            <!-- 4. MODAL POPUP DE RECEITA IA (Bottom Sheet) -->
+            <div class="recipe-modal-overlay" id="fridgeAiRecipeModalOverlay" onclick="closeAiRecipeModal()">
+              <div class="recipe-modal-sheet" id="fridgeAiRecipeModal" onclick="event.stopPropagation()">
+                <!-- Header -->
+                <div class="recipe-modal-header">
+                  <div class="recipe-modal-title-group">
+                    <span class="recipe-modal-subtitle font-montserrat" id="modal-recipe-category">MASSAS & MOLHOS</span>
+                    <h4 class="recipe-modal-title font-roca-bold" id="modal-recipe-title">Macarrão ao Sugo Mágico</h4>
+                  </div>
+                  <button class="icon-btn cursor-pointer" onclick="closeAiRecipeModal()" style="width: 36px; height: 36px; border-radius: var(--r-full); display: flex; align-items: center; justify-content: center; color: var(--c-primary);" aria-label="Fechar">
+                    <i class="ti ti-x text-xl"></i>
+                  </button>
                 </div>
-                <span class="badge badge-success font-montserrat" id="ia-recipe-badge-v2">IA Ativa</span>
-              </div>
 
-              <!-- Shimmer placeholder -->
-              <div class="shimmer-placeholder" id="ia-shimmer">
-                <div class="ia-shimmer-line" style="width: 70%;"></div>
-                <div class="ia-shimmer-line" style="width: 90%;"></div>
-                <div class="ia-shimmer-line" style="width: 55%;"></div>
-              </div>
+                <!-- Scroll Content -->
+                <div class="recipe-modal-body">
+                  <div class="recipe-modal-meta-row font-montserrat">
+                    <span class="recipe-modal-meta-pill" id="modal-meta-time"><i class="ti ti-clock"></i> 25 min</span>
+                    <span class="recipe-modal-meta-pill" id="modal-meta-difficulty"><i class="ti ti-chef-hat"></i> Fácil</span>
+                    <span class="recipe-modal-meta-pill" id="modal-meta-servings"><i class="ti ti-users"></i> 2 porções</span>
+                  </div>
 
-              <!-- Dynamic recipe block -->
-              <div id="ia-recipe-content-v2">
-                <h4 class="chef-ia-recipe-title font-roca-bold" id="ia-recipe-title-v2">Carregando sugestões...</h4>
-                <p class="chef-ia-recipe-desc font-roca-italic" id="ia-recipe-desc-v2">Uma opção perfeita para seus ingredientes.</p>
+                  <p class="font-roca-italic" id="modal-recipe-desc" style="font-size: 13px; color: var(--c-on-surface-var); line-height: 1.5; margin: 0 0 var(--sp-2) 0; opacity: 0.85;">
+                    Uma opção deliciosa preparada sob medida com os ingredientes selecionados.
+                  </p>
 
-                <div class="ia-recipe-details" id="ia-recipe-details-v2" style="display: none;">
-                  <div class="fridge-ia-divider"></div>
-                  <h5 class="ia-details-title font-montserrat">Ingredientes Adicionais</h5>
-                  <ul class="ia-ingredients-list font-montserrat" id="ia-ingredients-ul"></ul>
-                  <div class="fridge-ia-divider"></div>
-                  <h5 class="ia-details-title font-montserrat">Modo de Preparo</h5>
-                  <ol class="ia-steps-list font-montserrat" id="ia-steps-ol"></ol>
+                  <!-- Ingredientes -->
+                  <div>
+                    <h5 class="recipe-modal-section-title font-montserrat"><i class="ti ti-list-check"></i> Ingredientes Selecionados</h5>
+                    <ul class="recipe-modal-ingredients-list font-montserrat" id="modal-ingredients-ul">
+                      <!-- Renderizado dinamicamente -->
+                    </ul>
+                  </div>
+
+                  <!-- Modo de Preparo -->
+                  <div>
+                    <h5 class="recipe-modal-section-title font-montserrat"><i class="ti ti-tools-kitchen-2"></i> Passo a Passo</h5>
+                    <ol class="recipe-modal-steps-list font-montserrat" id="modal-steps-ol">
+                      <!-- Renderizado dinamicamente -->
+                    </ol>
+                  </div>
                 </div>
-              </div>
 
-              <div class="chef-ia-footer">
-                <span class="chef-ia-meta font-montserrat" id="ia-recipe-meta-v2"><i class="ti ti-circle-check"></i> Você tem 4/4 ingredientes</span>
-                <button class="chef-ia-cook-btn font-montserrat" id="ia-cook-btn" onclick="showToast('Iniciando modo de preparo inteligente...', 'ti-player-play')"><i class="ti ti-player-play"></i> Cozinhar</button>
+                <!-- Footer Actions -->
+                <div class="recipe-modal-footer">
+                  <button class="btn btn-tonal font-montserrat" id="modal-save-btn" onclick="saveAiRecipe()" style="border-radius: var(--r-full); padding: var(--sp-3);">
+                    <i class="ti ti-heart"></i> Salvar Receita
+                  </button>
+                  <button class="btn btn-filled font-montserrat" onclick="regenerateAiRecipe()" style="border-radius: var(--r-full); padding: var(--sp-3);">
+                    <i class="ti ti-wand"></i> Gerar Outra
+                  </button>
+                </div>
               </div>
             </div>
-            
-            <!-- Botão Ação IA Alternativa -->
-            <div class="fridge-page-actions">
-              <button class="btn btn-tonal font-montserrat" style="width: 100%; border-radius: var(--r-full); padding: var(--sp-4);" onclick="generateAiMagicV2()">
-                <i class="ti ti-wand"></i> Gerar Outra com IA
-              </button>
-            </div>
-
             
           </div>
         </div>
@@ -5265,14 +6320,276 @@
         <div class="ingredients-drawer" id="fridgeIngredientsDrawer">
           <div class="drawer-handle-bar"></div>
           
-          <div class="drawer-header">
-            <h4 class="drawer-header-title font-roca-bold">Catálogo de Ingredientes</h4>
-            <button class="icon-btn" onclick="closeAllIngredientsDrawer()" aria-label="Fechar"><i class="ti ti-x" style="font-size: 20px; color: var(--c-primary);"></i></button>
+          <div class="drawer-header" style="flex-direction: column; align-items: stretch; gap: var(--sp-3); padding-bottom: var(--sp-3);">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+              <h4 class="drawer-header-title font-roca-bold">Meus Ingredientes</h4>
+              <button class="icon-btn" onclick="closeAllIngredientsDrawer()" aria-label="Fechar"><i class="ti ti-x" style="font-size: 20px; color: var(--c-primary);"></i></button>
+            </div>
+            
+            <!-- Barra de Busca Rápida com Sugestões transferida para a Gaveta -->
+            <div class="fridge-search-group-container" style="position: relative; width: 100%;">
+              <div class="fridge-search-group" style="display: flex; gap: var(--sp-2);">
+                <div class="input-with-icon" style="flex: 1;">
+                  <i class="ti ti-search input-icon"></i>
+                  <input type="text" id="fridge-ingredient-search" class="input-field font-montserrat" placeholder="Buscar ou adicionar ingrediente..." onkeyup="handleSearchInput(event)" onfocus="showSuggestions()" onblur="hideSuggestionsWithDelay()">
+                </div>
+                <button class="search-add-btn" onclick="addCustomIngredient()" aria-label="Adicionar ingrediente" style="width: 40px; height: 40px; border-radius: var(--r-full); background: var(--c-primary-container); color: var(--c-on-primary-container); border: none; display: flex; align-items: center; justify-content: center;"><i class="ti ti-plus"></i></button>
+              </div>
+              <div class="fridge-suggestions-dropdown" id="fridgeSuggestionsDropdown" style="position: absolute; top: 100%; left: 0; width: 100%; z-index: 10; display: none;"></div>
+            </div>
           </div>
           
-          <div class="drawer-content" id="drawerIngredientsContent">
+          <div class="drawer-content" id="drawerIngredientsContent" style="padding-top: var(--sp-1);">
             <!-- Gerado dinamicamente via Javascript -->
           </div>
+        </div>
+
+        <!-- DRAWER DE PERFIL INTERATIVO E GAMIFICADO -->
+        <div id="profile-drawer" class="pointer-events-none">
+          
+          <!-- Header Fixo do Drawer -->
+          <div class="profile-drawer-header">
+            <button class="icon-btn cursor-pointer" style="width: 40px; height: 40px; border-radius: var(--r-full); display: flex; align-items: center; justify-content: center; color: var(--c-primary);" onclick="closeProfileDrawer()">
+              <i class="ti ti-chevron-left text-2xl"></i>
+            </button>
+            <span class="font-roca-bold text-lg tracking-tight">Meu Perfil Chef</span>
+            <button class="icon-btn cursor-pointer" style="width: 40px; height: 40px; border-radius: var(--r-full); display: flex; align-items: center; justify-content: center; color: var(--c-primary);" onclick="toggleProfileSettings()">
+              <i class="ti ti-settings text-xl"></i>
+            </button>
+          </div>
+
+          <!-- Conteúdo Rolável -->
+          <div class="profile-drawer-content" id="profile-drawer-content">
+            
+            <!-- Foto de Perfil & Elo -->
+            <div class="profile-hero profile-stagger">
+              <div class="profile-avatar-wrapper">
+                <div class="profile-avatar-ring"></div>
+                <div class="profile-avatar-container">
+                  <img src="img/camila_silva.webp" onerror="this.onerror=null; this.src='https://picsum.photos/id/64/150/150';" alt="Camila Silva" class="profile-avatar-img">
+                </div>
+                <span class="profile-elo-badge">
+                  OURO II 🏆
+                </span>
+              </div>
+              <h3 class="profile-name font-roca-bold">Camila Silva</h3>
+              <span class="profile-join-date font-montserrat">Membro desde Dez/2025</span>
+            </div>
+
+            <!-- Contadores Sociais -->
+            <div class="profile-stats-card profile-stagger">
+              <div class="profile-stat-item">
+                <span class="profile-stat-val font-roca-bold" id="profile-following-count">142</span>
+                <span class="profile-stat-lbl font-montserrat">Seguindo</span>
+              </div>
+              <div class="profile-stat-item">
+                <span class="profile-stat-val font-roca-bold">89</span>
+                <span class="profile-stat-lbl font-montserrat">Seguidores</span>
+              </div>
+              <div class="profile-stat-item">
+                <span class="profile-stat-val font-roca-bold">48</span>
+                <span class="profile-stat-lbl font-montserrat">Cozinhados</span>
+              </div>
+            </div>
+
+            <!-- Barra de Progresso e Nível (Gamification) -->
+            <div class="profile-xp-card profile-stagger">
+              <div class="profile-xp-header font-montserrat">
+                <span class="profile-level-tag">NÍVEL 4</span>
+                <span class="profile-xp-values">XP 2.400 / 3.000</span>
+                <span class="profile-level-tag">NÍVEL 5</span>
+              </div>
+              <div class="profile-xp-bar-bg">
+                <div class="profile-xp-bar-fill" style="width: 80%;"></div>
+              </div>
+              <div class="profile-xp-subtitle font-montserrat">
+                Mais 600 XP para se tornar <span class="font-bold" style="color: var(--c-primary);">Chef Estrela ⭐</span>
+              </div>
+            </div>
+
+            <!-- Conquistas Principais -->
+            <div class="profile-stagger">
+              <h4 class="profile-section-title font-montserrat">
+                <i class="ti ti-trophy"></i> Conquistas Principais
+              </h4>
+              <div class="profile-badge-grid">
+                <div class="profile-badge-card" onclick="showToast('Mestre dos Risotos: Preparou 15 risotos diferentes! 🍲', 'ti-trophy')">
+                  <span class="profile-badge-emoji">🍲</span>
+                  <span class="profile-badge-name font-montserrat">Mestre Risoto</span>
+                  <span class="profile-badge-status font-montserrat">Concluído</span>
+                </div>
+                
+                <div class="profile-badge-card" onclick="showToast('Cortador Ágil: Cortou 100 vegetais em tempo recorde! 🔪', 'ti-trophy')">
+                  <span class="profile-badge-emoji">🔪</span>
+                  <span class="profile-badge-name font-montserrat">Cortador Ágil</span>
+                  <span class="profile-badge-status font-montserrat">Concluído</span>
+                </div>
+                
+                <div class="profile-badge-card" onclick="showToast('Tempero Perfeito: Utilizou 20 tipos de temperos! 🌿', 'ti-trophy')">
+                  <span class="profile-badge-emoji">🌿</span>
+                  <span class="profile-badge-name font-montserrat">Tempero Exato</span>
+                  <span class="profile-badge-status font-montserrat">Concluído</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Amigos na Cozinha -->
+            <div class="profile-stagger">
+              <h4 class="profile-section-title font-montserrat">
+                <i class="ti ti-users"></i> Amigos na Cozinha
+              </h4>
+              <div class="profile-friend-list">
+                
+                <!-- Amigo 1 -->
+                <div class="profile-friend-item">
+                  <div class="profile-friend-info">
+                    <div class="profile-friend-avatar-container">
+                      <img src="https://picsum.photos/id/1025/50/50" alt="João P." class="profile-friend-avatar">
+                      <span class="profile-friend-status-dot online"></span>
+                    </div>
+                    <div class="profile-friend-meta">
+                      <span class="profile-friend-name">João P.</span>
+                      <span class="profile-friend-status-text font-montserrat">
+                        <span class="profile-friend-pulse"></span> Cozinhando Risoto 🥘
+                      </span>
+                    </div>
+                  </div>
+                  <button class="profile-follow-btn following font-montserrat" onclick="toggleFollowFriend('joao', this)">
+                    Seguindo
+                  </button>
+                </div>
+                
+                <!-- Amigo 2 -->
+                <div class="profile-friend-item">
+                  <div class="profile-friend-info">
+                    <div class="profile-friend-avatar-container">
+                      <img src="https://picsum.photos/id/65/50/50" alt="Mariana S." class="profile-friend-avatar">
+                      <span class="profile-friend-status-dot offline"></span>
+                    </div>
+                    <div class="profile-friend-meta">
+                      <span class="profile-friend-name">Mariana S.</span>
+                      <span class="profile-friend-status-text font-montserrat">Offline 💤</span>
+                    </div>
+                  </div>
+                  <button class="profile-follow-btn following font-montserrat" onclick="toggleFollowFriend('mariana', this)">
+                    Seguindo
+                  </button>
+                </div>
+                
+                <!-- Amigo 3 -->
+                <div class="profile-friend-item">
+                  <div class="profile-friend-info">
+                    <div class="profile-friend-avatar-container">
+                      <img src="https://picsum.photos/id/338/50/50" alt="Lucas K." class="profile-friend-avatar">
+                      <span class="profile-friend-status-dot online"></span>
+                    </div>
+                    <div class="profile-friend-meta">
+                      <span class="profile-friend-name">Lucas K.</span>
+                      <span class="profile-friend-status-text font-montserrat">
+                        <span class="profile-friend-pulse"></span> Cozinhando Massa 🍝
+                      </span>
+                    </div>
+                  </div>
+                  <button class="profile-follow-btn font-montserrat" onclick="toggleFollowFriend('lucas', this)">
+                    Seguir +
+                  </button>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- SLIDE-IN PANEL DE CONFIGURAÇÕES -->
+          <div id="profile-settings-panel">
+            <!-- Settings Header -->
+            <div class="profile-drawer-header">
+              <button class="icon-btn cursor-pointer" style="width: 40px; height: 40px; border-radius: var(--r-full); display: flex; align-items: center; justify-content: center; color: var(--c-primary);" onclick="closeProfileSettings()">
+                <i class="ti ti-chevron-left text-2xl"></i>
+              </button>
+              <span class="font-roca-bold text-lg tracking-tight">Configurações</span>
+              <div style="width: 40px;"></div> <!-- Spacer -->
+            </div>
+            
+            <!-- Settings Content -->
+            <div class="settings-content-scroll">
+              
+              <!-- Tema do Aplicativo -->
+              <div class="space-y-3">
+                <h4 class="settings-section-lbl font-montserrat">Tema do Aplicativo</h4>
+                <div class="theme-selector-grid">
+                  <button class="theme-card-btn font-montserrat cursor-pointer" onclick="setAppTheme('grid-sutil')">
+                    <div class="theme-swatch-circle" style="background: #FAF7F2; background-image: linear-gradient(rgba(140, 58, 30, 0.08) 1px, transparent 1px), linear-gradient(90deg, rgba(140, 58, 30, 0.08) 1px, transparent 1px); background-size: 8px 8px;"></div>
+                    <span>Grid Sutil</span>
+                  </button>
+                  <button class="theme-card-btn font-montserrat cursor-pointer" onclick="setAppTheme('off-white')">
+                    <div class="theme-swatch-circle" style="background: #FAF7F2;"></div>
+                    <span>Off-White</span>
+                  </button>
+                  <button class="theme-card-btn font-montserrat cursor-pointer" onclick="setAppTheme('dark-linen')">
+                    <div class="theme-swatch-circle" style="background: #23211F; background-image: linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px), linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px); background-size: 8px 8px;"></div>
+                    <span>Linho Escuro</span>
+                  </button>
+                </div>
+              </div>
+
+              <!-- Preferências -->
+              <div>
+                <h4 class="settings-section-lbl font-montserrat">Preferências</h4>
+                <div style="display: flex; flex-direction: column; gap: var(--sp-2);">
+                  
+                  <!-- Notificação Toggle -->
+                  <div class="settings-row-item">
+                    <div class="settings-row-label-group">
+                      <span class="settings-row-title font-montserrat">Notificações</span>
+                      <span class="settings-row-desc font-montserrat">Lembretes de cozimento e amigos</span>
+                    </div>
+                    <label class="ios-switch-label">
+                      <input type="checkbox" checked class="ios-switch-input" onchange="showToast(this.checked ? 'Notificações ativadas!' : 'Notificações silenciadas.', 'ti-bell')">
+                      <span class="ios-switch-slider"></span>
+                    </label>
+                  </div>
+
+                  <!-- Efeitos Sonoros Toggle -->
+                  <div class="settings-row-item">
+                    <div class="settings-row-label-group">
+                      <span class="settings-row-title font-montserrat">Efeitos Sonoros</span>
+                      <span class="settings-row-desc font-montserrat">Micro-sons ao cumprir desafios</span>
+                    </div>
+                    <label class="ios-switch-label">
+                      <input type="checkbox" checked class="ios-switch-input" onchange="showToast(this.checked ? 'Sons ativados!' : 'Sons desativados.', 'ti-volume')">
+                      <span class="ios-switch-slider"></span>
+                    </label>
+                  </div>
+                  
+                </div>
+              </div>
+
+              <!-- Conta & Suporte -->
+              <div>
+                <h4 class="settings-section-lbl font-montserrat">Conta</h4>
+                <div style="display: flex; flex-direction: column; gap: var(--sp-2);">
+                  
+                  <button class="settings-action-btn font-montserrat" onclick="showToast('Sua chave de API do Gemini já está ativa.', 'ti-key')">
+                    <span style="display: flex; align-items: center; gap: 8px;"><i class="ti ti-key" style="font-size: 16px;"></i> Configurar Chave Gemini API</span>
+                    <i class="ti ti-chevron-right"></i>
+                  </button>
+                  
+                  <button class="settings-action-btn danger font-montserrat" onclick="restartAppFlow(); closeProfileDrawer();">
+                    <span style="display: flex; align-items: center; gap: 8px;"><i class="ti ti-logout" style="font-size: 16px;"></i> Sair do Perfil / Resetar App</span>
+                    <i class="ti ti-chevron-right"></i>
+                  </button>
+                  
+                </div>
+              </div>
+
+            </div>
+
+            <!-- Version Footer in Settings -->
+            <div style="padding: var(--sp-4); border-top: 1px solid var(--c-outline-variant); text-align: center; font-size: 10px; color: var(--c-on-surface-var); font-weight: 500; background: var(--c-surface);">
+              Tempera App Simulator • Versão 1.2.0
+            </div>
+          </div>
+
         </div>
       </div> <!-- Closes .phone-screen -->
     </div> <!-- Closes .simulator-container -->
@@ -5301,8 +6618,10 @@
       const body = document.body;
       const themeButtons = document.querySelectorAll('.theme-card-btn');
 
-      // Tira ativação anterior de botões do painel esquerdo
-      themeButtons.forEach(btn => btn.classList.remove('active'));
+      if (bgStyle === 'toggle') {
+        const isDark = body.classList.contains('theme-dark');
+        bgStyle = isDark ? 'grid-sutil' : 'dark-linen';
+      }
 
       // Remove classes anteriores
       body.className = '';
@@ -5310,33 +6629,28 @@
       body.style.backgroundImage = '';
       body.style.backgroundSize = '';
 
-      if (bgStyle === 'toggle') {
-        // Toggle rápido no avatar do celular (entre grid sutil e escuro)
-        const isDark = body.classList.contains('theme-dark');
-        bgStyle = isDark ? 'grid-sutil' : 'dark-linen';
-      }
+      // Tira ativação anterior de botões do painel esquerdo e drawer
+      themeButtons.forEach(btn => btn.classList.remove('active'));
 
       if (bgStyle === 'grid-sutil') {
         body.style.backgroundColor = '#FAF7F2';
         body.style.backgroundImage = 'linear-gradient(rgba(140, 58, 30, 0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(140, 58, 30, 0.04) 1px, transparent 1px)';
         body.style.backgroundSize = '24px 24px';
-        
-        // Ativa o botão no painel
-        const targetBtn = Array.from(themeButtons).find(btn => btn.getAttribute('onclick').includes('grid-sutil'));
-        if (targetBtn) targetBtn.classList.add('active');
       } 
       else if (bgStyle === 'off-white') {
         body.style.backgroundColor = '#FAF7F2';
-        
-        const targetBtn = Array.from(themeButtons).find(btn => btn.getAttribute('onclick').includes('off-white'));
-        if (targetBtn) targetBtn.classList.add('active');
       } 
       else if (bgStyle === 'dark-linen') {
         body.classList.add('theme-dark');
-        
-        const targetBtn = Array.from(themeButtons).find(btn => btn.getAttribute('onclick').includes('dark-linen'));
-        if (targetBtn) targetBtn.classList.add('active');
       }
+
+      // Ativa TODOS os botões correspondentes ao estilo de tema selecionado
+      themeButtons.forEach(btn => {
+        const onclickText = btn.getAttribute('onclick') || '';
+        if (onclickText.includes(bgStyle)) {
+          btn.classList.add('active');
+        }
+      });
     }
 
     // ----------------------------------------------------
@@ -5474,6 +6788,9 @@
         fridgePage.classList.add('show');
         updateHeroStats();
         renderActiveIngredients();
+        updateReadyRecipesBadges();
+        updateFridgeStatsWidget();
+        initFridgeStatsChart();
 
         // Swap phone-header to fridge mode (back + avatar)
         const header = document.getElementById('appPhoneHeader');
@@ -5592,6 +6909,16 @@
 
       // 5. Atualiza os contadores numéricos do Hero Section
       updateHeroStats();
+
+      // 6. Atualiza os badges dinâmicos e estatísticas
+      updateReadyRecipesBadges();
+      updateFridgeStatsWidget();
+
+      // 7. Se a gaveta estiver aberta, re-renderiza para atualizar a seção de Itens Ativos
+      const drawer = document.getElementById('fridgeIngredientsDrawer');
+      if (drawer && drawer.classList.contains('show')) {
+        initIngredientsDrawer();
+      }
     }
 
     // Atualiza os contadores numéricos do Hero Section
@@ -5683,7 +7010,51 @@
       const container = document.getElementById('drawerIngredientsContent');
       if (!container) return;
 
-      // Agrupa ingredientes por categoria
+      let html = '';
+
+      // 1. Agrupa ingredientes ativos (Tenho e Preciso Comprar)
+      const activeHaves = [];
+      const activeMissing = [];
+
+      ingredientsVocabulary.forEach(item => {
+        const state = selectedIngredients[item.name];
+        if (state === true) {
+          activeHaves.push(item);
+        } else if (state === 'missing') {
+          activeMissing.push(item);
+        }
+      });
+
+      if (activeHaves.length > 0 || activeMissing.length > 0) {
+        html += `
+          <div class="fridge-cat-section active-section" style="padding: 0 var(--sp-4) var(--sp-2) var(--sp-4); margin-bottom: var(--sp-2); border-bottom: 1px dashed var(--c-outline-variant);">
+            <h5 class="fridge-cat-title font-montserrat" style="margin-top: var(--sp-4); margin-bottom: var(--sp-2); color: var(--c-primary);"><i class="ti ti-fridge"></i> Itens Ativos</h5>
+            <div class="ingredient-category-list">
+        `;
+        
+        activeHaves.forEach(item => {
+          html += `
+            <span class="ingredient-chip-v2 have" onclick="toggleIngredientV2(this)" data-name="${item.name}">
+              <i class="ti ti-check"></i> ${item.name}
+            </span>
+          `;
+        });
+
+        activeMissing.forEach(item => {
+          html += `
+            <span class="ingredient-chip-v2 missing" onclick="toggleIngredientV2(this)" data-name="${item.name}">
+              <i class="ti ti-shopping-cart"></i> ${item.name}
+            </span>
+          `;
+        });
+
+        html += `
+            </div>
+          </div>
+        `;
+      }
+
+      // 2. Agrupa ingredientes por categoria para o catálogo normal
       const categories = {};
       ingredientsVocabulary.forEach(item => {
         if (!categories[item.category]) {
@@ -5693,7 +7064,6 @@
       });
 
       // Renderiza as categorias
-      let html = '';
       for (const catName in categories) {
         const items = categories[catName];
         const firstItem = items[0];
@@ -5739,6 +7109,16 @@
       const drawer = document.getElementById('fridgeIngredientsDrawer');
       const overlay = document.getElementById('fridgeDrawerOverlay');
       if (drawer && overlay) {
+        // Reset search input
+        const input = document.getElementById('fridge-ingredient-search');
+        if (input) input.value = '';
+        const dropdown = document.getElementById('fridgeSuggestionsDropdown');
+        if (dropdown) {
+          dropdown.style.display = 'none';
+          dropdown.innerHTML = '';
+        }
+
+        initIngredientsDrawer();
         drawer.classList.add('show');
         overlay.classList.add('show');
       }
@@ -5940,6 +7320,7 @@
     let currentIndex = 0;
     let carouselCards = [];
     let carouselTotal = 0;
+    let isProgrammaticScrolling = false;
 
     function initArcCarousel() {
       carouselCards = document.querySelectorAll('.fridge-carousel-card');
@@ -5957,8 +7338,12 @@
       if (container) {
         let scrollTimer;
         container.addEventListener('scroll', () => {
+          if (isProgrammaticScrolling) return; // Ignore event during programmatic scroll
+          
           clearTimeout(scrollTimer);
           scrollTimer = setTimeout(() => {
+            if (isProgrammaticScrolling) return; // Double check flag inside timeout
+            
             const center = container.scrollLeft + container.clientWidth / 2;
             let closest = 0, minDist = Infinity;
             carouselCards.forEach((card, idx) => {
@@ -5985,6 +7370,8 @@
     function updateArcCarousel(direction = 'next') {
       if (carouselTotal === 0) return;
 
+      isProgrammaticScrolling = true;
+
       // Update active-card class
       carouselCards.forEach((c, i) => c.classList.toggle('active-card', i === currentIndex));
 
@@ -5999,19 +7386,27 @@
       if (container && card) {
         const cardCenter = card.offsetLeft + card.offsetWidth / 2;
         const scrollTarget = cardCenter - container.clientWidth / 2;
+        
         container.scrollTo({ left: Math.max(0, scrollTarget), behavior: 'smooth' });
+        
+        // Let the smooth scroll finish before allowing scroll listener events to trigger again
+        setTimeout(() => {
+          isProgrammaticScrolling = false;
+        }, 500);
+      } else {
+        isProgrammaticScrolling = false;
       }
     }
 
     function navCarouselNext() {
-      if (currentIndex < carouselTotal - 1) {
+      if (currentIndex < carouselTotal - 1 && !isProgrammaticScrolling) {
         currentIndex++;
         updateArcCarousel('next');
       }
     }
 
     function navCarouselPrev() {
-      if (currentIndex > 0) {
+      if (currentIndex > 0 && !isProgrammaticScrolling) {
         currentIndex--;
         updateArcCarousel('prev');
       }
@@ -6024,6 +7419,8 @@
       updateArcCarousel(direction);
     }
 
+    let currentRecipe = null;
+
     function loadReadyRecipe(recipeId) {
       const data = readyRecipesData[recipeId];
       if (!data) return;
@@ -6032,139 +7429,80 @@
       const targetIndex = recipeId - 1;
       if (currentIndex !== targetIndex && targetIndex >= 0 && targetIndex < carouselTotal) {
         goToCard(targetIndex);
+        return; // Retorna para apenas centralizar o card, sem abrir o modal imediatamente
       }
 
       showToast(`Carregando receita: ${data.titulo}...`, "ti-chef-hat");
 
-      // Animação de Shimmer
-      const contentBox = document.getElementById('ia-recipe-content-v2');
-      const shimmerBox = document.getElementById('ia-shimmer');
-      const detailBox = document.getElementById('ia-recipe-details-v2');
-      const badge = document.getElementById('ia-recipe-badge-v2');
-      
-      shimmerBox.style.display = 'flex';
-      contentBox.style.opacity = '0.3';
-      detailBox.style.display = 'none';
+      // Parse fields from readyRecipesData format to the modal format
+      const timeVal = data.subtitulo.includes('min') ? data.subtitulo.split(' · ')[1] || '20 min' : '20 min';
+      const catVal = data.subtitulo.split(' · ')[0] || 'Prato Rápido';
 
-      // Sincroniza o estado de todos os ingredientes para coincidir com a receita selecionada
-      Object.keys(selectedIngredients).forEach(name => {
-        const hasIt = data.haves.includes(name);
-        syncChipState(name, hasIt ? true : false);
-      });
+      const recipe = {
+        titulo: data.titulo,
+        subtitulo: catVal,
+        desc: data.desc,
+        dificuldade: "Fácil",
+        tempo: timeVal,
+        rendimento: "2 porções",
+        ingredientes: data.ingredientes,
+        passos: data.passos
+      };
 
-      setTimeout(() => {
-        shimmerBox.style.display = 'none';
-        contentBox.style.opacity = '1';
-        badge.textContent = "Selecionada";
-        badge.className = "badge badge-primary font-montserrat";
-        
-        document.getElementById('ia-recipe-title-v2').textContent = data.titulo;
-        document.getElementById('ia-recipe-desc-v2').textContent = data.desc;
-        
-        // Popula ingredientes
-        const ul = document.getElementById('ia-ingredients-ul');
-        ul.innerHTML = '';
-        data.ingredientes.forEach(ing => {
-          const li = document.createElement('li');
-          li.className = 'ia-ingredient-item';
-          li.innerHTML = `<i class="ti ti-circle-check" style="color: var(--c-success);"></i> ${ing}`;
-          ul.appendChild(li);
-        });
-
-        // Popula passos
-        const ol = document.getElementById('ia-steps-ol');
-        ol.innerHTML = '';
-        data.passos.forEach((step, idx) => {
-          const li = document.createElement('li');
-          li.className = 'ia-step-item';
-          li.innerHTML = `<span class="ia-step-number">${idx + 1}</span> <span>${step}</span>`;
-          ol.appendChild(li);
-        });
-
-        detailBox.style.display = 'flex';
-        document.getElementById('ia-recipe-meta-v2').innerHTML = `<i class="ti ti-clock"></i> Receita Pronta Prática`;
-        
-        // Desce o scroll até a caixa de sugestão
-        scrollToSection('ia-suggestion-box-v2');
-      }, 500);
+      openAiRecipeModal(recipe);
     }
 
-    // ATUALIZAÇÃO DO CARD DE IA DE ACORDO COM CHIPS DA GELADEIRA
+    let selectedAiStyle = 'comfort';
+
+    function selectAiStyle(style, element) {
+      selectedAiStyle = style;
+      
+      // Remove active class from all style chips
+      const chips = document.querySelectorAll('.ia-style-chip');
+      chips.forEach(chip => chip.classList.remove('active'));
+      
+      // Add active class to clicked style chip
+      if (element) {
+        element.classList.add('active');
+      }
+      
+      // Visual feedback via toast
+      const styleNames = {
+        comfort: 'Comfort Food 🍲',
+        healthy: 'Saudável 🥗',
+        fast: 'Rápida ⏱️',
+        gourmet: 'Gourmet 💎'
+      };
+      showToast(`Estilo de receita definido: ${styleNames[style]}`, 'ti-sparkles');
+    }
+
     function updateFridgeSuggestionV2() {
-      // Lista de ingredientes ativos ("Tenho")
+      const statusBadge = document.getElementById('fridge-ia-status-badge');
       const haves = Object.keys(selectedIngredients).filter(k => selectedIngredients[k] === true);
-      const missing = Object.keys(selectedIngredients).filter(k => selectedIngredients[k] === 'missing');
-      
-      const iaRecipeText = document.getElementById('ia-recipe-title-v2');
-      const iaRecipeDesc = document.getElementById('ia-recipe-desc-v2');
-      const iaRecipeMeta = document.getElementById('ia-recipe-meta-v2');
-      const iaBox = document.getElementById('ia-suggestion-box-v2');
-      const iaBadge = document.getElementById('ia-recipe-badge-v2');
-      const detailBox = document.getElementById('ia-recipe-details-v2');
 
-      if (!iaRecipeText || !iaRecipeMeta) return;
-
-      // Reseta a exibição do detalhe ao mudar chips manuais (forçando usuário a recalcular via IA ou manter fluxo dinâmico simples)
-      detailBox.style.display = 'none';
-
-      if (haves.includes('Ovos') && haves.includes('Tomate') && haves.includes('Queijo')) {
-        iaRecipeText.textContent = "Omelete Caprese Cremosa";
-        iaRecipeDesc.textContent = "Uma refeição leve, rápida e deliciosa, cozinhada em fogo baixo e finalizada com azeite de oliva e orégano. Super cremosa!";
-        let totalCount = 3 + (haves.includes('Azeite') ? 1 : 0) + (haves.includes('Manjericão') ? 1 : 0);
-        iaRecipeMeta.innerHTML = `<i class="ti ti-circle-check"></i> Você tem ${totalCount}/5 ingredientes em casa`;
-        iaBox.style.borderLeftColor = 'var(--c-success)';
-        if (iaBadge) {
-          iaBadge.textContent = "Recomendado";
-          iaBadge.className = "badge badge-success font-montserrat";
-        }
-      } 
-      else if (haves.includes('Tomate') && haves.includes('Azeite') && (haves.includes('Alho') || haves.includes('Manjericão'))) {
-        iaRecipeText.textContent = "Bruschetta de Tomate e Manjericão";
-        iaRecipeDesc.textContent = "Tomates frescos maduros picados finamente, temperados com azeite de oliva extra virgem, alho e manjericão aromático sobre pão.";
-        iaRecipeMeta.innerHTML = `<i class="ti ti-circle-check"></i> Pronta em 10 minutos`;
-        iaBox.style.borderLeftColor = 'var(--c-primary)';
-        if (iaBadge) {
-          iaBadge.textContent = "Fácil & Rápido";
-          iaBadge.className = "badge badge-primary font-montserrat";
-        }
-      }
-      else if (haves.includes('Ovos') && haves.includes('Cream Cheese')) {
-        iaRecipeText.textContent = "Ovos Mexidos Premium Cremosos";
-        iaRecipeDesc.textContent = "Ovos batidos lentamente no fogo baixo com manteiga e cream cheese de alta qualidade para obter textura untuosa de hotel.";
-        iaRecipeMeta.innerHTML = `<i class="ti ti-circle-check"></i> Receita Proteica`;
-        iaBox.style.borderLeftColor = 'var(--c-tertiary)';
-        if (iaBadge) {
-          iaBadge.textContent = "Café da Manhã";
-          iaBadge.className = "badge badge-tertiary font-montserrat";
-        }
-      }
-      else {
-        let countHaves = haves.length;
-        if (countHaves > 0) {
-          iaRecipeText.textContent = "Mix Criativo do Chef Tempera";
-          iaRecipeDesc.textContent = `Receita personalizada utilizando os seus ${countHaves} ingredientes atualmente marcados como disponíveis na geladeira.`;
-          iaRecipeMeta.innerHTML = `<i class="ti ti-circle-check"></i> ${countHaves} itens marcados como 'Tenho'`;
-          iaBox.style.borderLeftColor = 'var(--c-outline)';
-          if (iaBadge) {
-            iaBadge.textContent = "Criativo";
-            iaBadge.className = "badge badge-outline font-montserrat";
-          }
+      if (statusBadge) {
+        if (haves.length === 0) {
+          statusBadge.textContent = "Sem Itens";
+          statusBadge.className = "badge badge-error font-montserrat";
         } else {
-          iaRecipeText.textContent = "Sua geladeira está vazia!";
-          iaRecipeDesc.textContent = "Marque chips acima como 'Tenho' ou busque/adicione itens na barra de pesquisa para gerar ideias.";
-          iaRecipeMeta.innerHTML = `<i class="ti ti-info-circle"></i> Sem ingredientes ativos`;
-          iaBox.style.borderLeftColor = 'var(--c-error)';
-          if (iaBadge) {
-            iaBadge.textContent = "Aguardando";
-            iaBadge.className = "badge badge-error font-montserrat";
-          }
+          statusBadge.textContent = "IA Pronta";
+          statusBadge.className = "badge badge-success font-montserrat";
+        }
+      }
+
+      // Atualiza o preview dinâmico de ingredientes no card de IA
+      const previewEl = document.getElementById('chef-ia-ingredients-preview');
+      if (previewEl) {
+        if (haves.length === 0) {
+          previewEl.innerHTML = `<i class="ti ti-info-circle" style="color: #FF8F6B; font-size: 14px;"></i> <span>Nenhum ingrediente selecionado na geladeira.</span>`;
+        } else {
+          const listText = haves.join(', ');
+          previewEl.innerHTML = `<i class="ti ti-activity" style="color: #4ADE80; font-size: 14px;"></i> <span>Foco em: <strong>${listText}</strong></span>`;
         }
       }
     }
 
-    // CHAMADA REAL À API DO GOOGLE GEMINI (COM FALLBACK SIMULADOR PREMIUM)
     async function generateAiMagicV2() {
-      const apiKey = localStorage.getItem('gemini_api_key');
       const haves = Object.keys(selectedIngredients).filter(k => selectedIngredients[k] === true);
       const missing = Object.keys(selectedIngredients).filter(k => selectedIngredients[k] === 'missing');
 
@@ -6173,17 +7511,48 @@
         return;
       }
 
+      // 1. Alterna visual para o loader fluido
+      const initialBox = document.getElementById('fridge-ia-initial-state');
+      const loaderBox = document.getElementById('fridge-ia-fluid-loader');
+      const statusBadge = document.getElementById('fridge-ia-status-badge');
+      
+      if (initialBox) initialBox.style.display = 'none';
+      if (loaderBox) {
+        loaderBox.style.display = 'block';
+        
+        // Progress animation logic
+        const styleLabel = document.getElementById('chef-ia-loading-style-name');
+        if (styleLabel) {
+          const styleNamesMap = { comfort: 'comfort food', healthy: 'saudável', fast: 'rápida', gourmet: 'gourmet' };
+          styleLabel.textContent = styleNamesMap[selectedAiStyle] || 'personalizada';
+        }
+        
+        const progressBar = document.getElementById('chef-ia-loader-progress-bar');
+        if (progressBar) {
+          progressBar.style.width = '0%';
+          progressBar.offsetHeight; // Force reflow
+          progressBar.style.width = '100%';
+        }
+      }
+      if (statusBadge) {
+        statusBadge.textContent = 'Processando...';
+        statusBadge.className = 'badge badge-primary font-montserrat';
+      }
+
       showToast("Chef IA está preparando sua receita...", "ti-sparkles");
 
-      // Ativar animação de loading shimmer
-      const contentBox = document.getElementById('ia-recipe-content-v2');
-      const shimmerBox = document.getElementById('ia-shimmer');
-      const detailBox = document.getElementById('ia-recipe-details-v2');
-      const badge = document.getElementById('ia-recipe-badge-v2');
-      
-      shimmerBox.style.display = 'flex';
-      contentBox.style.opacity = '0.3';
-      detailBox.style.display = 'none';
+      const apiKey = localStorage.getItem('gemini_api_key');
+      const startTime = Date.now();
+
+      // Helper para fechar loader e restaurar estado inicial
+      function restoreInitialState() {
+        if (initialBox) initialBox.style.display = 'block';
+        if (loaderBox) loaderBox.style.display = 'none';
+        if (statusBadge) {
+          statusBadge.textContent = 'IA Pronta';
+          statusBadge.className = 'badge badge-success font-montserrat';
+        }
+      }
 
       // LÓGICA DE GERAÇÃO REAL COM GEMINI API
       if (apiKey) {
@@ -6194,12 +7563,13 @@
 O usuário tem os seguintes ingredientes na cozinha:
 ${ingredientsList.join('\n')}
 
-Por favor, elabore uma receita culinária autoral e prática baseada nessas informações. Dê preferência aos ingredientes disponíveis (marcardos como disponível), mas você pode utilizar alguns da lista 'preciso comprar' ou incluir outros ingredientes básicos (como sal, pimenta, água, farinha) se necessário para que a receita faça sentido culinário.
+O usuário selecionou o estilo de receita: ${selectedAiStyle}. Por favor, elabore uma receita culinária autoral e prática baseada nessas informações que siga rigorosamente essa linha (Comfort Food, Saudável, Rápida ou Gourmet).
+Dê preferência aos ingredientes disponíveis (marcardos como disponível), mas você pode utilizar alguns da lista 'preciso comprar' ou incluir outros ingredientes básicos (como sal, pimenta, água, farinha) se necessário para que a receita faça sentido culinário.
 
 Retorne EXCLUSIVAMENTE um objeto JSON estruturado no seguinte formato. Não coloque marcações markdown como \`\`\`json ou semelhantes no seu retorno, devolva apenas o objeto JSON puro:
 {
   "titulo": "Nome Encantador da Receita",
-  "subtitulo": "Categoria · Tempo Estimado",
+  "categoria": "Categoria · Tempo Estimado",
   "descricao": "Uma breve descrição literária, afetiva e charmosa da receita (máximo 2 frases). Use um estilo que inspire afeto na cozinha.",
   "dificuldade": "Fácil, Médio ou Difícil",
   "tempo": "X min",
@@ -6240,134 +7610,384 @@ Retorne EXCLUSIVAMENTE um objeto JSON estruturado no seguinte formato. Não colo
 
           const recipe = JSON.parse(jsonText);
 
-          // Popula a interface com dados reais do Gemini!
+          // Garante que a animação dure pelo menos 1500ms
+          const elapsed = Date.now() - startTime;
+          const delay = Math.max(0, 1500 - elapsed);
+          
           setTimeout(() => {
-            shimmerBox.style.display = 'none';
-            contentBox.style.opacity = '1';
-            
-            badge.textContent = "IA Gemini Real";
-            badge.className = "badge badge-primary font-montserrat";
-            
-            document.getElementById('ia-recipe-title-v2').innerHTML = `✨ ${recipe.titulo}`;
-            document.getElementById('ia-recipe-desc-v2').textContent = recipe.descricao;
-
-            // Ingredientes
-            const ul = document.getElementById('ia-ingredients-ul');
-            ul.innerHTML = '';
-            recipe.ingredientes.forEach(ing => {
-              const li = document.createElement('li');
-              li.className = 'ia-ingredient-item';
-              li.innerHTML = `<i class="ti ti-circle-check" style="color: var(--c-success);"></i> ${ing}`;
-              ul.appendChild(li);
+            restoreInitialState();
+            openAiRecipeModal({
+              titulo: recipe.titulo,
+              subtitulo: recipe.categoria || 'Receita IA',
+              desc: recipe.descricao,
+              dificuldade: recipe.dificuldade || 'Fácil',
+              tempo: recipe.tempo || '20 min',
+              rendimento: recipe.rendimento || '2 porções',
+              ingredientes: recipe.ingredientes,
+              passos: recipe.passos
             });
-
-            // Passos
-            const ol = document.getElementById('ia-steps-ol');
-            ol.innerHTML = '';
-            recipe.passos.forEach((step, idx) => {
-              const li = document.createElement('li');
-              li.className = 'ia-step-item';
-              li.innerHTML = `<span class="ia-step-number">${idx + 1}</span> <span>${step}</span>`;
-              ol.appendChild(li);
-            });
-
-            detailBox.style.display = 'flex';
-            document.getElementById('ia-recipe-meta-v2').innerHTML = `<i class="ti ti-sparkles"></i> ${recipe.dificuldade} · ${recipe.tempo} · ${recipe.rendimento}`;
-            
             showToast("Receita gerada pelo Gemini com sucesso! 🍳", "ti-sparkles");
-            scrollToSection('ia-suggestion-box-v2');
-          }, 600);
+          }, delay);
 
         } catch (error) {
           console.error("Erro na API Gemini:", error);
-          showToast("Erro na IA real. Iniciando Simulador de Alta Fidelidade!", "ti-alert-circle");
-          triggerMockAiMagic(haves, missing);
+          const elapsed = Date.now() - startTime;
+          const delay = Math.max(0, 1500 - elapsed);
+          setTimeout(() => {
+            restoreInitialState();
+            showToast("Erro na IA real. Iniciando Simulador!", "ti-alert-circle");
+            triggerMockAiMagic(haves, missing);
+          }, delay);
         }
       } else {
         // FALLBACK: SIMULADOR DE ALTA FIDELIDADE
         setTimeout(() => {
+          restoreInitialState();
           triggerMockAiMagic(haves, missing);
-        }, 1200); // tempo para curtir a animação premium do loading
+        }, 1500); // tempo de loading fluido do chef
       }
     }
 
-    // SIMULADOR IA DE FALLBACK (SIMULAÇÃO FANTÁSTICA DE ACORDO COM INGREDIENTES ATIVOS)
     function triggerMockAiMagic(haves, missing) {
-      const contentBox = document.getElementById('ia-recipe-content-v2');
-      const shimmerBox = document.getElementById('ia-shimmer');
-      const detailBox = document.getElementById('ia-recipe-details-v2');
-      const badge = document.getElementById('ia-recipe-badge-v2');
-      
-      shimmerBox.style.display = 'none';
-      contentBox.style.opacity = '1';
-      
-      badge.textContent = "IA Simulada";
-      badge.className = "badge badge-tertiary font-montserrat";
-
-      const title = document.getElementById('ia-recipe-title-v2');
-      const desc = document.getElementById('ia-recipe-desc-v2');
-      const ul = document.getElementById('ia-ingredients-ul');
-      const ol = document.getElementById('ia-steps-ol');
-      const meta = document.getElementById('ia-recipe-meta-v2');
-
-      ul.innerHTML = '';
-      ol.innerHTML = '';
-
       let recipeTitle = "Frittata Aconchegante do Chef";
       let recipeDesc = "Uma torta de ovos leve e aerada, repleta de queijo fundido, azeite perfumado e finalizada com ervas finas da cozinha.";
-      let recipeMeta = "<i class=\"ti ti-sparkles\"></i> Fácil · 15 min · 2 porções";
+      let difficulty = "Fácil";
+      let tempo = "15 min";
+      let rendimento = "2 porções";
+      let category = "Café da Manhã Rápido";
       let ings = ["3 Ovos inteiros batidos", "50g de Queijo de sua preferência ralado", "1 colher de Azeite de Oliva", "Sal, pimenta e temperos a gosto"];
       let steps = ["Bata os ovos vigorosamente até espumarem levemente.", "Em uma frigideira untada com azeite, junte os ovos e o queijo em fogo baixo.", "Tampe e cozinhe lentamente até firmar.", "Dobre com cuidado e sirva quente com torradas."];
 
-      // Inteligência de Fallback Dinâmico
-      if (haves.includes('Ovos') && haves.includes('Frango') && haves.includes('Queijo')) {
-        recipeTitle = "Crepioca de Frango com Queijo Crocante";
-        recipeDesc = "Massa fininha e leve de ovo com tapioca, recheada com peito de frango desfiado temperado e queijo derretido de frigideira.";
-        ings = ["2 Ovos inteiros", "2 colheres de goma de tapioca", "100g de Frango desfiado temperado", "50g de Queijo fatiado", "Azeite de oliva para grelhar"];
-        steps = ["Misture os ovos e a tapioca com um garfo até ficar homogêneo.", "Grelhe na frigideira untada com azeite até soltar as bordas.", "Vire o disco, acrescente o frango e o queijo em metade e dobre.", "Doure dos dois lados até o queijo criar casquinha e sirva."];
+      // Inteligência de Fallback Dinâmico baseado em ingredientes e no Estilo selecionado!
+      if (selectedAiStyle === 'healthy') {
+        recipeTitle = "Salada Tropical da Geladeira";
+        recipeDesc = "Um prato extremamente leve e revigorante com ingredientes selecionados, temperado com azeite e ervas aromáticas frescas.";
+        ings = ["Folhas de alface lavadas", "1 Tomate maduro fatiado", "1 colher de Azeite extra virgem", "Sal e pimenta do reino a gosto"];
+        steps = ["Rasgue as folhas de alface em pedaços médios e coloque em uma tigela.", "Junte as fatias de tomate.", "Regue com o azeite, sal e pimenta.", "Misture delicadamente e sirva fresca."];
+        category = "Cozinha Saudável";
+        tempo = "5 min";
+        difficulty = "Muito Fácil";
+        rendimento = "1 porção";
+        
+        // Se tiver abóbora e alho
+        if (haves.includes('Abóbora') && haves.includes('Alho')) {
+          recipeTitle = "Creme Light de Abóbora Grelhada";
+          recipeDesc = "Creme leve e termogênico de abóbora cozida no vapor com alho e finalizado com gotas de azeite e ervas.";
+          ings = ["300g de Abóbora cozida", "1 dente de Alho picado", "1 colher de Azeite", "Sal, pimenta e orégano"];
+          steps = ["Cozinhe a abóbora até amaciar.", "Bata no liquidificador ou amasse com garfo juntando alho refogado.", "Tempere com sal e pimenta e regue com azeite."];
+          tempo = "15 min";
+          difficulty = "Fácil";
+          rendimento = "2 porções";
+        }
+      } 
+      else if (selectedAiStyle === 'fast') {
+        recipeTitle = "Omelete Expresso de Frigideira";
+        recipeDesc = "Omelete rápida e prática batida com garfo e dourada na frigideira com queijo derretido por cima em menos de 8 minutos.";
+        ings = ["2 Ovos batidos", "30g de Queijo picado", "1 colher de Azeite", "Sal e orégano"];
+        steps = ["Bata os ovos com sal e orégano.", "Aqueça o azeite e junte os ovos na frigideira rápida.", "Disponha o queijo por cima, dobre ao meio e tampe por 1 minuto até derreter."];
+        category = "Lanche Rápido";
+        tempo = "8 min";
+        difficulty = "Muito Fácil";
+        rendimento = "1 porção";
+        
+        if (haves.includes('Tomate') && haves.includes('Queijo')) {
+          recipeTitle = "Bruschetta Rápida de Tomate";
+          recipeDesc = "Fatias de pão cobertas com tomate e queijo picados, regadas com azeite e gratinadas na Airfryer em 5 minutos.";
+          ings = ["2 fatias de Pão", "1/2 Tomate picado", "50g de Queijo picado", "Azeite e manjericão"];
+          steps = ["Disponha os tomates e queijo sobre o pão.", "Regue com azeite e salpique manjericão.", "Aqueça na Airfryer por 5 minutos a 180°C e sirva."];
+          tempo = "7 min";
+          difficulty = "Muito Fácil";
+          rendimento = "1 porção";
+        }
       }
-      else if (haves.includes('Tomate') && haves.includes('Azeite') && haves.includes('Abóbora')) {
-        recipeTitle = "Creme Aveludado de Abóbora com Tomate Grelhado";
-        recipeDesc = "Um caldo aveludado e aconchegante de abóbora cozida no azeite, coroado com tomates cereja tostados na frigideira.";
-        ings = ["300g de Abóbora em cubos", "1 xícara de Tomates cereja grelhados", "1 dente de Alho picado", "3 colheres de Azeite de oliva extra virgem", "Sal e folhinhas verdes a gosto"];
-        steps = ["Cozinhe a abóbora com alho e sal até ficar extremamente macia.", "Bata no liquidificador com um fio de azeite até obter textura de creme aveludado.", "Toste os tomates na frigideira com azeite quente até racharem a casca.", "Sirva o creme bem quente em um bowl decorado com os tomates e azeite por cima."];
+      else if (selectedAiStyle === 'gourmet') {
+        recipeTitle = "Risoto Premium Caprese Aromático";
+        recipeDesc = "Um prato sofisticado preparado com arroz cremoso, tomates cereja doces cozidos no azeite e queijo derretido em fios.";
+        ings = ["1 xícara de Arroz arbóreo", "1 Tomate picado", "80g de Queijo mussarela de búfala", "Azeite extra virgem", "Manjericão fresco"];
+        steps = ["Refogue o arroz com azeite e vá adicionando água quente aos poucos mexendo sempre.", "Nos minutos finais, junte os tomates picados para que se desmanchem levemente.", "Retire do fogo, incorpore o queijo e manjericão e mexa vigorosamente até emulsificar.", "Sirva imediatamente decorado com folhas de manjericão."];
+        category = "Chef Especial";
+        tempo = "25 min";
+        difficulty = "Médio";
+        rendimento = "2 porções";
       }
-      else if (haves.includes('Ovos') && haves.includes('Tomate') && haves.includes('Queijo')) {
-        recipeTitle = "Omelete Caprese Supreme";
-        recipeDesc = "Nossa clássica e adorada omelete, recheada com queijo mussarela elástico, rodelas de tomate e perfume natural de manjericão fresco.";
-        ings = ["3 Ovos de horta", "1/2 Tomate maduro fatiado", "60g de Queijo mussarela", "Folhas frescas de manjericão", "1 colher de Azeite", "Orégano e sal"];
-        steps = ["Bata os ovos com uma pitada de sal e orégano.", "Depeje na frigideira aquecida com azeite e cozinhe em fogo baixo.", "Quando o topo firmar levemente, disponha o queijo, os tomates e o manjericão.", "Dobre e abafe por 1 minuto para o queijo derreter perfeitamente."];
+      else { // comfort - default
+        if (haves.includes('Ovos') && haves.includes('Frango') && haves.includes('Queijo')) {
+          recipeTitle = "Crepioca de Frango com Queijo Crocante";
+          recipeDesc = "Massa fininha e leve de ovo com tapioca, recheada com peito de frango desfiado suculento e queijo derretido de frigideira.";
+          ings = ["2 Ovos inteiros", "2 colheres de goma de tapioca", "100g de Frango desfiado temperado", "50g de Queijo fatiado", "Azeite de oliva para grelhar"];
+          steps = ["Misture os ovos e a tapioca com um garfo até ficar homogêneo.", "Grelhe na frigideira untada com azeite até soltar as bordas.", "Vire o disco, acrescente o frango e o queijo em metade e dobre.", "Doure dos dois lados até o queijo criar casquinha e sirva."];
+          category = "Lanche Proteico";
+          tempo = "12 min";
+          difficulty = "Fácil";
+          rendimento = "1 porção";
+        }
+        else if (haves.includes('Tomate') && haves.includes('Azeite') && haves.includes('Abóbora')) {
+          recipeTitle = "Creme Aveludado de Abóbora com Tomate Grelhado";
+          recipeDesc = "Um caldo aveludado e aconchegante de abóbora cozida no azeite, coroado com tomates cereja tostados na frigideira.";
+          ings = ["300g de Abóbora em cubos", "1 xícara de Tomates cereja grelhados", "1 dente de Alho picado", "3 colheres de Azeite de oliva extra virgem", "Sal e folhinhas verdes a gosto"];
+          steps = ["Cozinhe a abóbora com alho e sal até ficar extremamente macia.", "Bata no liquidificador com um fio de azeite até obter textura de creme aveludado.", "Toste os tomates na frigideira com azeite quente até racharem a casca.", "Sirva o creme bem quente em um bowl decorado com os tomates e azeite por cima."];
+          category = "Caldos & Sopas";
+          tempo = "25 min";
+          difficulty = "Fácil";
+          rendimento = "2 porções";
+        }
+        else if (haves.includes('Ovos') && haves.includes('Tomate') && haves.includes('Queijo')) {
+          recipeTitle = "Omelete Caprese Supreme";
+          recipeDesc = "Nossa clássica e adorada omelete, recheada com queijo mussarela elástico, rodelas de tomate e perfume natural de manjericão fresco.";
+          ings = ["3 Ovos de horta", "1/2 Tomate maduro fatiado", "60g de Queijo mussarela", "Folhas frescas de manjericão", "1 colher de Azeite", "Orégano e sal"];
+          steps = ["Bata os ovos com uma pitada de sal e orégano.", "Depeje na frigideira aquecida com azeite e cozinhe in fogo baixo.", "Quando o topo firmar levemente, disponha o queijo, os tomates e o manjericão.", "Dobre e abafe por 1 minuto para o queijo derreter perfeitamente."];
+          category = "Omeletes";
+          tempo = "10 min";
+          difficulty = "Fácil";
+          rendimento = "1 porção";
+        }
       }
 
-      title.innerHTML = `✨ ${recipeTitle}`;
-      desc.textContent = recipeDesc;
-      meta.innerHTML = recipeMeta;
+      const mockRecipe = {
+        titulo: recipeTitle,
+        subtitulo: category,
+        desc: recipeDesc,
+        dificuldade: difficulty,
+        tempo: tempo,
+        rendimento: rendimento,
+        ingredientes: ings,
+        passos: steps
+      };
 
-      ings.forEach(ing => {
-        const li = document.createElement('li');
-        li.className = 'ia-ingredient-item';
-        li.innerHTML = `<i class="ti ti-circle-check" style="color: var(--c-success);"></i> ${ing}`;
-        ul.appendChild(li);
-      });
+      openAiRecipeModal(mockRecipe);
 
-      steps.forEach((step, idx) => {
-        const li = document.createElement('li');
-        li.className = 'ia-step-item';
-        li.innerHTML = `<span class="ia-step-number">${idx + 1}</span> <span>${step}</span>`;
-        ol.appendChild(li);
-      });
-
-      detailBox.style.display = 'flex';
-      showToast("Receita personalizada gerada com sucesso via Simulador! 🍳", "ti-wand");
-      
-      // Abre um toast instrutivo sobre o Gemini
       setTimeout(() => {
         if (!localStorage.getItem('gemini_api_key')) {
           showToast("Dica: Adicione sua Gemini Key nas Configurações para usar IA Real!", "ti-settings");
         }
       }, 3500);
+    }
 
-      scrollToSection('ia-suggestion-box-v2');
+    function updateReadyRecipesBadges() {
+      for (let id = 1; id <= 10; id++) {
+        const data = readyRecipesData[id];
+        if (!data) continue;
+        
+        const badge = document.querySelector(`[data-recipe-badge="${id}"]`);
+        if (!badge) continue;
+        
+        let missingCount = 0;
+        data.haves.forEach(ing => {
+          if (selectedIngredients[ing] !== true) {
+            missingCount++;
+          }
+        });
+        
+        badge.className = "badge fridge-carousel-tag font-montserrat";
+        if (missingCount === 0) {
+          badge.classList.add('badge-ready');
+          badge.textContent = "Pronta";
+        } else {
+          badge.classList.add('badge-missing');
+          if (missingCount === 1) {
+            badge.textContent = "Falta 1 item";
+          } else {
+            badge.textContent = `Faltam ${missingCount} itens`;
+          }
+        }
+      }
+    }
+
+    function updateFridgeStatsWidget() {
+      const countHaves = Object.keys(selectedIngredients).filter(k => selectedIngredients[k] === true).length;
+      const statsHaves = document.getElementById('stats-haves-count');
+      if (statsHaves) statsHaves.textContent = countHaves;
+      
+      const countMissing = Object.keys(selectedIngredients).filter(k => selectedIngredients[k] === 'missing').length;
+      const statsMissing = document.getElementById('stats-missing-count');
+      if (statsMissing) statsMissing.textContent = countMissing;
+      
+      let savedRecipes = [];
+      try {
+        const saved = localStorage.getItem('tempera_saved_recipes');
+        if (saved) savedRecipes = JSON.parse(saved);
+      } catch (e) {
+        console.error(e);
+      }
+      const statsSaved = document.getElementById('stats-saved-count');
+      if (statsSaved) statsSaved.textContent = savedRecipes.length;
+    }
+
+    function initFridgeStatsChart() {
+      let chartData = localStorage.getItem('tempera_fridge_chart_data');
+      if (!chartData) {
+        chartData = [1, 3, 2, 1, 4, 1, 5];
+        localStorage.setItem('tempera_fridge_chart_data', JSON.stringify(chartData));
+      } else {
+        chartData = JSON.parse(chartData);
+      }
+      
+      const dayNames = ["Segunda", "Terça", "Quarta", "Quinta", "Sexta", "Sábado", "Domingo"];
+      const shortDays = ["Seg", "Ter", "Qua", "Qui", "Sex", "Sáb", "Dom"];
+      const todayIndex = (new Date().getDay() + 6) % 7;
+      
+      for (let i = 0; i < 7; i++) {
+        const bar = document.getElementById(`chart-bar-${i}`);
+        if (bar) {
+          const val = chartData[i];
+          const height = Math.max(4, Math.min(val * 12, 70));
+          bar.style.height = `${height}px`;
+          bar.setAttribute('data-tooltip', `${shortDays[i]}: ${val} receita${val !== 1 ? 's' : ''}`);
+          
+          if (i === todayIndex) {
+            bar.classList.add('active');
+          } else {
+            bar.classList.remove('active');
+          }
+        }
+      }
+    }
+
+    function openAiRecipeModal(recipe) {
+      currentRecipe = recipe;
+      
+      document.getElementById('modal-recipe-title').textContent = recipe.titulo;
+      document.getElementById('modal-recipe-category').textContent = (recipe.subtitulo || 'RECEITA IA').toUpperCase();
+      document.getElementById('modal-recipe-desc').textContent = recipe.desc || '';
+      
+      const timeVal = recipe.tempo || '20 min';
+      const diffVal = recipe.dificuldade || 'Fácil';
+      const servingsVal = recipe.rendimento || '2 porções';
+      
+      document.getElementById('modal-meta-time').innerHTML = `<i class="ti ti-clock"></i> ${timeVal}`;
+      document.getElementById('modal-meta-difficulty').innerHTML = `<i class="ti ti-chef-hat"></i> ${diffVal}`;
+      document.getElementById('modal-meta-servings').innerHTML = `<i class="ti ti-users"></i> ${servingsVal}`;
+      
+      const ul = document.getElementById('modal-ingredients-ul');
+      ul.innerHTML = '';
+      const recipeIngs = recipe.ingredientes || [];
+      recipeIngs.forEach(ing => {
+        const li = document.createElement('li');
+        li.className = 'recipe-modal-ingredient-item font-montserrat';
+        
+        let isHave = false;
+        let isMissing = false;
+        
+        Object.keys(selectedIngredients).forEach(name => {
+          const lowerName = name.toLowerCase();
+          const lowerIng = ing.toLowerCase();
+          if (lowerIng.includes(lowerName)) {
+            if (selectedIngredients[name] === true) {
+              isHave = true;
+            } else if (selectedIngredients[name] === 'missing') {
+              isMissing = true;
+            }
+          }
+        });
+        
+        if (isHave) {
+          li.classList.add('have');
+          li.innerHTML = `<i class="ti ti-circle-check"></i> <span>${ing}</span>`;
+        } else if (isMissing) {
+          li.classList.add('missing');
+          li.innerHTML = `<i class="ti ti-shopping-cart"></i> <span>${ing}</span> <span style="font-size: 8px; padding: 2px 6px; border-radius: var(--r-xs); background: var(--c-warning-container); color: var(--c-on-warning); margin-left: auto;">Falta comprar</span>`;
+        } else {
+          li.innerHTML = `<i class="ti ti-circle" style="color: var(--c-outline-variant);"></i> <span>${ing}</span>`;
+        }
+        ul.appendChild(li);
+      });
+      
+      const ol = document.getElementById('modal-steps-ol');
+      ol.innerHTML = '';
+      const recipeSteps = recipe.passos || [];
+      recipeSteps.forEach((step, idx) => {
+        const li = document.createElement('li');
+        li.className = 'recipe-modal-step-item';
+        li.innerHTML = `<span class="recipe-modal-step-number">${idx + 1}</span> <span>${step}</span>`;
+        ol.appendChild(li);
+      });
+      
+      updateSaveBtnState();
+      
+      const overlay = document.getElementById('fridgeAiRecipeModalOverlay');
+      const sheet = document.getElementById('fridgeAiRecipeModal');
+      if (overlay && sheet) {
+        overlay.classList.add('show');
+        sheet.classList.add('show');
+      }
+    }
+
+    function closeAiRecipeModal() {
+      const overlay = document.getElementById('fridgeAiRecipeModalOverlay');
+      const sheet = document.getElementById('fridgeAiRecipeModal');
+      if (overlay && sheet) {
+        overlay.classList.remove('show');
+        sheet.classList.remove('show');
+      }
+    }
+
+    function saveAiRecipe() {
+      if (!currentRecipe) return;
+      
+      let savedRecipes = [];
+      try {
+        const saved = localStorage.getItem('tempera_saved_recipes');
+        if (saved) savedRecipes = JSON.parse(saved);
+      } catch (e) {
+        console.error(e);
+      }
+      
+      const isAlreadySaved = savedRecipes.some(r => r.titulo === currentRecipe.titulo);
+      if (isAlreadySaved) {
+        savedRecipes = savedRecipes.filter(r => r.titulo !== currentRecipe.titulo);
+        localStorage.setItem('tempera_saved_recipes', JSON.stringify(savedRecipes));
+        showToast("Receita removida dos salvos!", "ti-heart-broken");
+      } else {
+        savedRecipes.push(currentRecipe);
+        localStorage.setItem('tempera_saved_recipes', JSON.stringify(savedRecipes));
+        
+        let chartData = [];
+        try {
+          const stored = localStorage.getItem('tempera_fridge_chart_data');
+          chartData = stored ? JSON.parse(stored) : [1, 3, 2, 1, 4, 1, 5];
+        } catch(e) {
+          chartData = [1, 3, 2, 1, 4, 1, 5];
+        }
+        
+        const todayIndex = (new Date().getDay() + 6) % 7;
+        chartData[todayIndex] = (chartData[todayIndex] || 0) + 1;
+        localStorage.setItem('tempera_fridge_chart_data', JSON.stringify(chartData));
+        
+        showToast("Receita salva com sucesso! 🍳", "ti-heart");
+      }
+      
+      updateFridgeStatsWidget();
+      initFridgeStatsChart();
+      updateSaveBtnState();
+    }
+    
+    function updateSaveBtnState() {
+      const btn = document.getElementById('modal-save-btn');
+      if (!btn || !currentRecipe) return;
+      
+      let savedRecipes = [];
+      try {
+        const saved = localStorage.getItem('tempera_saved_recipes');
+        if (saved) savedRecipes = JSON.parse(saved);
+      } catch (e) {
+        console.error(e);
+      }
+      
+      const isAlreadySaved = savedRecipes.some(r => r.titulo === currentRecipe.titulo);
+      if (isAlreadySaved) {
+        btn.innerHTML = `<i class="ti ti-heart-filled" style="color: var(--c-error);"></i> Salva!`;
+        btn.style.color = 'var(--c-error)';
+      } else {
+        btn.innerHTML = `<i class="ti ti-heart"></i> Salvar Receita`;
+        btn.style.color = '';
+      }
+    }
+
+    function regenerateAiRecipe() {
+      closeAiRecipeModal();
+      setTimeout(() => {
+        generateAiMagicV2();
+      }, 300);
     }
 
     // Inicializa a sugestão com os valores padrões
@@ -6476,7 +8096,7 @@ Retorne EXCLUSIVAMENTE um objeto JSON estruturado no seguinte formato. Não colo
 
       postCard.innerHTML = `
         <div class="community-card-header">
-          <div class="avatar" style="background-color: var(--c-primary); color: #fff;">TM</div>
+          <div class="avatar cursor-pointer" onclick="openProfileDrawer()"><img src="img/camila_silva.webp" onerror="this.onerror=null; this.src='https://picsum.photos/id/64/100/100';" alt="Camila Silva" style="width:100%; height:100%; border-radius:50%; object-fit:cover; display:block;"></div>
           <div class="community-card-author">
             <div class="community-card-name">Você (Chef Tempera)</div>
             <div class="community-card-time">agora mesmo · <i class="ti ti-world"></i></div>
@@ -6502,7 +8122,7 @@ Retorne EXCLUSIVAMENTE um objeto JSON estruturado no seguinte formato. Não colo
         <div class="comments-section" id="comments-${postId}" style="display: none;">
           <div class="comments-list"></div>
           <div class="comment-input-area">
-            <div class="avatar comment-avatar" style="background-color: var(--c-primary); color: #fff;">TM</div>
+            <div class="avatar comment-avatar cursor-pointer" onclick="openProfileDrawer()"><img src="img/camila_silva.webp" onerror="this.onerror=null; this.src='https://picsum.photos/id/64/100/100';" alt="Camila Silva" style="width:100%; height:100%; border-radius:50%; object-fit:cover; display:block;"></div>
             <input type="text" placeholder="Escreva um comentário..." onkeydown="handleCommentSubmit(event, '${postId}')">
           </div>
         </div>
@@ -6541,7 +8161,7 @@ Retorne EXCLUSIVAMENTE um objeto JSON estruturado no seguinte formato. Não colo
       const commentItem = document.createElement('div');
       commentItem.className = 'comment-item';
       commentItem.innerHTML = `
-        <div class="avatar comment-avatar" style="background-color: var(--c-primary); color: #fff;">TM</div>
+        <div class="avatar comment-avatar cursor-pointer" onclick="openProfileDrawer()"><img src="img/camila_silva.webp" onerror="this.onerror=null; this.src='https://picsum.photos/id/64/100/100';" alt="Camila Silva" style="width:100%; height:100%; border-radius:50%; object-fit:cover; display:block;"></div>
         <div class="comment-content">
           <span class="comment-author">Você (Chef Tempera)</span>
           <span class="comment-text">${text}</span>
@@ -6656,10 +8276,11 @@ Retorne EXCLUSIVAMENTE um objeto JSON estruturado no seguinte formato. Não colo
       }
     }
 
-    // ----------------------------------------------------
-    // FLUXO DEsplash E LOGIN (VÍDEO DE INTRODUTÓRIO)
-    // ----------------------------------------------------
+    let hasTransitionedToLogin = false;
     function transitionToLogin() {
+      if (hasTransitionedToLogin) return;
+      hasTransitionedToLogin = true;
+
       const splash = document.getElementById('appSplashScreen');
       const login = document.getElementById('appLoginScreen');
       const video = document.getElementById('introVideo');
@@ -6789,6 +8410,7 @@ Retorne EXCLUSIVAMENTE um objeto JSON estruturado no seguinte formato. Não colo
     }
 
     function restartAppFlow() {
+      hasTransitionedToLogin = false;
       const splash = document.getElementById('appSplashScreen');
       const login = document.getElementById('appLoginScreen');
       const video = document.getElementById('introVideo');
@@ -6825,10 +8447,125 @@ Retorne EXCLUSIVAMENTE um objeto JSON estruturado no seguinte formato. Não colo
         video.currentTime = 0;
         video.play().catch(err => {
           console.log("Autoplay cancelado ou falhou: ", err);
+          transitionToLogin();
         });
+
+        // Failsafe de backup de reinício
+        setTimeout(() => {
+          if (!hasTransitionedToLogin) {
+            console.log("Failsafe de reinício ativado.");
+            transitionToLogin();
+          }
+        }, 2500);
+      } else {
+        transitionToLogin();
       }
       
       showToast('App reiniciado! Assista à introdução.', 'ti-reload');
+    }
+
+    // ----------------------------------------------------
+    // GAVETA DE PERFIL INTERATIVA E GAMIFICADA (GSAP FLUID)
+    // ----------------------------------------------------
+    let profileFollowingCount = 142;
+
+    function openProfileDrawer() {
+      const drawer = document.getElementById('profile-drawer');
+      if (!drawer) return;
+
+      // Usar GSAP para animar a abertura ("liquid bounce")
+      gsap.to(drawer, {
+        y: '0%',
+        duration: 0.8,
+        ease: 'back.out(1.15)', // Elastic spring bounce
+        onStart: () => {
+          drawer.classList.remove('pointer-events-none');
+        }
+      });
+
+      // Efeito stagger (cascata) nos elementos com classe 'profile-stagger'
+      gsap.fromTo('.profile-stagger', 
+        { opacity: 0, y: 35 }, 
+        { 
+          opacity: 1, 
+          y: 0, 
+          duration: 0.6, 
+          stagger: 0.07, 
+          ease: 'power2.out',
+          delay: 0.15 
+        }
+      );
+    }
+
+    function closeProfileDrawer() {
+      const drawer = document.getElementById('profile-drawer');
+      if (!drawer) return;
+
+      // Usar GSAP para fechar (deslizar de volta para baixo)
+      gsap.to(drawer, {
+        y: '100%',
+        duration: 0.5,
+        ease: 'power3.inOut',
+        onComplete: () => {
+          drawer.classList.add('pointer-events-none');
+          // Fecha o painel de configurações se ele estiver aberto
+          closeProfileSettings();
+        }
+      });
+    }
+
+    function toggleProfileSettings() {
+      const panel = document.getElementById('profile-settings-panel');
+      if (!panel) return;
+
+      // Anima a entrada das configurações (deslizando da direita para esquerda)
+      gsap.to(panel, {
+        x: '0%',
+        duration: 0.5,
+        ease: 'power3.out'
+      });
+    }
+
+    function closeProfileSettings() {
+      const panel = document.getElementById('profile-settings-panel');
+      if (!panel) return;
+
+      // Anima a saída das configurações (deslizando de volta para direita)
+      gsap.to(panel, {
+        x: '100%',
+        duration: 0.4,
+        ease: 'power3.in'
+      });
+    }
+
+    function toggleFollowFriend(friendId, btnElement) {
+      if (!btnElement) return;
+
+      const isFollowing = btnElement.classList.contains('following');
+      const countEl = document.getElementById('profile-following-count');
+
+      if (isFollowing) {
+        // Parar de seguir
+        btnElement.classList.remove('following');
+        btnElement.textContent = 'Seguir +';
+        profileFollowingCount--;
+        showToast('Você deixou de seguir este amigo.', 'ti-user-minus');
+      } else {
+        // Começar a seguir
+        btnElement.classList.add('following');
+        btnElement.textContent = 'Seguindo';
+        profileFollowingCount++;
+        showToast('Agora você está seguindo este amigo! 👥', 'ti-user-plus');
+      }
+
+      if (countEl) {
+        // Animação de pop no contador
+        countEl.textContent = profileFollowingCount;
+        gsap.fromTo(countEl, 
+          { scale: 1.3, color: 'var(--c-primary)' }, 
+          { scale: 1, color: 'var(--c-primary)', duration: 0.3, ease: 'back.out(1.5)' }
+        );
+      }
     }
 
     // Auto-transição quando o vídeo de intro terminar de rodar
@@ -6842,18 +8579,31 @@ Retorne EXCLUSIVAMENTE um objeto JSON estruturado no seguinte formato. Não colo
       // Inicializa carrossel premium GSAP
       initArcCarousel();
 
+      // Inicializa badges do carrossel, widgets de estatísticas e gráfico da geladeira
+      updateReadyRecipesBadges();
+      updateFridgeStatsWidget();
+      initFridgeStatsChart();
+
       const video = document.getElementById('introVideo');
       if (video) {
+        // Se o vídeo terminar, vai pro login
         video.addEventListener('ended', () => {
           transitionToLogin();
         });
         
-        // Timeout de backup caso o autoplay do navegador trave
+        // Se houver algum erro de carregamento do vídeo (ex: arquivo não existe)
+        video.addEventListener('error', () => {
+          console.log("Erro ao carregar o vídeo. Fazendo transição de backup.");
+          transitionToLogin();
+        });
+
+        // Failsafe absoluto de 2.5 segundos: se o app ainda estiver preso no splash, force transição
         setTimeout(() => {
-          if (video.paused && !video.ended) {
-            console.log("Autoplay suspenso pelo navegador. Botão Pular ativo.");
+          if (!hasTransitionedToLogin) {
+            console.log("Failsafe de 2.5s ativado: Autoplay bloqueado ou vídeo travado.");
+            transitionToLogin();
           }
-        }, 1500);
+        }, 2500);
       }
     });
   </script>

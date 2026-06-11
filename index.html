@@ -1877,6 +1877,8 @@
       border: 1px solid var(--c-outline-variant);
       box-shadow: var(--elev-1);
       overflow: hidden;
+      /* Impede o colapso como flex item (overflow hidden zera o min-height automático) */
+      flex-shrink: 0;
       display: flex;
       flex-direction: column;
       transition: all 400ms var(--ease-standard);
@@ -2605,40 +2607,71 @@
       color: var(--c-on-surface-var);
     }
     
-    /* CARROSSEL PREMIUM ARC (GOOGLE LABS & GSAP 3) — REDESIGNED FOR 1-CARD MOBILE VISIBILITY */
-    .fridge-carousel-container {
+    /* CARROSSEL "IDEIAS RÁPIDAS" — scroll-snap horizontal com card ativo em destaque */
+    .fridge-carousel-container-wrapper {
       position: relative;
-      width: 100%;
-      height: 100%;
-      overflow: hidden;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      touch-action: pan-y;
+      margin: 0 calc(-1 * var(--sp-4));
     }
-    .fridge-carousel-card {
+    .fridge-carousel-container-wrapper::before,
+    .fridge-carousel-container-wrapper::after {
+      content: "";
       position: absolute;
-      width: 290px;
-      height: 215px;
-      left: 50%;
-      top: 50%;
-      margin-left: -145px;
-      margin-top: -107.5px;
+      top: 0;
+      bottom: 0;
+      width: 28px;
+      z-index: 3;
+      pointer-events: none;
+    }
+    .fridge-carousel-container-wrapper::before {
+      left: 0;
+      background: linear-gradient(90deg, var(--card-bg), transparent);
+    }
+    .fridge-carousel-container-wrapper::after {
+      right: 0;
+      background: linear-gradient(270deg, var(--card-bg), transparent);
+    }
+    body.theme-dark .fridge-carousel-container-wrapper::before {
+      background: linear-gradient(90deg, var(--c-surface-l1), transparent);
+    }
+    body.theme-dark .fridge-carousel-container-wrapper::after {
+      background: linear-gradient(270deg, var(--c-surface-l1), transparent);
+    }
+    .fridge-carousel-container {
+      display: flex;
+      align-items: stretch;
+      gap: 12px;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      -webkit-overflow-scrolling: touch;
+      padding: 12px calc(50% - 115px) 18px;
+      touch-action: pan-x;
+      scrollbar-width: none;
+    }
+    .fridge-carousel-container::-webkit-scrollbar { display: none; }
+    .fridge-carousel-card {
+      position: relative;
+      flex-shrink: 0;
+      width: 230px;
+      scroll-snap-align: center;
       background: var(--card-bg);
       border-radius: var(--r-xl);
       border: 1.5px solid var(--c-outline-variant);
       overflow: hidden;
-      box-shadow: var(--elev-2);
+      box-shadow: var(--elev-1);
       display: flex;
       flex-direction: column;
-      cursor: grab;
-      z-index: 10;
+      cursor: pointer;
       user-select: none;
       -webkit-user-drag: none;
-      transition: border-color 300ms ease, box-shadow 300ms ease;
+      opacity: 0.55;
+      transform: scale(0.92);
+      transition: transform 380ms cubic-bezier(0.2, 0, 0, 1), opacity 380ms ease, box-shadow 380ms ease, border-color 300ms ease;
     }
-    .fridge-carousel-card:active {
-      cursor: grabbing;
+    .fridge-carousel-card.active-card {
+      opacity: 1;
+      transform: scale(1);
+      border-color: var(--c-primary-container);
+      box-shadow: 0 12px 32px -8px rgba(44, 21, 13, 0.28);
     }
     body.theme-dark .fridge-carousel-card {
       border-color: rgba(255, 255, 255, 0.05);
@@ -2646,10 +2679,18 @@
     }
     .fridge-carousel-thumb {
       width: 100%;
-      height: 46%;
+      height: 118px;
+      flex-shrink: 0;
       position: relative;
       overflow: hidden;
       -webkit-user-drag: none;
+    }
+    .fridge-carousel-thumb::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, transparent 55%, rgba(30, 12, 5, 0.35) 100%);
+      pointer-events: none;
     }
     .fridge-carousel-thumb img {
       width: 100%;
@@ -2669,17 +2710,17 @@
       z-index: 2;
     }
     .fridge-carousel-info {
-      padding: var(--sp-3) var(--sp-3);
+      padding: var(--sp-3) var(--sp-3) 10px;
       display: flex;
       flex-direction: column;
       justify-content: flex-start;
       flex: 1;
-      gap: 2px;
+      gap: 3px;
     }
     .fridge-carousel-title {
       font-family: "roca", Georgia, serif !important;
       font-weight: 700 !important;
-      font-size: 13.5px;
+      font-size: 14px;
       line-height: 1.2;
       color: var(--c-on-surface);
       margin: 0 0 2px 0;
@@ -2706,23 +2747,46 @@
       font-size: 9.5px;
       font-weight: 600;
       color: var(--c-primary);
-      margin-top: 2px;
+      margin-top: 6px;
+      padding-top: 6px;
+      border-top: 1px dashed var(--c-outline-variant);
     }
     body.theme-dark .fridge-carousel-meta {
       color: var(--c-primary-container);
     }
     
-    /* NAV SETAS CIRCULARES */
+    /* NAV DO CARROSSEL: dots à esquerda, setas compactas à direita */
     .fridge-carousel-nav {
       display: flex;
-      justify-content: center;
-      gap: 16px;
-      margin-top: 16px;
-      margin-bottom: 4px;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: var(--sp-3);
+    }
+    .carousel-dots {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+    .carousel-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: var(--r-full);
+      background: var(--c-outline-variant);
+      transition: all 300ms cubic-bezier(0.2, 0, 0, 1);
+    }
+    .carousel-dot.active {
+      width: 18px;
+      background: var(--c-primary);
+    }
+    body.theme-dark .carousel-dot { background: rgba(255, 255, 255, 0.15); }
+    body.theme-dark .carousel-dot.active { background: var(--c-primary-container); }
+    .carousel-arrow-group {
+      display: flex;
+      gap: var(--sp-2);
     }
     .carousel-arrow-btn {
-      width: 56px;
-      height: 56px;
+      width: 40px;
+      height: 40px;
       border-radius: 50%;
       border: 1.5px solid var(--c-outline);
       background: transparent;
@@ -4023,67 +4087,11 @@
     .fridge-section-card .fridge-search-group-container { margin-bottom: var(--sp-4); }
     .fridge-active-ingredients-container { padding: 0 !important; margin-top: var(--sp-3); }
 
-    /* ---- CAROUSEL: scroll-snap with active-card scaling ---- */
-    .fridge-carousel-container-wrapper {
-      position: relative !important;
-      height: auto !important;
-      overflow: hidden !important;
-      display: block !important;
-      margin: 0 calc(-1 * var(--sp-4));
-    }
-    .fridge-carousel-container {
-      display: flex !important;
-      overflow-x: auto !important;
-      scroll-snap-type: x mandatory !important;
-      -webkit-overflow-scrolling: touch !important;
-      gap: 8px !important;
-      padding: 10px calc(50% - 105px) 18px !important;
-      height: auto !important;
-      align-items: center !important;
-      touch-action: pan-x !important;
-      scrollbar-width: none !important;
-      position: static !important;
-    }
-    .fridge-carousel-container::-webkit-scrollbar { display: none !important; }
-    .fridge-carousel-card {
-      position: relative !important;
-      flex-shrink: 0 !important;
-      width: 210px !important;
-      height: 240px !important;
-      left: auto !important; top: auto !important; margin: 0 !important;
-      scroll-snap-align: center !important;
-      display: flex !important;
-      opacity: 0.65 !important;
-      transform: scale(0.88) !important;
-      transition: transform 380ms cubic-bezier(0.2,0,0,1), opacity 380ms ease, box-shadow 380ms ease !important;
-      pointer-events: auto !important;
-      z-index: auto !important;
-    }
-    .fridge-carousel-card.active-card {
-      opacity: 1 !important;
-      transform: scale(1) !important;
-      box-shadow: 0 12px 32px -8px rgba(44,21,13,.28) !important;
-      z-index: 2 !important;
-    }
-    .fridge-carousel-card:hover { cursor: pointer !important; }
-
-    /* Carousel nav: compact right-aligned */
-    .fridge-carousel-nav {
-      display: flex !important;
-      justify-content: flex-end !important;
-      gap: var(--sp-2) !important;
-      margin-top: var(--sp-2) !important;
-      margin-bottom: 0 !important;
-    }
-    .carousel-arrow-btn {
-      width: 36px !important; height: 36px !important;
-      font-size: 15px !important;
-      border-radius: var(--r-sm) !important;
-    }
-
     /* ---- CHEF IA WIDGET — DARK PREMIUM AI ---- */
     .chef-ia-widget {
       margin: 0 var(--sp-4);
+      /* Impede o colapso do card: como flex item com overflow hidden, o min-height automático vira 0 dentro da coluna rolável */
+      flex-shrink: 0;
       background: linear-gradient(135deg, #3A1508 0%, #5E260D 50%, #3A1508 100%);
       border-radius: var(--r-xl);
       padding: var(--sp-5);
@@ -4219,7 +4227,31 @@
     .chef-ia-widget .ia-details-title { color: rgba(255,219,200,.6); }
     .chef-ia-widget .fridge-ia-divider { background: rgba(255,255,255,.08); }
 
-    /* ---- WIDGET ESTATÍSTICAS ---- */
+    /* ---- WIDGET HÁBITOS DO CHEF ---- */
+    .chef-habits-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: var(--sp-2);
+    }
+    .chef-habits-streak {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 10.5px;
+      font-weight: 700;
+      color: var(--c-primary);
+      background: var(--c-primary-container);
+      border-radius: var(--r-full);
+      padding: 5px 10px;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+    .chef-habits-streak i { font-size: 13px; }
+    body.theme-dark .chef-habits-streak {
+      background: rgba(255, 219, 200, 0.1);
+      color: var(--c-primary-container);
+    }
     .fridge-stats-grid {
       display: grid;
       grid-template-columns: 1fr 1.2fr;
@@ -4229,31 +4261,62 @@
     .fridge-stats-summary {
       display: flex;
       flex-direction: column;
-      gap: var(--sp-2);
+      gap: var(--sp-3);
     }
     .fridge-stat-row {
       display: flex;
       align-items: center;
-      gap: 8px;
-      font-size: 11px;
+      gap: 10px;
+    }
+    .fridge-stat-bubble {
+      width: 34px;
+      height: 34px;
+      border-radius: var(--r-md);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+      flex-shrink: 0;
+    }
+    .fridge-stat-row.haves .fridge-stat-bubble { background: rgba(76, 175, 80, 0.12); color: var(--c-success); }
+    .fridge-stat-row.missing .fridge-stat-bubble { background: var(--c-primary-container); color: var(--c-primary); }
+    .fridge-stat-row.saved .fridge-stat-bubble { background: rgba(186, 104, 200, 0.12); color: var(--c-tertiary); }
+    body.theme-dark .fridge-stat-bubble { background: rgba(255, 255, 255, 0.06) !important; }
+    .fridge-stat-text {
+      display: flex;
+      flex-direction: column;
+      line-height: 1.15;
+    }
+    .fridge-stat-num {
+      font-size: 15px;
+      font-weight: 800;
+      color: var(--c-on-surface);
+    }
+    .fridge-stat-label {
+      font-size: 9.5px;
       font-weight: 600;
       color: var(--c-on-surface-var);
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
     }
-    .fridge-stat-row i {
-      font-size: 16px;
+
+    .fridge-stats-chart-col {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
     }
-    .fridge-stat-row.haves i { color: var(--c-success); }
-    .fridge-stat-row.missing i { color: var(--c-primary); }
-    .fridge-stat-row.saved i { color: var(--c-tertiary); }
-    
     .fridge-stats-chart {
       display: flex;
       justify-content: space-between;
       align-items: flex-end;
       height: 70px;
       padding-top: var(--sp-2);
-      border-bottom: 1.5px solid var(--c-outline-variant);
-      padding-bottom: 2px;
+    }
+    .chart-week-total {
+      font-size: 9.5px;
+      font-weight: 600;
+      color: var(--c-on-surface-var);
+      text-align: center;
     }
     .chart-bar-container {
       display: flex;
@@ -4263,10 +4326,10 @@
       flex: 1;
     }
     .chart-bar {
-      width: 10px;
+      width: 12px;
       background: var(--c-outline-variant);
-      border-radius: var(--r-xs) var(--r-xs) 0 0;
-      min-height: 4px;
+      border-radius: var(--r-full);
+      min-height: 5px;
       transition: height 800ms var(--ease-standard), background-color 300ms ease;
       cursor: pointer;
       position: relative;
@@ -4275,7 +4338,7 @@
       background: var(--c-primary) !important;
     }
     .chart-bar.active {
-      background: var(--c-primary) !important;
+      background: linear-gradient(180deg, #E06E53, var(--c-primary)) !important;
     }
     .chart-bar::after {
       content: attr(data-tooltip);
@@ -5922,33 +5985,40 @@
               </button>
             </div>
 
-            <!-- 2. WIDGET ESTATÍSTICAS (Estoque e Gráfico de Cozinhadas) -->
+            <!-- 2. WIDGET HÁBITOS DO CHEF (Resumo do estoque + gráfico semanal) -->
             <div class="fridge-section-card widget-stats-container">
-              <div class="fridge-carousel-header" style="margin-bottom: var(--sp-4);">
-                <h3 class="font-roca-bold" style="font-size: 18px; margin: 0 0 4px 0; color: var(--c-primary);">Hábitos do Chef</h3>
-                <p class="font-montserrat" style="font-size: 11px; margin: 0; color: var(--c-on-surface-var); font-weight: 500;">Seu progresso semanal na cozinha</p>
+              <div class="chef-habits-header" style="margin-bottom: var(--sp-4);">
+                <div class="fridge-carousel-header">
+                  <h3 class="font-roca-bold" style="font-size: 18px; margin: 0 0 4px 0; color: var(--c-primary);">Hábitos do Chef</h3>
+                  <p class="font-montserrat" style="font-size: 11px; margin: 0; color: var(--c-on-surface-var); font-weight: 500;">Seu progresso semanal na cozinha</p>
+                </div>
+                <span class="chef-habits-streak font-montserrat" id="chef-habits-streak"><i class="ti ti-flame"></i> 3 dias</span>
               </div>
               <div class="fridge-stats-grid">
                 <div class="fridge-stats-summary font-montserrat">
                   <div class="fridge-stat-row haves">
-                    <i class="ti ti-circle-check"></i>
-                    <div>
-                      <span id="stats-haves-count" style="font-weight: 700; color: var(--c-success);">4</span> itens ativos
+                    <span class="fridge-stat-bubble"><i class="ti ti-circle-check"></i></span>
+                    <div class="fridge-stat-text">
+                      <span class="fridge-stat-num" id="stats-haves-count">4</span>
+                      <span class="fridge-stat-label">itens ativos</span>
                     </div>
                   </div>
                   <div class="fridge-stat-row missing">
-                    <i class="ti ti-shopping-cart"></i>
-                    <div>
-                      <span id="stats-missing-count" style="font-weight: 700; color: var(--c-primary);">2</span> para comprar
+                    <span class="fridge-stat-bubble"><i class="ti ti-shopping-cart"></i></span>
+                    <div class="fridge-stat-text">
+                      <span class="fridge-stat-num" id="stats-missing-count">2</span>
+                      <span class="fridge-stat-label">para comprar</span>
                     </div>
                   </div>
                   <div class="fridge-stat-row saved">
-                    <i class="ti ti-heart"></i>
-                    <div>
-                      <span id="stats-saved-count" style="font-weight: 700; color: var(--c-tertiary);">0</span> receitas salvas
+                    <span class="fridge-stat-bubble"><i class="ti ti-heart"></i></span>
+                    <div class="fridge-stat-text">
+                      <span class="fridge-stat-num" id="stats-saved-count">0</span>
+                      <span class="fridge-stat-label">receitas salvas</span>
                     </div>
                   </div>
                 </div>
+                <div class="fridge-stats-chart-col">
                 <div class="fridge-stats-chart">
                   <div class="chart-bar-container">
                     <div class="chart-bar" style="height: 15px;" data-tooltip="Seg: 1 receita" id="chart-bar-0"></div>
@@ -5978,6 +6048,8 @@
                     <div class="chart-bar" style="height: 60px;" data-tooltip="Dom: 5 receitas" id="chart-bar-6"></div>
                     <span class="chart-label font-montserrat">D</span>
                   </div>
+                </div>
+                <span class="chart-week-total font-montserrat" id="chart-week-total">17 receitas na semana</span>
                 </div>
               </div>
             </div>
@@ -6021,9 +6093,10 @@
                 </div>
 
                 <!-- Preview dinâmico dos ingredientes selecionados -->
-                <div id="chef-ia-ingredients-preview" class="font-montserrat" style="font-size: 11px; color: rgba(255,219,200,.85); background: rgba(255,255,255,0.05); padding: 10px 14px; border-radius: var(--r-md); border: 1px solid rgba(255,219,200,.1); display: flex; align-items: center; gap: 8px; margin-top: var(--sp-1);">
+                <div id="chef-ia-ingredients-preview" class="font-montserrat" onclick="openAllIngredientsDrawer()" role="button" title="Editar ingredientes" style="font-size: 11px; color: rgba(255,219,200,.85); background: rgba(255,255,255,0.05); padding: 10px 14px; border-radius: var(--r-md); border: 1px solid rgba(255,219,200,.1); display: flex; align-items: center; gap: 8px; margin-top: var(--sp-1); cursor: pointer;">
                   <i class="ti ti-info-circle" style="color: #FF8F6B; font-size: 14px;"></i>
-                  <span>Nenhum ingrediente selecionado na geladeira.</span>
+                  <span style="flex: 1;">Nenhum ingrediente selecionado. Toque para escolher.</span>
+                  <i class="ti ti-chevron-right" style="color: rgba(255,219,200,.5); font-size: 13px;"></i>
                 </div>
                 
                 <div style="display: flex; justify-content: flex-end; align-items: center; border-top: 1px solid rgba(255,219,200,.08); padding-top: var(--sp-3); margin-top: var(--sp-1);">
@@ -6058,7 +6131,7 @@
                 <p class="font-montserrat" style="font-size: 11px; margin: 0; color: var(--c-on-surface-var); font-weight: 500;">Receitas testadas e amadas pela nossa comunidade</p>
               </div>
               
-              <div class="fridge-carousel-container-wrapper" style="position: relative; height: 230px; display: flex; justify-content: center; align-items: center; overflow: hidden;">
+              <div class="fridge-carousel-container-wrapper">
                 <div class="fridge-carousel-container" id="fridgeReadyCarousel">
                 
                 <!-- Card 1 -->
@@ -6224,10 +6297,13 @@
                 </div>
               </div>
               
-              <!-- Setas de navegação circulares de 60px -->
+              <!-- Navegação: indicador de posição + setas compactas -->
               <div class="fridge-carousel-nav">
-                <button class="carousel-arrow-btn" id="carousel-prev-btn" onclick="navCarouselPrev()" aria-label="Anterior"><i class="ti ti-chevron-left"></i></button>
-                <button class="carousel-arrow-btn" id="carousel-next-btn" onclick="navCarouselNext()" aria-label="Próximo"><i class="ti ti-chevron-right"></i></button>
+                <div class="carousel-dots" id="carousel-dots" aria-hidden="true"></div>
+                <div class="carousel-arrow-group">
+                  <button class="carousel-arrow-btn" id="carousel-prev-btn" onclick="navCarouselPrev()" aria-label="Anterior"><i class="ti ti-chevron-left"></i></button>
+                  <button class="carousel-arrow-btn" id="carousel-next-btn" onclick="navCarouselNext()" aria-label="Próximo"><i class="ti ti-chevron-right"></i></button>
+                </div>
               </div>
             </div> <!-- Closes .fridge-section-card -->
 
@@ -7333,6 +7409,17 @@
         card.setAttribute('onclick', `loadReadyRecipe(${index + 1})`);
       });
 
+      // Cria os dots indicadores de posição
+      const dotsContainer = document.getElementById('carousel-dots');
+      if (dotsContainer) {
+        dotsContainer.innerHTML = '';
+        carouselCards.forEach((_, index) => {
+          const dot = document.createElement('span');
+          dot.className = 'carousel-dot' + (index === 0 ? ' active' : '');
+          dotsContainer.appendChild(dot);
+        });
+      }
+
       // Sync currentIndex when user scrolls natively (finger swipe)
       const container = document.getElementById('fridgeReadyCarousel');
       if (container) {
@@ -7352,11 +7439,7 @@
             });
             if (closest !== currentIndex) {
               currentIndex = closest;
-              carouselCards.forEach((c, i) => c.classList.toggle('active-card', i === currentIndex));
-              const prevBtn = document.getElementById('carousel-prev-btn');
-              const nextBtn = document.getElementById('carousel-next-btn');
-              if (prevBtn) prevBtn.disabled = currentIndex === 0;
-              if (nextBtn) nextBtn.disabled = currentIndex === carouselTotal - 1;
+              updateCarouselUi();
             }
           }, 80);
         });
@@ -7367,18 +7450,24 @@
       updateArcCarousel('center');
     }
 
-    function updateArcCarousel(direction = 'next') {
-      if (carouselTotal === 0) return;
-
-      isProgrammaticScrolling = true;
-
-      // Update active-card class
+    function updateCarouselUi() {
       carouselCards.forEach((c, i) => c.classList.toggle('active-card', i === currentIndex));
 
       const prevBtn = document.getElementById('carousel-prev-btn');
       const nextBtn = document.getElementById('carousel-next-btn');
       if (prevBtn) prevBtn.disabled = currentIndex === 0;
       if (nextBtn) nextBtn.disabled = currentIndex === carouselTotal - 1;
+
+      const dots = document.querySelectorAll('#carousel-dots .carousel-dot');
+      dots.forEach((d, i) => d.classList.toggle('active', i === currentIndex));
+    }
+
+    function updateArcCarousel(direction = 'next') {
+      if (carouselTotal === 0) return;
+
+      isProgrammaticScrolling = true;
+
+      updateCarouselUi();
 
       // Scroll so active card is centered
       const container = document.getElementById('fridgeReadyCarousel');
@@ -7494,10 +7583,10 @@
       const previewEl = document.getElementById('chef-ia-ingredients-preview');
       if (previewEl) {
         if (haves.length === 0) {
-          previewEl.innerHTML = `<i class="ti ti-info-circle" style="color: #FF8F6B; font-size: 14px;"></i> <span>Nenhum ingrediente selecionado na geladeira.</span>`;
+          previewEl.innerHTML = `<i class="ti ti-info-circle" style="color: #FF8F6B; font-size: 14px;"></i> <span style="flex: 1;">Nenhum ingrediente selecionado. Toque para escolher.</span> <i class="ti ti-chevron-right" style="color: rgba(255,219,200,.5); font-size: 13px;"></i>`;
         } else {
           const listText = haves.join(', ');
-          previewEl.innerHTML = `<i class="ti ti-activity" style="color: #4ADE80; font-size: 14px;"></i> <span>Foco em: <strong>${listText}</strong></span>`;
+          previewEl.innerHTML = `<i class="ti ti-activity" style="color: #4ADE80; font-size: 14px;"></i> <span style="flex: 1;">Foco em: <strong>${listText}</strong></span> <i class="ti ti-chevron-right" style="color: rgba(255,219,200,.5); font-size: 13px;"></i>`;
         }
       }
     }
@@ -7546,7 +7635,7 @@
 
       // Helper para fechar loader e restaurar estado inicial
       function restoreInitialState() {
-        if (initialBox) initialBox.style.display = 'block';
+        if (initialBox) initialBox.style.display = 'flex';
         if (loaderBox) loaderBox.style.display = 'none';
         if (statusBadge) {
           statusBadge.textContent = 'IA Pronta';
@@ -7839,6 +7928,25 @@ Retorne EXCLUSIVAMENTE um objeto JSON estruturado no seguinte formato. Não colo
           } else {
             bar.classList.remove('active');
           }
+        }
+      }
+
+      // Total de receitas na semana
+      const totalEl = document.getElementById('chart-week-total');
+      if (totalEl) {
+        const total = chartData.reduce((sum, v) => sum + v, 0);
+        totalEl.textContent = `${total} receita${total !== 1 ? 's' : ''} na semana`;
+      }
+
+      // Sequência de dias seguidos cozinhando (streak terminando hoje)
+      const streakEl = document.getElementById('chef-habits-streak');
+      if (streakEl) {
+        let streak = 0;
+        for (let i = todayIndex; i >= 0 && chartData[i] > 0; i--) streak++;
+        if (streak > 0) {
+          streakEl.innerHTML = `<i class="ti ti-flame"></i> ${streak} dia${streak !== 1 ? 's' : ''} seguidos`;
+        } else {
+          streakEl.innerHTML = `<i class="ti ti-flame"></i> Cozinhe hoje!`;
         }
       }
     }

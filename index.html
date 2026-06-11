@@ -5176,7 +5176,6 @@
     <!-- LADO ESQUERDO: PAINEL DE CONTROLE (DESKTOP) -->
     <div class="control-panel">
       <div class="panel-header">
-        <img src="logo/tempera-horizontal.svg" alt="Tempera" class="panel-logo-img">
         <span class="panel-subtitle">Painel de Demonstração</span>
       </div>
       
@@ -5186,11 +5185,11 @@
       </div>
 
       <p class="panel-desc">
-        Bem-vindo ao aplicativo **Tempera**! Desenvolvemos esta interface simulando a fidelidade exata de um smartphone premium no seu computador.
+        Bem-vindo ao aplicativo <strong>Tempera</strong>! Desenvolvido por <strong>Murilo Capelo</strong>, <strong>Mariana Machado</strong> e <strong>Ana C.</strong>, esta interface simula a fidelidade de um smartphone premium direto no seu navegador.
       </p>
 
-      <p class="panel-desc">
-        Use este painel de controle para alternar dinamicamente os temas definidos no **Design System v2** e ver os tokens de cor, sombras e tipografia se adaptarem imediatamente.
+      <p class="panel-desc" style="font-size: 12px; font-style: italic; opacity: 0.7; margin-top: var(--sp-4);">
+        * Não somos programadores, somos apenas veteranos tentando se formar kkk
       </p>
 
       <!-- Alternador de Tema -->
@@ -5223,28 +5222,7 @@
         </button>
       </div>
 
-      <!-- Recursos Interativos -->
-      <div class="panel-section">
-        <p class="panel-section-title">Funcionalidades Ativas</p>
-        <ul style="font-size: 13px; display: flex; flex-direction: column; gap: var(--sp-2); padding-left: var(--sp-2);">
-          <li style="display: flex; gap: var(--sp-2); align-items: flex-start;">
-            <i class="ti ti-circle-check-filled" style="color: var(--c-success); font-size:16px; margin-top: 2px;"></i>
-            <span>**Carrossel interativo**: Arraste ou clique nos dots para deslizar os CTAs.</span>
-          </li>
-          <li style="display: flex; gap: var(--sp-2); align-items: flex-start;">
-            <i class="ti ti-circle-check-filled" style="color: var(--c-success); font-size:16px; margin-top: 2px;"></i>
-            <span>**Geladeira dinâmica**: Clique nos chips de ingredientes para ver a IA recalcular a receita sugerida instantaneamente!</span>
-          </li>
-          <li style="display: flex; gap: var(--sp-2); align-items: flex-start;">
-            <i class="ti ti-circle-check-filled" style="color: var(--c-success); font-size:16px; margin-top: 2px;"></i>
-            <span>**Interação de Comunidade**: Curta o post de Julia Santos para ver o contador de reações subir com micro-animação.</span>
-          </li>
-          <li style="display: flex; gap: var(--sp-2); align-items: flex-start;">
-            <i class="ti ti-circle-check-filled" style="color: var(--c-success); font-size:16px; margin-top: 2px;"></i>
-            <span>**Navegação Inteligente**: Clique nos botões da barra flutuante inferior para deslizar suavemente até a seção.</span>
-          </li>
-        </ul>
-      </div>
+
 
       <div class="panel-footer" style="font-size: 11px; color: var(--c-outline); display: flex; align-items: center; justify-content: space-between;">
         <span>Tempera App v1.0.0</span>
@@ -5276,7 +5254,7 @@
           <header class="top-bar">
             <!-- Default: logo + actions -->
             <div class="top-bar-left">
-              <img src="logo/tempera-horizontal.svg" alt="Tempera" class="top-bar-logo-img">
+              <img src="logo/Prancheta 3.svg" alt="Tempera" class="top-bar-logo-img">
             </div>
             <div class="top-bar-actions">
               <button class="icon-btn" aria-label="Pesquisar" onclick="showToast('Recurso de busca em desenvolvimento!', 'ti-search')"><i class="ti ti-search"></i></button>
@@ -8553,18 +8531,19 @@ Retorne EXCLUSIVAMENTE um objeto JSON estruturado no seguinte formato. Não colo
 
       if (video) {
         video.currentTime = 0;
+        video.playbackRate = 1.5;
         video.play().catch(err => {
           console.log("Autoplay cancelado ou falhou: ", err);
           transitionToLogin();
         });
 
-        // Failsafe de backup de reinício
+        // Failsafe de backup de reinício aumentado para 8 segundos
         setTimeout(() => {
           if (!hasTransitionedToLogin) {
             console.log("Failsafe de reinício ativado.");
             transitionToLogin();
           }
-        }, 2500);
+        }, 8000);
       } else {
         transitionToLogin();
       }
@@ -8694,6 +8673,12 @@ Retorne EXCLUSIVAMENTE um objeto JSON estruturado no seguinte formato. Não colo
 
       const video = document.getElementById('introVideo');
       if (video) {
+        // Garante velocidade de 1.5x na reprodução
+        video.playbackRate = 1.5;
+        video.addEventListener('play', () => {
+          video.playbackRate = 1.5;
+        });
+
         // Se o vídeo terminar, vai pro login
         video.addEventListener('ended', () => {
           transitionToLogin();
@@ -8705,13 +8690,13 @@ Retorne EXCLUSIVAMENTE um objeto JSON estruturado no seguinte formato. Não colo
           transitionToLogin();
         });
 
-        // Failsafe absoluto de 2.5 segundos: se o app ainda estiver preso no splash, force transição
+        // Failsafe absoluto aumentado para 8 segundos (o vídeo de 8.15s roda em ~5.4s a 1.5x)
         setTimeout(() => {
           if (!hasTransitionedToLogin) {
-            console.log("Failsafe de 2.5s ativado: Autoplay bloqueado ou vídeo travado.");
+            console.log("Failsafe de 8s ativado: Autoplay bloqueado ou vídeo travado.");
             transitionToLogin();
           }
-        }, 2500);
+        }, 8000);
       }
     });
   </script>
